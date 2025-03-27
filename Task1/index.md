@@ -3,60 +3,25 @@ layout: home
 title: Chess Openings Catalog
 ---
 
-## [King’s Gambit]({{ "/openings/kings-gambit/" | relative_url }})
+## [Fried Liver Attack]({{ "/Task1/openings/fried-liver-attack/" | relative_url }})
 
-![King’s Gambit](/openings/kings-gambit/kings-gambit.jpg)
-
-
+![Fried Liver Attack](/openings/fried-liver-attack/fried-liver-attack.jpg)
 
 
 
-The King's Gambit is a chess opening that begins with the moves:
+The Fried Liver Attack, also called the Fegatello Attack (named after an Italian dish), is a chess opening variation of the Two Knights Defense in which White sacrifices a knight for an attack on Black's king. The opening begins with the moves:
 
-White offers a pawn to divert the black e-pawn. If Black accepts the gambit, White may play d4 and Bxf4, regaining the gambit pawn with central domination, or direct their forces against the weak square f7 with moves such as Nf3, Bc4, 0-0, and g3. A downside to the King's Gambit is that it weakens White's king's position, exposing it to the latent threat of ...Qh4+ (or ...Be7–h4+), which may force White to give up castling rights.
+White has chosen the offensive line 4.Ng5 against the Two Knights, but 5...Nxd5?! is risky (5...Na5, the Polerio Defense,[2] is considered better; other Black choices include 5...b5 and 5...Nd4). Bobby Fischer felt that 6.d4! (the Lolli Attack[3]) was incredibly strong, to the point 5...Nxd5 is rarely played.[4] The Fried Liver Attack, however, involves the knight sacrifice 6.Nxf7.
 
-The King's Gambit is one of the oldest documented openings, appearing in the earliest of chess books, Luis Ramírez de Lucena's Repetición de Amores y Arte de Ajedrez (1497).[1] It was examined by the 17th-century Italian chess player Giulio Cesare Polerio.[2]  The King's Gambit was one of the most popular openings until the late 19th century, when improvements in defensive technique led to its decline in popularity. It is infrequently seen at master level today, as Black has several methods 
+The opening is popular with younger players who like the name and the aggressive, attacking style.[5] It is classified as code C57 in the Encyclopaedia of Chess Openings.
 
- [Complete description](https://en.wikipedia.org/wiki/King%27s_Gambit)
+The Fried Liver Attack has been known for many centuries, the earliest known example being a game played by Giulio Cesare Polerio before 1606.[6][7] Computer chess programs, including those on lar
 
-## [Matinovsky Gambit]({{ "/openings/matinovsky-gambit/" | relative_url }})
+ [Complete description](https://en.wikipedia.org/wiki/Fried_Liver_Attack)
 
-![Matinovsky Gambit](/openings/matinovsky-gambit/matinovsky-gambit.jpg)
+## [Locock Gambit]({{ "/Task1/openings/locock-gambit/" | relative_url }})
 
-
-
-No Description online found
-
-## [Stafford Gambit]({{ "/openings/stafford-gambit/" | relative_url }})
-
-![Stafford Gambit](/openings/stafford-gambit/stafford-gambit.png)
-
-
-
-From Italian gambetto (“act of tripping; gambit”), from Italian gamba (“leg”), from Late Latin gamba.
-
-gambit (plural gambits)
-
-gambit (third-person singular simple present gambits, present participle gambiting, simple past and past participle gambited)
-
-gambit m (plural gambits)
-
-Borrowed from English gambit, from Italian gambetto, from gamba, from Late Latin gamba, from Ancient Greek καμπή (kampḗ), from Proto-Indo-European *kamp-.
-
-gambit m inan
-
-Borrowed from French gambit.
-
-gambit n (plural gambituri)
-
-gambit m inan
-
-
- [Complete description](https://en.wikipedia.org/wiki/wikt:gambit)
-
-## [Lolli Attack]({{ "/openings/lolli-attack/" | relative_url }})
-
-![Lolli Attack](/openings/lolli-attack/lolli-attack.jpg)
+![Locock Gambit](/openings/locock-gambit/locock-gambit.png)
 
 
 
@@ -96,67 +61,7 @@ A14 English, Neo-Catalan Declined: 2.Nf3 d5 3.g3 Nf6 4.Bg2
 
  [Complete description](https://en.wikipedia.org/wiki/List_of_chess_openings)
 
-## [Dutch Defense]({{ "/openings/dutch-defense/" | relative_url }})
-
-![Dutch Defense](/openings/dutch-defense/dutch-defense.jpg)
-
-
-
-The Dutch Defence is a chess opening characterised by the moves:
-
-Black's 1...f5 stakes a claim to the e4-square and envisions an attack in the middlegame on White's kingside; however, it also weakens Black's kingside to some extent, especially on the e8–h5 diagonal.[1] Like its 1.e4 counterpart, the Sicilian Defence, the Dutch is an aggressive and unbalancing opening, resulting in the lowest percentage of draws among the most common replies to 1.d4.[2] Historically, White has tried many methods to exploit the kingside weaknesses, such as the Staunton Gambit (2.e4) and Korchnoi Attack (2.h3 and 3.g4).
-
-The Dutch has never been a main line against 1.d4 and is rarely seen today in high-level competition, although a number of top players, including Alexander Alekhine, Bent Larsen, Paul Morphy, Miguel Najdorf, Simon Williams, and Hikaru Nakamura[3] have used it with success. Its most notable use may have been in 1951, when both World Champion Mikhail Botvinnik and his challenger, David Bro
-
- [Complete description](https://en.wikipedia.org/wiki/Dutch_Defence)
-
-## [Queens Indian Defense]({{ "/openings/queens-indian-defense/" | relative_url }})
-
-![Queens Indian Defense](/openings/queens-indian-defense/queens-indian-defense.jpg)
-
-
-
-The Queen's Indian Defense[1] (QID) is a chess opening defined by the moves:
-
-The opening is a solid defense to the Queen's Pawn Game.[2] 3...b6 increases Black's control over the central light squares e4 and d5 by preparing to fianchetto the queen's bishop, with the opening deriving its name from this maneuver. As in the other Indian defenses, Black attempts to control the center with pieces in hypermodern style, instead of occupying it with pawns in classical style.
-
-By playing 3.Nf3, White sidesteps the Nimzo-Indian Defense that arises after 3.Nc3 Bb4. The Queen's Indian is regarded as the sister opening of the Nimzo-Indian, since both openings aim to impede White's efforts to gain full control of the center by playing e2–e4. Together, they are a well-respected response to 1.d4.
-
-4.g3 (ECO E15–E19) has long been White's most popular line against the Queen's Indian. It contests the long diagonal by preparing to fianchetto the light-squared bishop. The standard response for Black thro
-
- [Complete description](https://en.wikipedia.org/wiki/Queen%27s_Indian_Defense)
-
-## [London System]({{ "/openings/london-system/" | relative_url }})
-
-![London System](/openings/london-system/london-system.png)
-
-
-
-The London System is an opening system in chess where White opens with 1.d4 and develops the dark-squared bishop to f4, then supports the d4-pawn with pawns on e3 and c3. The other bishop is developed to d3 (or occasionally e2) and the knights typically to f3 and d2. This set-up often results in a closed game. The London System can be used against virtually any Black defence and thus comprises a smaller body of opening theory than many other openings. Although it has a reputation as a solid opening, the London System has faced criticism for its tedious nature and lack of dynamic play.[1][2][3][4][5][6]
-
-The rapid development of the dark-squared bishop in the London System can be contrasted with the Colle System, in which the queen's bishop typically remains on c1 during the opening phase of the game.[citation needed]
-
-The British-American James Mason was the first master-level player to regularly employ the London System, including at the strong 1882 Vienna Tournament (in which he fini
-
- [Complete description](https://en.wikipedia.org/wiki/London_System)
-
-## [Colorado Gambit]({{ "/openings/colorado-gambit/" | relative_url }})
-
-![Colorado Gambit](/openings/colorado-gambit/colorado-gambit.jpg)
-
-
-
-
-
-Gambel's quail (Callipepla gambelii) is a small ground-dwelling bird in the New World quail family. It inhabits the desert regions of Arizona, California, Colorado, New Mexico, Nevada, Utah, Texas, and Sonora; also New Mexico-border Chihuahua and the Colorado River region of Baja California. Gambel's quail is named in honor of William Gambel, a 19th-century naturalist and explorer of the Southwestern United States.
-
-The species is not as widely introduced as the related California quail. It was, however, released on San Clemente Island in 1912 by Charles T. Howland et al., where it is currently still established.[3]
-
-The Callipepla gambelii birds are easily recognized by their top knots and scaly plumage on their undersides. Gambel's quail have bluish-gray plumage on much of their bodies, and males have copper feathers on the top of their heads, black faces, and white stripes above their eyes. The bird's average length is 11 in (28 cm) with a wingspan of 14–16 in (36–41 cm). These bi
-
- [Complete description](https://en.wikipedia.org/wiki/Gambel%27s_quail)
-
-## [Grunfeld Defense]({{ "/openings/grunfeld-defense/" | relative_url }})
+## [Grunfeld Defense]({{ "/Task1/openings/grunfeld-defense/" | relative_url }})
 
 ![Grunfeld Defense](/openings/grunfeld-defense/grunfeld-defense.jpg)
 
@@ -170,9 +75,126 @@ The King's Indian is a hypermodern opening, where Black deliberately allows Whit
 
  [Complete description](https://en.wikipedia.org/wiki/King%27s_Indian_Defence)
 
-## [Elephant Gambit]({{ "/openings/elephant-gambit/" | relative_url }})
+## [Tennison Gambit]({{ "/Task1/openings/tennison-gambit/" | relative_url }})
 
-![Elephant Gambit](/openings/elephant-gambit/elephant-gambit.png)
+![Tennison Gambit](/openings/tennison-gambit/tennison-gambit.jpg)
+
+
+
+
+This is a list of chess openings that are gambits.
+The gambits are organized into sections by the parent chess opening, giving the gambit name, ECO code, and defining moves in algebraic chess notation.
+
+
+ [Complete description](https://en.wikipedia.org/wiki/List_of_chess_gambits)
+
+## [Caro-Kann]({{ "/Task1/openings/caro-kann/" | relative_url }})
+
+![Caro-Kann](/openings/caro-kann/caro-kann.jpg)
+
+
+
+About this, in the Classical Variation:
+
+I don't play the Caro-Kann, so I may be missing something, but isn't the main line here 8.Nf3 Nf6 (or 8...Nd7) 9.Bd3, thus trading off the very piece which, according to the article, Black wants to get rid of? Strikes me that something is wrong here. --Camembert
+
+Again in the Classical Variation:
+
+I agree that the h5 pawn is weak, but otherwise I've been taught that a queen-side majority, rather than a king-side one, is an advantage in the endgame.Mbjoker 15:02, 4 September 2007 (UTC)[reply]
+
+From The Caro-Kann! In Black and White by Alexander Beliavsky and Anatoly Karpov: 
+
+Karpov on pg 153 says "The h5 pawn ties down the black kingside" and later says white has a "space advantage". Beliavsky writes that this "paralyzing" effect is "especially meaningful in the endgame". I don't think in makes sense to say that the h5 pawn push "develops nothing". --Malathion 8 July 2005 19:23 (UTC)
+
+Correct but missing the point.  Do Karpov or Beliavsky write 
+
+ [Complete description](https://en.wikipedia.org/wiki/Talk%3ACaro-Kann_Defence)
+
+## [Icelandic Gambit]({{ "/Task1/openings/icelandic-gambit/" | relative_url }})
+
+![Icelandic Gambit](/openings/icelandic-gambit/icelandic-gambit.jpg)
+
+
+
+
+
+This is a list of chess openings, organised by the Encyclopaedia of Chess Openings (ECO) code classification system. The chess openings are categorised into five broad areas ("A" through "E"), with each of those broken up into one hundred subcategories ("00" through "99"). The openings were published in five volumes of ECO, with volumes labeled "A" through "E". 
+
+White first moves other than 1.e4, 1.d4, 1.c4: 
+
+A02
+
+A03 Bird's Opening, Dutch Variation: 
+
+A04
+
+A05 Réti Opening: 1...Nf6
+
+A06 Réti Opening: 1...d5
+
+A07 Réti Opening, King's Indian Attack (Barcza System):
+
+A08 Réti Opening, King's Indian Attack: 
+
+A09 Réti Opening:
+
+1.c4: English Opening
+
+A10: 1.c4 (without: 1...g6 2.d4, 1...f5 2.d4, 1...b6 2.d4, 1...d6 2.e4, 1...d6 2.d4, 1...Nc6 2.d4) 
+
+A11 English, Caro–Kann defensive system, 1...c6 (without: 2.e4, 2.d4)
+
+A12 English, Caro–Kann defensive system: 2.Nf3 d5 3.b3 
+
+A13 English Opening: 1...e6 (without 2.e4 or 2.d4)
+
+A14 English, Neo-Catalan Declined: 2.Nf3 d5 3.g3 Nf6 4.Bg2 
+
+ [Complete description](https://en.wikipedia.org/wiki/List_of_chess_openings)
+
+## [Fajarowicz Gambit]({{ "/Task1/openings/fajarowicz-gambit/" | relative_url }})
+
+![Fajarowicz Gambit](/openings/fajarowicz-gambit/None)
+
+
+
+The Budapest Gambit (or Budapest Defence) is a chess opening that begins with the moves:
+
+Despite an early debut in 1896, the Budapest Gambit received attention from leading players only after a win as Black by Grandmaster Milan Vidmar over Akiba Rubinstein in 1918.[2] It enjoyed a rise in popularity in the early 1920s, but nowadays is rarely played at the top level. It experiences a lower percentage of draws than other main lines, but also a lower overall performance for Black.[3]
+
+After 3.dxe5 Black can try the Fajarowicz variation 3...Ne4 which concentrates on the rapid development of pieces, but the most common move is 3...Ng4 with three main possibilities for White. The Adler variation 4.Nf3 sees White seeking a spatial advantage in the centre with his pieces, notably the important d5-square. The Alekhine variation 4.e4 gives White an important spatial advantage and a strong pawn centre. The Rubinstein variation 4.Bf4 leads to an important choice for White, after 4...Nc6 5.Nf3 Bb4
+
+ [Complete description](https://en.wikipedia.org/wiki/Budapest_Gambit)
+
+## [English Opening]({{ "/Task1/openings/english-opening/" | relative_url }})
+
+![English Opening](/openings/english-opening/english-opening.jpg)
+
+
+
+
+
+The Encyclopaedia of Chess Openings (ECO) is a reference work describing the state of opening theory in chess, originally published in five volumes from 1974 to 1979 by the Yugoslavian company Šahovski Informator (Chess Informant). It is currently undergoing its fifth edition. ECO may also refer to the opening classification system used by the encyclopedia.
+
+Both ECO and Chess Informant are published by the Belgrade-based company Šahovski Informator. The moves are taken from thousands of master games and from published analysis in Informant and compiled by the editors, most of whom are grandmasters, who select the lines which they consider most relevant or critical. The chief editor since the first edition has been Aleksandar Matanović (1930-2023). The openings are provided in an ECO table that concisely presents the opening lines considered most critical by the editors. ECO covers the openings in more detail than rival single volume publications such as Modern Chess Openings and Nun
+
+ [Complete description](https://en.wikipedia.org/wiki/Encyclopaedia_of_Chess_Openings)
+
+## [Ruy Lopez]({{ "/Task1/openings/ruy-lopez/" | relative_url }})
+
+![Ruy Lopez](/openings/ruy-lopez/ruy-lopez.jpg)
+
+
+
+Ruy López de Villalobos (Spanish pronunciation: [ruj ˈlopeθ ðe βiʝaˈloβos]; c. 1500 – 23 April 1546) was a Spanish explorer who led a failed attempt to colonize the Philippines in 1544, attempting to assert Spanish control there under the terms of the treaties of Tordesillas and Zaragoza. Unable to feed his men through barter, raiding, or farming and unable to request resupply from Mexico due to poor knowledge of the Pacific's winds and currents, Villalobos abandoned his mission and fled to the Portuguese-held Moluccas, where he died in prison. He is chiefly remembered for some sources crediting him with naming Leyte and Samar "Las Islas Filipinas" in 1543 in honor of the Spanish crown prince Philip (later King Philip II). The name was later extended across the entire Philippine Archipelago and its nation. (Other sources credit the name to one of his captains, Bernardo de la Torre.)
+
+Ruy López de Villalobos was born in Málaga, Spain sometime between 1505 and 1510. He was a member of a 
+
+ [Complete description](https://en.wikipedia.org/wiki/Ruy_L%C3%B3pez_de_Villalobos)
+
+## [Albin Counter-Gambit]({{ "/Task1/openings/albin-counter-gambit/" | relative_url }})
+
+![Albin Counter-Gambit](/openings/albin-counter-gambit/albin-counter-gambit.jpg)
 
 
 

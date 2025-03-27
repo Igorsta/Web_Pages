@@ -142,7 +142,7 @@ title: Chess Openings Catalog
         image_md = f"![{title}](/{opening_subfolder}/{opening['image_name']})\n\n" if opening['image_url'] else ""
         info = try_geting_details(title + " definition site:wikipedia.org")
 
-        homepage_content += f"""## [{title}]({{{{ "/{opening_subfolder}/" | relative_url }}}})\n
+        homepage_content += f"""## [{title}]({{{{ "/{project_name}/{opening_subfolder}/" | relative_url }}}})\n
 {image_md}\n
 {info}\n
 """
