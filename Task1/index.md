@@ -1,59 +1,23 @@
 ---
-layout: default
+layout: home
 title: Chess Openings Catalog
 ---
 
-## [Reti Gambit]({{ "/openings/reti-gambit/" | relative_url }})
+## [Sicilian Defense]({{ "/openings/sicilian-defense/" | relative_url }})
 
-![Reti Gambit](/openings/reti-gambit/reti-gambit.jpg)
-
-
-
-The Réti endgame study is a chess endgame study by Richard Réti. It was published in 1921 in Kagans Neueste Schachnachrichten. It demonstrates how a king can make multiple threats and how it can take more than one path to a given location, using the same number of moves. It is covered in many books on the endgame (see chess endgame literature). The procedure is known as the "Réti Maneuver" or "Réti's Idea".[1][2][3] Endgame composer Abram Gurvich called the theme "The Hunt of Two Hares" and it appears in many other studies and games.[4] It is also called "chasing two birds at once".[5]
-
-White is to move and draw in this position. At first inspection, it appears that White has no hope in drawing. His king is well outside the square of the black pawn (see King and pawn versus king endgame § Rule of the square) and the king is a long way from supporting his own pawn. However, White can draw by making king moves that have dual purposes. One goal is getting in the square of the black pawn, 
-
- [Complete description](https://en.wikipedia.org/wiki/R%C3%A9ti_endgame_study)
-
-## [Stafford Gambit]({{ "/openings/stafford-gambit/" | relative_url }})
-
-![Stafford Gambit](/openings/stafford-gambit/stafford-gambit.png)
+![Sicilian Defense](/openings/sicilian-defense/sicilian-defense.jpg)
 
 
 
-From Italian gambetto (“act of tripping; gambit”), from Italian gamba (“leg”), from Late Latin gamba.
+The Sicilian Defence is a chess opening that begins with the following moves:
 
-gambit (plural gambits)
+The Sicilian is the most popular and best-scoring response to White's first move 1.e4. The opening 1.d4 is a statistically more successful opening for White because of the high success rate of the Sicilian defence against 1.e4.[1] New In Chess stated in its 2000 Yearbook that, of the games in its database, White scored 56.1% in 296,200 games beginning 1.d4, but 54.1% in 349,855 games beginning 1.e4, mainly because the Sicilian held White to a 52.3% score in 145,996 games.[2]
 
-gambit (third-person singular simple present gambits, present participle gambiting, simple past and past participle gambited)
+17% of all games between grandmasters, and 25% of the games in the Chess Informant database, begin with the Sicilian.[3]
 
-gambit m (plural gambits)
+Grandmaster John Nunn attributes the Sicilian Defence's popularity to its "combative nature": "in many lines Black is playing not just for equality, but for the advantage. The drawback is that White often obtains an early initiative, so Black has to take care not to fall victim to a quick attack."[4] Grandmaster Jona
 
-Borrowed from English gambit, from Italian gambetto, from gamba, from Late Latin gamba, from Ancient Greek καμπή (kampḗ), from Proto-Indo-European *kamp-.
-
-gambit m inan
-
-Borrowed from French gambit.
-
-gambit n (plural gambituri)
-
-gambit m inan
-
-
- [Complete description](https://en.wikipedia.org/wiki/wikt:gambit)
-
-## [Falkbeer Counter-Gambit]({{ "/openings/falkbeer-counter-gambit/" | relative_url }})
-
-![Falkbeer Counter-Gambit](/openings/falkbeer-counter-gambit/falkbeer-counter-gambit.jpg)
-
-
-
-
-This is a list of chess openings that are gambits.
-The gambits are organized into sections by the parent chess opening, giving the gambit name, ECO code, and defining moves in algebraic chess notation.
-
-
- [Complete description](https://en.wikipedia.org/wiki/List_of_chess_gambits)
+ [Complete description](https://en.wikipedia.org/wiki/Sicilian_Defence)
 
 ## [Pirc Defense]({{ "/openings/pirc-defense/" | relative_url }})
 
@@ -71,6 +35,64 @@ The Pirc Defence, named after Slovenian grandmaster Vasja Pirc, is a relatively 
 
  [Complete description](https://en.wikipedia.org/wiki/Pirc_Defence)
 
+## [Queens Indian Defense]({{ "/openings/queens-indian-defense/" | relative_url }})
+
+![Queens Indian Defense](/openings/queens-indian-defense/queens-indian-defense.jpg)
+
+
+
+The Queen's Indian Defense[1] (QID) is a chess opening defined by the moves:
+
+The opening is a solid defense to the Queen's Pawn Game.[2] 3...b6 increases Black's control over the central light squares e4 and d5 by preparing to fianchetto the queen's bishop, with the opening deriving its name from this maneuver. As in the other Indian defenses, Black attempts to control the center with pieces in hypermodern style, instead of occupying it with pawns in classical style.
+
+By playing 3.Nf3, White sidesteps the Nimzo-Indian Defense that arises after 3.Nc3 Bb4. The Queen's Indian is regarded as the sister opening of the Nimzo-Indian, since both openings aim to impede White's efforts to gain full control of the center by playing e2–e4. Together, they are a well-respected response to 1.d4.
+
+4.g3 (ECO E15–E19) has long been White's most popular line against the Queen's Indian. It contests the long diagonal by preparing to fianchetto the light-squared bishop. The standard response for Black thro
+
+ [Complete description](https://en.wikipedia.org/wiki/Queen%27s_Indian_Defense)
+
+## [Latvian Gambit]({{ "/openings/latvian-gambit/" | relative_url }})
+
+![Latvian Gambit](/openings/latvian-gambit/latvian-gambit.jpg)
+
+
+
+A gambit (from Italian gambetto, the act of tripping someone with the leg to make them fall) is a chess opening in which a player sacrifices material with the aim of achieving a subsequent positional advantage.[1]
+
+The word gambit is also sometimes used to describe similar tactics used by politicians or business people in a struggle with rivals in their fields, for example: "The early election was a risky gambit by Theresa May."
+
+The Spanish word gambito was originally applied to chess openings in 1561 by Ruy López de Segura, from an Italian expression dare il gambetto (to put a leg forward in order to trip someone). In English, the word first appeared in Francis Beale's 1656 translation of a Gioachino Greco manuscript, The Royall Game of Chesse-play ("illustrated with almost one hundred Gambetts"[2]). The Spanish gambito led to French gambit, which has influenced the English spelling of the word. The metaphorical sense of the word as "opening move meant to gain advantage" was first re
+
+ [Complete description](https://en.wikipedia.org/wiki/Gambit)
+
+## [Budapest Gambit]({{ "/openings/budapest-gambit/" | relative_url }})
+
+![Budapest Gambit](/openings/budapest-gambit/budapest-gambit.jpg)
+
+
+
+The Budapest Gambit (or Budapest Defence) is a chess opening that begins with the moves:
+
+Despite an early debut in 1896, the Budapest Gambit received attention from leading players only after a win as Black by Grandmaster Milan Vidmar over Akiba Rubinstein in 1918.[2] It enjoyed a rise in popularity in the early 1920s, but nowadays is rarely played at the top level. It experiences a lower percentage of draws than other main lines, but also a lower overall performance for Black.[3]
+
+After 3.dxe5 Black can try the Fajarowicz variation 3...Ne4 which concentrates on the rapid development of pieces, but the most common move is 3...Ng4 with three main possibilities for White. The Adler variation 4.Nf3 sees White seeking a spatial advantage in the centre with his pieces, notably the important d5-square. The Alekhine variation 4.e4 gives White an important spatial advantage and a strong pawn centre. The Rubinstein variation 4.Bf4 leads to an important choice for White, after 4...Nc6 5.Nf3 Bb4
+
+ [Complete description](https://en.wikipedia.org/wiki/Budapest_Gambit)
+
+## [Scandinavian Defense]({{ "/openings/scandinavian-defense/" | relative_url }})
+
+![Scandinavian Defense](/openings/scandinavian-defense/scandinavian-defense.jpg)
+
+
+
+The Nordic Defence Cooperation (NORDEFCO) is a collaboration among the Nordic countries in the area of defence.[1][2] Its five members are Denmark, Finland, Iceland, Norway, and Sweden.
+
+The aim of the organization is to strengthen the member countries' defence capabilities by identifying areas for cooperation and to promote effective solutions. The memorandum of understanding was signed in Helsinki on November 4, 2009, succeeding the Nordic Supportive Defence Structures (NORDSUP), the Nordic armaments cooperation (NORDAC) and the Nordic Coordinated Arrangement for Military Peace Support (NORDCAPS), previous parallel cooperative arrangements.[3]
+
+Participation in the NORDEFCO is voluntary and states can choose which areas they want to collaborate within and to what extent. This means that cooperation can occur bilaterally as well as among all five members. It is also considered within the organizational scope to work with non-Nordic countries in fields where there is an added value to 
+
+ [Complete description](https://en.wikipedia.org/wiki/Nordic_Defence_Cooperation)
+
 ## [Matinovsky Gambit]({{ "/openings/matinovsky-gambit/" | relative_url }})
 
 ![Matinovsky Gambit](/openings/matinovsky-gambit/matinovsky-gambit.jpg)
@@ -79,73 +101,70 @@ The Pirc Defence, named after Slovenian grandmaster Vasja Pirc, is a relatively 
 
 No Description online found
 
-## [London System]({{ "/openings/london-system/" | relative_url }})
+## [Scotch Game]({{ "/openings/scotch-game/" | relative_url }})
 
-![London System](/openings/london-system/london-system.png)
-
-
-
-The London System is an opening system in chess where White opens with 1.d4 and develops the dark-squared bishop to f4, then supports the d4-pawn with pawns on e3 and c3. The other bishop is developed to d3 (or occasionally e2) and the knights typically to f3 and d2. This set-up often results in a closed game. The London System can be used against virtually any Black defence and thus comprises a smaller body of opening theory than many other openings. Although it has a reputation as a solid opening, the London System has faced criticism for its tedious nature and lack of dynamic play.[1][2][3][4][5][6]
-
-The rapid development of the dark-squared bishop in the London System can be contrasted with the Colle System, in which the queen's bishop typically remains on c1 during the opening phase of the game.[citation needed]
-
-The British-American James Mason was the first master-level player to regularly employ the London System, including at the strong 1882 Vienna Tournament (in which he fini
-
- [Complete description](https://en.wikipedia.org/wiki/London_System)
-
-## [The Alien Gambit Trap]({{ "/openings/the-alien-gambit-trap/" | relative_url }})
-
-![The Alien Gambit Trap](/openings/the-alien-gambit-trap/None)
+![Scotch Game](/openings/scotch-game/scotch-game.jpg)
 
 
 
-Mister Sinister (Dr. Nathaniel Essex) is a supervillain appearing in American comic books published by Marvel Comics. Created by writer Chris Claremont, the character was first mentioned as the employer behind the team of assassins known as the Marauders in The Uncanny X-Men #212 (December 1986), and later seen in silhouette in The Uncanny X-Men #213, with both issues serving as chapters of the 1986 "Mutant Massacre" crossover. Mr. Sinister then made his first full appearance in The Uncanny X-Men #221 (September 1987). His appearance was designed by artist Marc Silvestri.[4]
+The Scotch Game, or Scotch Opening, is a chess opening that begins with the moves:
 
-A villain who usually prefers to act through agents and manipulation, Mr. Sinister was born Nathaniel Essex in Victorian London. A human scientist, Essex is inspired by the work of his contemporary Charles Darwin and becomes obsessed with engineering humanity into a perfect race of superhumans. As he learns about mutants (superhuman beings born with the X-gene), Essex encounters the mutant villain Apocalypse. The 
+Ercole del Rio, in his 1750 treatise Sopra il giuoco degli Scacchi, Osservazioni pratiche d’anonimo Autore Modenese ("On the game of Chess, practical Observations by an anonymous Modenese Author"), was the first author to mention what is now called the Scotch Game.[1] The opening received its name from a correspondence match in 1824 between Edinburgh and London. Popular in the 19th century, by 1900 the Scotch had lost favour among top players because it was thought to release the central tension too early and allow Black to equalise without difficulty. In the 20th century grandmasters Garry Kasparov and Jan Timman helped to re-popularise the Scotch when they used it as a surprise weapon to avoid the well-analysed Ruy Lopez. 
 
- [Complete description](https://en.wikipedia.org/wiki/Mister_Sinister)
+White aims to dominate the centre by exchanging their d-pawn for Black's e-pawn. Black usually plays 3...exd4, as they have no good way of maintaining their pawn on e5 (this same p
 
-## [English Opening]({{ "/openings/english-opening/" | relative_url }})
+ [Complete description](https://en.wikipedia.org/wiki/Scotch_Game)
 
-![English Opening](/openings/english-opening/english-opening.jpg)
+## [Locock Gambit]({{ "/openings/locock-gambit/" | relative_url }})
+
+![Locock Gambit](/openings/locock-gambit/locock-gambit.png)
 
 
 
 
 
-The Encyclopaedia of Chess Openings (ECO) is a reference work describing the state of opening theory in chess, originally published in five volumes from 1974 to 1979 by the Yugoslavian company Šahovski Informator (Chess Informant). It is currently undergoing its fifth edition. ECO may also refer to the opening classification system used by the encyclopedia.
+This is a list of chess openings, organised by the Encyclopaedia of Chess Openings (ECO) code classification system. The chess openings are categorised into five broad areas ("A" through "E"), with each of those broken up into one hundred subcategories ("00" through "99"). The openings were published in five volumes of ECO, with volumes labeled "A" through "E". 
 
-Both ECO and Chess Informant are published by the Belgrade-based company Šahovski Informator. The moves are taken from thousands of master games and from published analysis in Informant and compiled by the editors, most of whom are grandmasters, who select the lines which they consider most relevant or critical. The chief editor since the first edition has been Aleksandar Matanović (1930-2023). The openings are provided in an ECO table that concisely presents the opening lines considered most critical by the editors. ECO covers the openings in more detail than rival single volume publications such as Modern Chess Openings and Nun
+White first moves other than 1.e4, 1.d4, 1.c4: 
 
- [Complete description](https://en.wikipedia.org/wiki/Encyclopaedia_of_Chess_Openings)
+A02
 
-## [Semi-Slav]({{ "/openings/semi-slav/" | relative_url }})
+A03 Bird's Opening, Dutch Variation: 
 
-![Semi-Slav](/openings/semi-slav/semi-slav.jpg)
+A04
+
+A05 Réti Opening: 1...Nf6
+
+A06 Réti Opening: 1...d5
+
+A07 Réti Opening, King's Indian Attack (Barcza System):
+
+A08 Réti Opening, King's Indian Attack: 
+
+A09 Réti Opening:
+
+1.c4: English Opening
+
+A10: 1.c4 (without: 1...g6 2.d4, 1...f5 2.d4, 1...b6 2.d4, 1...d6 2.e4, 1...d6 2.d4, 1...Nc6 2.d4) 
+
+A11 English, Caro–Kann defensive system, 1...c6 (without: 2.e4, 2.d4)
+
+A12 English, Caro–Kann defensive system: 2.Nf3 d5 3.b3 
+
+A13 English Opening: 1...e6 (without 2.e4 or 2.d4)
+
+A14 English, Neo-Catalan Declined: 2.Nf3 d5 3.g3 Nf6 4.Bg2 
+
+ [Complete description](https://en.wikipedia.org/wiki/List_of_chess_openings)
+
+## [Philidor Defense]({{ "/openings/philidor-defense/" | relative_url }})
+
+![Philidor Defense](/openings/philidor-defense/philidor-defense.jpg)
 
 
 
-The Semi-Slav Defense is a variation of the Queen's Gambit Declined chess opening defined by the position reached after the moves:
-
-The position may readily be reached by a number of different move orders. Black's supporting pawns resemble a mixture of the Orthodox Queen's Gambit Declined, e6, and the Slav Defense, c6.
-
-Black is threatening to capture the white pawn on c4 and hold it with ...b7–b5. White can avoid this in a number of ways. About 80% of games continue 5.Bg5 or 5.e3: the former constitutes a sharp pawn sacrifice, while the latter restricts the dark-squared bishop from its natural development to g5. Other possible moves are 5.Qb3, 5.g3 and 5.cxd5, the last of which, after 5...exd5, leads to a line of the QGD Exchange Variation where White's early Nf3 enables Black's queen bishop to freely develop, which should give equality (ECO codes D43 and D45). 5.Bf4 is considered somewhat inaccurate, as 5...dxc4 is favorable for Black.
-
-The Semi-Slav is designated by codes D43 throug
-
- [Complete description](https://en.wikipedia.org/wiki/Semi-Slav_Defense)
-
-## [Latvian Gambit]({{ "/openings/latvian-gambit/" | relative_url }})
-
-![Latvian Gambit](/openings/latvian-gambit/latvian-gambit.jpg)
+Philidor (Filidor) or Danican Philidor was a family of musicians that served as court musicians to the French kings. The original name of the family was Danican (D'Anican) and was of Scottish origin (Duncan). Philidor was a later addition to the family name, given first to Michel the elder by Louis XIII because his oboe playing reminded the king of an Italian virtuoso oboist named Filidori. Both Michel the younger and Jean played in the Grande Écurie (literally, the Great Stable; figuratively, the Military Band) in Paris. Later members of the family were known as composers as well. One of them (François-André Danican Philidor) was a chess master.
 
 
-
-The opening is the initial stage of a chess game. It usually consists of established theory. The other phases are the middlegame and the endgame.[1] Many opening sequences, known as openings, have standard names such as "Sicilian Defense". The Oxford Companion to Chess lists 1,327 named openings and variants, and there are many others with varying degrees of common usage.[2]
-
-Opening moves that are considered standard are referred to as "book moves", or simply "book".[3] When a game begins to deviate from known opening theory, the players are said to be "out of book".[3] In some openings, book lines have been worked out for over 30 moves, such as some lines in the classical King's Indian Defense and in the Najdorf Variation of the Sicilian Defense.[4]
-
-Professional chess players spend years studying openings, and they continue doing so throughout their careers as opening theory continues to evolve. Players at the club level also study openings, but the importance of the opening phase i
-
- [Complete description](https://en.wikipedia.org/wiki/Chess_opening)
+ [Complete description](https://en.wikipedia.org/wiki/Philidor)
 

@@ -93,7 +93,7 @@ def make_page_for_opening(opening):
     image_md = f"![{title}](/{image_name})\n\n" if image_name else ""
 
     content = f'''---
-layout: default
+layout: page
 title: "{title}"
 permalink: /openings/{slug}/
 ---
@@ -128,7 +128,7 @@ def try_geting_details(query):
 def generate_homepage(openings):
     print("Making homepage")
     homepage_content = """---
-layout: default
+layout: home
 title: Chess Openings Catalog
 ---
 

@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: page
 title: "Matinovsky Gambit"
 permalink: /openings/matinovsky-gambit/
 ---
