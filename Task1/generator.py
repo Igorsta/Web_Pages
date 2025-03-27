@@ -8,6 +8,7 @@ from slugify import slugify
 import os
 import shutil
 
+project_name = 'Task1'
 subfolder_name = 'openings'
 
 def scrape_openings(url):
@@ -95,7 +96,7 @@ def make_page_for_opening(opening):
     content = f'''---
 layout: page
 title: "{title}"
-permalink: /openings/{slug}/
+permalink: /{project_name}/{subfolder_name}/{slug}/
 ---
 # {title}\n\n
 {image_md}

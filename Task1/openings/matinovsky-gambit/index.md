@@ -1,7 +1,7 @@
 ---
 layout: page
 title: "Matinovsky Gambit"
-permalink: /openings/matinovsky-gambit/
+permalink: /Task1/openings/matinovsky-gambit/
 ---
 # Matinovsky Gambit
 

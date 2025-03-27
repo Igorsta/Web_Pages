@@ -1,7 +1,7 @@
 ---
 layout: page
 title: "Queens Indian Defense"
-permalink: /openings/queens-indian-defense/
+permalink: /Task1/openings/queens-indian-defense/
 ---
 # Queens Indian Defense
 

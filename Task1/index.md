@@ -3,95 +3,21 @@ layout: home
 title: Chess Openings Catalog
 ---
 
-## [Sicilian Defense]({{ "/openings/sicilian-defense/" | relative_url }})
+## [King’s Gambit]({{ "/openings/kings-gambit/" | relative_url }})
 
-![Sicilian Defense](/openings/sicilian-defense/sicilian-defense.jpg)
-
-
-
-The Sicilian Defence is a chess opening that begins with the following moves:
-
-The Sicilian is the most popular and best-scoring response to White's first move 1.e4. The opening 1.d4 is a statistically more successful opening for White because of the high success rate of the Sicilian defence against 1.e4.[1] New In Chess stated in its 2000 Yearbook that, of the games in its database, White scored 56.1% in 296,200 games beginning 1.d4, but 54.1% in 349,855 games beginning 1.e4, mainly because the Sicilian held White to a 52.3% score in 145,996 games.[2]
-
-17% of all games between grandmasters, and 25% of the games in the Chess Informant database, begin with the Sicilian.[3]
-
-Grandmaster John Nunn attributes the Sicilian Defence's popularity to its "combative nature": "in many lines Black is playing not just for equality, but for the advantage. The drawback is that White often obtains an early initiative, so Black has to take care not to fall victim to a quick attack."[4] Grandmaster Jona
-
- [Complete description](https://en.wikipedia.org/wiki/Sicilian_Defence)
-
-## [Pirc Defense]({{ "/openings/pirc-defense/" | relative_url }})
-
-![Pirc Defense](/openings/pirc-defense/pirc-defense.jpg)
+![King’s Gambit](/openings/kings-gambit/kings-gambit.jpg)
 
 
 
-The Pirc Defence (/ˈpɪərts/ PEERTS) is a chess opening characterised by the response of Black to 1.e4 with 1...d6 and 2...Nf6, followed by ...g6 and ...Bg7, while allowing White to establish a centre with pawns on d4 and e4. It is named after the Slovenian grandmaster Vasja Pirc.
-
-The Pirc Defence is usually defined by the opening sequence 
-
-This is the most commonly played line after Black responds to 1.e4 with 1...d6.[2] It has been claimed to give rise to somewhat interesting and exciting games,[3] where Black will have counterplay but has to be cautious about playing too passively.[4] According to Garry Kasparov, the Pirc Defence is "hardly worth using in the tournaments of the highest category", as it gives White "too many opportunities for anybody's liking".[5]
-
-The Pirc Defence, named after Slovenian grandmaster Vasja Pirc, is a relatively new opening; while it was seen on occasion in the late nineteenth century, it was considered irregular, thus remaining a sideline. The openin
-
- [Complete description](https://en.wikipedia.org/wiki/Pirc_Defence)
-
-## [Queens Indian Defense]({{ "/openings/queens-indian-defense/" | relative_url }})
-
-![Queens Indian Defense](/openings/queens-indian-defense/queens-indian-defense.jpg)
 
 
+The King's Gambit is a chess opening that begins with the moves:
 
-The Queen's Indian Defense[1] (QID) is a chess opening defined by the moves:
+White offers a pawn to divert the black e-pawn. If Black accepts the gambit, White may play d4 and Bxf4, regaining the gambit pawn with central domination, or direct their forces against the weak square f7 with moves such as Nf3, Bc4, 0-0, and g3. A downside to the King's Gambit is that it weakens White's king's position, exposing it to the latent threat of ...Qh4+ (or ...Be7–h4+), which may force White to give up castling rights.
 
-The opening is a solid defense to the Queen's Pawn Game.[2] 3...b6 increases Black's control over the central light squares e4 and d5 by preparing to fianchetto the queen's bishop, with the opening deriving its name from this maneuver. As in the other Indian defenses, Black attempts to control the center with pieces in hypermodern style, instead of occupying it with pawns in classical style.
+The King's Gambit is one of the oldest documented openings, appearing in the earliest of chess books, Luis Ramírez de Lucena's Repetición de Amores y Arte de Ajedrez (1497).[1] It was examined by the 17th-century Italian chess player Giulio Cesare Polerio.[2]  The King's Gambit was one of the most popular openings until the late 19th century, when improvements in defensive technique led to its decline in popularity. It is infrequently seen at master level today, as Black has several methods 
 
-By playing 3.Nf3, White sidesteps the Nimzo-Indian Defense that arises after 3.Nc3 Bb4. The Queen's Indian is regarded as the sister opening of the Nimzo-Indian, since both openings aim to impede White's efforts to gain full control of the center by playing e2–e4. Together, they are a well-respected response to 1.d4.
-
-4.g3 (ECO E15–E19) has long been White's most popular line against the Queen's Indian. It contests the long diagonal by preparing to fianchetto the light-squared bishop. The standard response for Black thro
-
- [Complete description](https://en.wikipedia.org/wiki/Queen%27s_Indian_Defense)
-
-## [Latvian Gambit]({{ "/openings/latvian-gambit/" | relative_url }})
-
-![Latvian Gambit](/openings/latvian-gambit/latvian-gambit.jpg)
-
-
-
-A gambit (from Italian gambetto, the act of tripping someone with the leg to make them fall) is a chess opening in which a player sacrifices material with the aim of achieving a subsequent positional advantage.[1]
-
-The word gambit is also sometimes used to describe similar tactics used by politicians or business people in a struggle with rivals in their fields, for example: "The early election was a risky gambit by Theresa May."
-
-The Spanish word gambito was originally applied to chess openings in 1561 by Ruy López de Segura, from an Italian expression dare il gambetto (to put a leg forward in order to trip someone). In English, the word first appeared in Francis Beale's 1656 translation of a Gioachino Greco manuscript, The Royall Game of Chesse-play ("illustrated with almost one hundred Gambetts"[2]). The Spanish gambito led to French gambit, which has influenced the English spelling of the word. The metaphorical sense of the word as "opening move meant to gain advantage" was first re
-
- [Complete description](https://en.wikipedia.org/wiki/Gambit)
-
-## [Budapest Gambit]({{ "/openings/budapest-gambit/" | relative_url }})
-
-![Budapest Gambit](/openings/budapest-gambit/budapest-gambit.jpg)
-
-
-
-The Budapest Gambit (or Budapest Defence) is a chess opening that begins with the moves:
-
-Despite an early debut in 1896, the Budapest Gambit received attention from leading players only after a win as Black by Grandmaster Milan Vidmar over Akiba Rubinstein in 1918.[2] It enjoyed a rise in popularity in the early 1920s, but nowadays is rarely played at the top level. It experiences a lower percentage of draws than other main lines, but also a lower overall performance for Black.[3]
-
-After 3.dxe5 Black can try the Fajarowicz variation 3...Ne4 which concentrates on the rapid development of pieces, but the most common move is 3...Ng4 with three main possibilities for White. The Adler variation 4.Nf3 sees White seeking a spatial advantage in the centre with his pieces, notably the important d5-square. The Alekhine variation 4.e4 gives White an important spatial advantage and a strong pawn centre. The Rubinstein variation 4.Bf4 leads to an important choice for White, after 4...Nc6 5.Nf3 Bb4
-
- [Complete description](https://en.wikipedia.org/wiki/Budapest_Gambit)
-
-## [Scandinavian Defense]({{ "/openings/scandinavian-defense/" | relative_url }})
-
-![Scandinavian Defense](/openings/scandinavian-defense/scandinavian-defense.jpg)
-
-
-
-The Nordic Defence Cooperation (NORDEFCO) is a collaboration among the Nordic countries in the area of defence.[1][2] Its five members are Denmark, Finland, Iceland, Norway, and Sweden.
-
-The aim of the organization is to strengthen the member countries' defence capabilities by identifying areas for cooperation and to promote effective solutions. The memorandum of understanding was signed in Helsinki on November 4, 2009, succeeding the Nordic Supportive Defence Structures (NORDSUP), the Nordic armaments cooperation (NORDAC) and the Nordic Coordinated Arrangement for Military Peace Support (NORDCAPS), previous parallel cooperative arrangements.[3]
-
-Participation in the NORDEFCO is voluntary and states can choose which areas they want to collaborate within and to what extent. This means that cooperation can occur bilaterally as well as among all five members. It is also considered within the organizational scope to work with non-Nordic countries in fields where there is an added value to 
-
- [Complete description](https://en.wikipedia.org/wiki/Nordic_Defence_Cooperation)
+ [Complete description](https://en.wikipedia.org/wiki/King%27s_Gambit)
 
 ## [Matinovsky Gambit]({{ "/openings/matinovsky-gambit/" | relative_url }})
 
@@ -101,23 +27,36 @@ Participation in the NORDEFCO is voluntary and states can choose which areas the
 
 No Description online found
 
-## [Scotch Game]({{ "/openings/scotch-game/" | relative_url }})
+## [Stafford Gambit]({{ "/openings/stafford-gambit/" | relative_url }})
 
-![Scotch Game](/openings/scotch-game/scotch-game.jpg)
+![Stafford Gambit](/openings/stafford-gambit/stafford-gambit.png)
 
 
 
-The Scotch Game, or Scotch Opening, is a chess opening that begins with the moves:
+From Italian gambetto (“act of tripping; gambit”), from Italian gamba (“leg”), from Late Latin gamba.
 
-Ercole del Rio, in his 1750 treatise Sopra il giuoco degli Scacchi, Osservazioni pratiche d’anonimo Autore Modenese ("On the game of Chess, practical Observations by an anonymous Modenese Author"), was the first author to mention what is now called the Scotch Game.[1] The opening received its name from a correspondence match in 1824 between Edinburgh and London. Popular in the 19th century, by 1900 the Scotch had lost favour among top players because it was thought to release the central tension too early and allow Black to equalise without difficulty. In the 20th century grandmasters Garry Kasparov and Jan Timman helped to re-popularise the Scotch when they used it as a surprise weapon to avoid the well-analysed Ruy Lopez. 
+gambit (plural gambits)
 
-White aims to dominate the centre by exchanging their d-pawn for Black's e-pawn. Black usually plays 3...exd4, as they have no good way of maintaining their pawn on e5 (this same p
+gambit (third-person singular simple present gambits, present participle gambiting, simple past and past participle gambited)
 
- [Complete description](https://en.wikipedia.org/wiki/Scotch_Game)
+gambit m (plural gambits)
 
-## [Locock Gambit]({{ "/openings/locock-gambit/" | relative_url }})
+Borrowed from English gambit, from Italian gambetto, from gamba, from Late Latin gamba, from Ancient Greek καμπή (kampḗ), from Proto-Indo-European *kamp-.
 
-![Locock Gambit](/openings/locock-gambit/locock-gambit.png)
+gambit m inan
+
+Borrowed from French gambit.
+
+gambit n (plural gambituri)
+
+gambit m inan
+
+
+ [Complete description](https://en.wikipedia.org/wiki/wikt:gambit)
+
+## [Lolli Attack]({{ "/openings/lolli-attack/" | relative_url }})
+
+![Lolli Attack](/openings/lolli-attack/lolli-attack.jpg)
 
 
 
@@ -157,14 +96,91 @@ A14 English, Neo-Catalan Declined: 2.Nf3 d5 3.g3 Nf6 4.Bg2
 
  [Complete description](https://en.wikipedia.org/wiki/List_of_chess_openings)
 
-## [Philidor Defense]({{ "/openings/philidor-defense/" | relative_url }})
+## [Dutch Defense]({{ "/openings/dutch-defense/" | relative_url }})
 
-![Philidor Defense](/openings/philidor-defense/philidor-defense.jpg)
-
-
-
-Philidor (Filidor) or Danican Philidor was a family of musicians that served as court musicians to the French kings. The original name of the family was Danican (D'Anican) and was of Scottish origin (Duncan). Philidor was a later addition to the family name, given first to Michel the elder by Louis XIII because his oboe playing reminded the king of an Italian virtuoso oboist named Filidori. Both Michel the younger and Jean played in the Grande Écurie (literally, the Great Stable; figuratively, the Military Band) in Paris. Later members of the family were known as composers as well. One of them (François-André Danican Philidor) was a chess master.
+![Dutch Defense](/openings/dutch-defense/dutch-defense.jpg)
 
 
- [Complete description](https://en.wikipedia.org/wiki/Philidor)
+
+The Dutch Defence is a chess opening characterised by the moves:
+
+Black's 1...f5 stakes a claim to the e4-square and envisions an attack in the middlegame on White's kingside; however, it also weakens Black's kingside to some extent, especially on the e8–h5 diagonal.[1] Like its 1.e4 counterpart, the Sicilian Defence, the Dutch is an aggressive and unbalancing opening, resulting in the lowest percentage of draws among the most common replies to 1.d4.[2] Historically, White has tried many methods to exploit the kingside weaknesses, such as the Staunton Gambit (2.e4) and Korchnoi Attack (2.h3 and 3.g4).
+
+The Dutch has never been a main line against 1.d4 and is rarely seen today in high-level competition, although a number of top players, including Alexander Alekhine, Bent Larsen, Paul Morphy, Miguel Najdorf, Simon Williams, and Hikaru Nakamura[3] have used it with success. Its most notable use may have been in 1951, when both World Champion Mikhail Botvinnik and his challenger, David Bro
+
+ [Complete description](https://en.wikipedia.org/wiki/Dutch_Defence)
+
+## [Queens Indian Defense]({{ "/openings/queens-indian-defense/" | relative_url }})
+
+![Queens Indian Defense](/openings/queens-indian-defense/queens-indian-defense.jpg)
+
+
+
+The Queen's Indian Defense[1] (QID) is a chess opening defined by the moves:
+
+The opening is a solid defense to the Queen's Pawn Game.[2] 3...b6 increases Black's control over the central light squares e4 and d5 by preparing to fianchetto the queen's bishop, with the opening deriving its name from this maneuver. As in the other Indian defenses, Black attempts to control the center with pieces in hypermodern style, instead of occupying it with pawns in classical style.
+
+By playing 3.Nf3, White sidesteps the Nimzo-Indian Defense that arises after 3.Nc3 Bb4. The Queen's Indian is regarded as the sister opening of the Nimzo-Indian, since both openings aim to impede White's efforts to gain full control of the center by playing e2–e4. Together, they are a well-respected response to 1.d4.
+
+4.g3 (ECO E15–E19) has long been White's most popular line against the Queen's Indian. It contests the long diagonal by preparing to fianchetto the light-squared bishop. The standard response for Black thro
+
+ [Complete description](https://en.wikipedia.org/wiki/Queen%27s_Indian_Defense)
+
+## [London System]({{ "/openings/london-system/" | relative_url }})
+
+![London System](/openings/london-system/london-system.png)
+
+
+
+The London System is an opening system in chess where White opens with 1.d4 and develops the dark-squared bishop to f4, then supports the d4-pawn with pawns on e3 and c3. The other bishop is developed to d3 (or occasionally e2) and the knights typically to f3 and d2. This set-up often results in a closed game. The London System can be used against virtually any Black defence and thus comprises a smaller body of opening theory than many other openings. Although it has a reputation as a solid opening, the London System has faced criticism for its tedious nature and lack of dynamic play.[1][2][3][4][5][6]
+
+The rapid development of the dark-squared bishop in the London System can be contrasted with the Colle System, in which the queen's bishop typically remains on c1 during the opening phase of the game.[citation needed]
+
+The British-American James Mason was the first master-level player to regularly employ the London System, including at the strong 1882 Vienna Tournament (in which he fini
+
+ [Complete description](https://en.wikipedia.org/wiki/London_System)
+
+## [Colorado Gambit]({{ "/openings/colorado-gambit/" | relative_url }})
+
+![Colorado Gambit](/openings/colorado-gambit/colorado-gambit.jpg)
+
+
+
+
+
+Gambel's quail (Callipepla gambelii) is a small ground-dwelling bird in the New World quail family. It inhabits the desert regions of Arizona, California, Colorado, New Mexico, Nevada, Utah, Texas, and Sonora; also New Mexico-border Chihuahua and the Colorado River region of Baja California. Gambel's quail is named in honor of William Gambel, a 19th-century naturalist and explorer of the Southwestern United States.
+
+The species is not as widely introduced as the related California quail. It was, however, released on San Clemente Island in 1912 by Charles T. Howland et al., where it is currently still established.[3]
+
+The Callipepla gambelii birds are easily recognized by their top knots and scaly plumage on their undersides. Gambel's quail have bluish-gray plumage on much of their bodies, and males have copper feathers on the top of their heads, black faces, and white stripes above their eyes. The bird's average length is 11 in (28 cm) with a wingspan of 14–16 in (36–41 cm). These bi
+
+ [Complete description](https://en.wikipedia.org/wiki/Gambel%27s_quail)
+
+## [Grunfeld Defense]({{ "/openings/grunfeld-defense/" | relative_url }})
+
+![Grunfeld Defense](/openings/grunfeld-defense/grunfeld-defense.jpg)
+
+
+
+The King's Indian Defence (or KID) is a common chess opening. It is defined by the following  moves:
+
+Black intends to follow up with 3...Bg7 and 4...d6 (the Grünfeld Defence arises when Black plays 3...d5 instead and is considered a separate opening). White's major third move options are 3.Nc3, 3.Nf3, or 3.g3, with both the King's Indian and Grünfeld playable against these moves. 
+
+The King's Indian is a hypermodern opening, where Black deliberately allows White control of the centre with pawns, with the view to subsequently challenge it. In the most critical lines of the King's Indian, White erects an imposing pawn centre with Nc3 followed by e4. Black stakes out their own claim to the centre with the Benoni-style ...c5, or ...e5. If White resolves the central pawn tension with d5, then Black follows with either ...b5 and queenside play, or ...f5 and an eventual kingside attack. Meanwhile, White attempts to expand on the opposite wing. The resulting unbalanced positions offer scope f
+
+ [Complete description](https://en.wikipedia.org/wiki/King%27s_Indian_Defence)
+
+## [Elephant Gambit]({{ "/openings/elephant-gambit/" | relative_url }})
+
+![Elephant Gambit](/openings/elephant-gambit/elephant-gambit.png)
+
+
+
+A gambit (from Italian gambetto, the act of tripping someone with the leg to make them fall) is a chess opening in which a player sacrifices material with the aim of achieving a subsequent positional advantage.[1]
+
+The word gambit is also sometimes used to describe similar tactics used by politicians or business people in a struggle with rivals in their fields, for example: "The early election was a risky gambit by Theresa May."
+
+The Spanish word gambito was originally applied to chess openings in 1561 by Ruy López de Segura, from an Italian expression dare il gambetto (to put a leg forward in order to trip someone). In English, the word first appeared in Francis Beale's 1656 translation of a Gioachino Greco manuscript, The Royall Game of Chesse-play ("illustrated with almost one hundred Gambetts"[2]). The Spanish gambito led to French gambit, which has influenced the English spelling of the word. The metaphorical sense of the word as "opening move meant to gain advantage" was first re
+
+ [Complete description](https://en.wikipedia.org/wiki/Gambit)
 
