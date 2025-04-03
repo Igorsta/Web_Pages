@@ -2,7 +2,9 @@
     "scripts": {
       "jekyll:serve": "jekyll serve",
       "tailwind:watch": "npx tailwindcss -i ./src/input.css -o ./dist/output.css --watch",
-      "dev": "npm run jekyll:serve & npm run tailwind:watch"
+      "tailwind:minify": "npx tailwindcss -i ./src/input.css -o ./dist/output.css --minify",
+      "dev": "npm run jekyll:serve & npm run tailwind:watch",
+      "release": "npm run jekyll:serve & npm run tailwind:minify"
     }
   }
   
