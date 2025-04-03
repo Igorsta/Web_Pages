@@ -1,7 +1,16 @@
 module.exports = {
-  content: ["./**/*.{html,js}"],
+  content: [
+    "./**/*.html",
+  ],
   theme: {
-    extend: {},
+    extend: {
+      width: {
+        'global-img': '50px',
+      },
+      height: {
+        'global-img': '50px',
+      }
+    }
   },
   plugins: [],
-}
+};

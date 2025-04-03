@@ -1,0 +1,8 @@
+{
+    "scripts": {
+      "jekyll:serve": "jekyll serve",
+      "tailwind:watch": "npx tailwindcss -i ./src/input.css -o ./dist/output.css --watch",
+      "dev": "npm run jekyll:serve & npm run tailwind:watch"
+    }
+  }
+  

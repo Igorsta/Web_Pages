@@ -1,124 +1,243 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Teorie Spiskowe</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Czajniki - Historia i Współczesność</title>
+    <link href="dist/output.css" rel="stylesheet">
 </head>
-<body class="bg-gray-100 p-8">
-    <!-- Nagłówek -->
-    <h1 class="text-4xl font-bold text-red-600 mb-6">🔍 Ukryte Prawdy</h1>
+<body class="bg-gray-200 dark:bg-gray-800 transition-colors duration-300 min-h-full relative">
+    <!-- Efekt temperatury -->
+    <div id="heatEffect"  class="fixed bottom-0 left-0 right-0 h-1/3 bg-gradient-to-t from-red-500/0 to-transparent pointer-events-none transition-all duration-300 z-0"> </div>
 
-    <!-- Tekst w różnych kolorach -->
-    <p class="text-gray-800 mb-4 font-mono">11.09: "Oficjalna wersja ma luki!"</p>
-    <p class="text-amber-600 mb-4">✈️ Chemtrails nad twoim miastem</p>
-    <a href="#" class="text-green-500 hover:text-lime-600 underline">Zobacz zakazane dowody →</a>
+    <!-- Pasek nawigacyjny -->
+    <nav class="bg-gray-200 dark:bg-gray-900 p-4 shadow-lg">
+        <div class="container mx-auto flex items-center justify-between">
+            <h1 class="text-2xl font-bold text-gray-800 dark:text-white">Czajniki</h1>
+            <div class="flex items-center gap-6">
+                <div class="flex items-center gap-2 text-sm">
+                    <span id="lives" class="text-red-500">❤️❤️❤️</span>
+                </div>
+                <span id="temperatureInfo" class="text-gray-800 dark:text-white">Temperatura: 0°C</span>
+            </div>
+        </div>
+    </nav>
 
-    <!-- Sekcje tła -->
-    <div class="bg-gray-800 text-white p-4 my-6 rounded">
-        <h2 class="text-xl">🛸 Projekt Blue Book 2.0</h2>
-        <p class="text-sm mt-2">Rządowe archiwa UFO: 97% dokumentów NAJTAJNYCH</p>
+    <div class="container mx-auto px-4 py-8 relative max-w-7xl">
+        <!-- Galeria czajników -->
+        <main class="flex flex-col gap-8 mb-8 max-w-3xl mx-auto">
+            <!-- Śmieszne pudelka -->
+            <div class="bg-yellow-100 dark:bg-yellow-900 p-6 rounded-xl shadow-lg hover:shadow-xl transition-transform duration-300 hover:-rotate-1">
+                <div class="text-2xl font-bold text-yellow-800 dark:text-yellow-200 mb-2">Nasza misja</div>
+                <p class="text-yellow-700 dark:text-yellow-300 italic">
+                    Na tej stronie znajdziesz najsłynniejsze czajniki w dziejach ludzkości. Ciesz się nimi i odkrywaj je razem z nami!
+                </p>
+            </div>
+
+            <div class="bg-amber-200 dark:bg-amber-900 p-6 rounded-xl shadow-lg hover:shadow-xl transition-transform duration-300 hover:rotate-1">
+                <div class="text-2xl font-bold text-amber-800 dark:text-amber-200 mb-2">Czy wiedziałeś, że...</div>
+                <p class="text-amber-700 dark:text-amber-300 hover:text-amber-800 transition-colors duration-200 italic">
+                    najdroższy czajnik na świecie kosztuje ponad 3 miliony dolarów? Jest to The Egoist, stworzony przez firmę Nesmuk. Wykonany jest z platyny, a jego uchwyt zdobią diamenty!
+                </p>
+            </div>
+
+            <div class="bg-red-100 dark:bg-red-900 p-6 rounded-xl shadow-lg hover:shadow-xl transition-transform duration-300 hover:-translate-x-2">
+                <div class="text-2xl font-bold text-red-800 dark:text-red-200 mb-2">UWAGA!</div>
+                <p class="text-red-700 dark:text-red-300 italic">
+                    Ta strona przechodzi kryzys tożsamości. Uważa się za czajnik. Musisz co jakiś czas musisz upuścić pary, bo inaczej się zbuntuje.
+                </p>
+            </div>
+        </main>
+
+        <div class="grid grid-cols-[repeat(auto-fit,minmax(300px,1fr))] gap-8 w-2x1">
+            <!-- Elektryczny -->
+            <a href="/subsites/Elektryczny" class="group">
+                <div class="h-full bg-white dark:bg-gray-700 p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow flex flex-col">
+                    <img src="https://via.placeholder.com/400x300?text=Czajnik+Elektryczny" 
+                        alt="Czajnik elektryczny" 
+                        class="w-full h-48 object-cover rounded-lg mb-4 flex-none">
+                    <div class="flex-grow overflow-auto">
+                        <h3 class="text-xl font-semibold text-gray-800 dark:text-white group-hover:text-blue-500 mb-2">
+                            Elektryczny
+                        </h3>
+                        <p class="text-gray-600 dark:text-gray-300 whitespace-normal">
+                            Nowoczesne rozwiązanie... (dłuższy tekst testowy) Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                        </p>
+                    </div>
+                </div>
+            </a>
+
+            <!-- Samowar -->
+            <a href="/subsites/Samowar" class="group">
+                <div class="h-full bg-white dark:bg-gray-700 p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow flex flex-col">
+                    <img src="https://via.placeholder.com/400x300?text=Samowar" 
+                            alt="Samowar" 
+                            class="w-full h-48 object-cover rounded-lg mb-4 flex-none">
+                    <div class="flex-grow overflow-auto">
+                        <h3 class="text-xl font-semibold text-gray-800 dark:text-white group-hover:text-blue-500 mb-2">
+                            Samowar
+                        </h3>
+                        <p class="text-gray-600 dark:text-gray-300 whitespace-normal">
+                            Tradycyjny rosyjski czajnik...
+                        </p>
+                    </div>
+                </div>
+            </a>
+        
+            <!-- Czajnik z Utah -->
+            <a href="/subsites/Utah" class="group">
+                <div class="h-full bg-white dark:bg-gray-700 p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow flex flex-col">
+                    <img src="https://via.placeholder.com/400x300?text=Czajnik+Utah" 
+                            alt="Czajnik z Utah" 
+                            class="w-full h-48 object-cover rounded-lg mb-4 flex-none">
+                    <div class="flex-grow overflow-auto">
+                        <h3 class="text-xl font-semibold text-gray-800 dark:text-white group-hover:text-blue-500 mb-2">
+                            Czajnik z Utah
+                        </h3>
+                        <p class="text-gray-600 dark:text-gray-300 whitespace-normal">
+                            Legendarny artefakt mormoński - symbol gotowania na duchowej pustyni.
+                        </p>
+                    </div>
+                </div>
+            </a>
+        
+            <!-- Czajnik Russela -->
+            <a href="/subsites/Russel" class="group">
+                <div class="h-full bg-white dark:bg-gray-700 p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow flex flex-col">
+                    <img src="https://via.placeholder.com/400x300?text=Czajnik+Russela" 
+                            alt="Czajnik Russela" 
+                            class="w-full h-48 object-cover rounded-lg mb-4 flex-none">
+                    <div class="flex-grow overflow-auto">
+                        <h3 class="text-xl font-semibold text-gray-800 dark:text-white group-hover:text-blue-500 mb-2">
+                            Czajnik Russela
+                        </h3>
+                        <p class="text-gray-600 dark:text-gray-300 whitespace-normal">
+                            Filozoficzne naczynie kwestionujące istnienie wody w próżni.
+                        </p>
+                    </div>
+                </div>
+            </a>
+        
+            <!-- Kawiarka -->
+            <a href="/subsites/Kawiarka" class="group">
+                <div class="h-full bg-white dark:bg-gray-700 p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow flex flex-col">
+                    <img src="https://via.placeholder.com/400x300?text=Kawiarka" 
+                            alt="Kawiarka" 
+                            class="w-full h-48 object-cover rounded-lg mb-4 flex-none">
+                    <div class="flex-grow overflow-auto">
+                        <h3 class="text-xl font-semibold text-gray-800 dark:text-white group-hover:text-blue-500 mb-2">
+                            Kawiarka
+                        </h3>
+                        <p class="text-gray-600 dark:text-gray-300 whitespace-normal">
+                            Wynalazek Bialettiego - królowa włoskich espresso.
+                        </p>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <!-- Tabela -->
+        <section class="bg-white dark:bg-gray-700 rounded-xl shadow-lg overflow-hidden mt-8">
+            <table class="w-full">
+                <thead class="bg-gray-50 dark:bg-gray-800">
+                    <tr>
+                        <th class="px-6 py-4 text-left text-gray-800 dark:text-white font-medium">Typ</th>
+                        <th class="px-6 py-4 text-left text-gray-800 dark:text-white font-medium">Zaleta czajnika</th>
+                        <th class="px-6 py-4 text-left text-gray-800 dark:text-white font-medium">Wada czajnika</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-200 dark:divide-gray-600">
+                    <tr class="hover:bg-gray-50 dark:hover:bg-gray-600">
+                        <td class="px-6 py-4 text-gray-800 dark:text-white">Samowar</td>
+                        <td class="px-6 py-4 text-gray-600 dark:text-gray-300">Można przerobić na aparaturę do pędzenia bimbru</td>
+                        <td class="px-6 py-4 text-gray-600 dark:text-gray-300">Trzeba zrozumieć instrukcję obsługi</td>
+                    </tr>
+                </tbody>
+                <tbody class="divide-y divide-gray-200 dark:divide-gray-600">
+                    <tr class="hover:bg-gray-50 dark:hover:bg-gray-600">
+                        <td class="px-6 py-4 text-gray-800 dark:text-white">Elektryczny</td>
+                        <td class="px-6 py-4 text-gray-600 dark:text-gray-300">Jest to jedyny normalny czajnik na tej liście</td>
+                        <td class="px-6 py-4 text-gray-600 dark:text-gray-300">Twój wykładowca z WWW, może zadać Ci zadanie, żeby podłączyć go do sieci</td>
+                    </tr>
+                </tbody>
+                <tbody class="divide-y divide-gray-200 dark:divide-gray-600">
+                    <tr class="hover:bg-gray-50 dark:hover:bg-gray-600">
+                        <td class="px-6 py-4 text-gray-800 dark:text-white">Wirtualny</td>
+                        <td class="px-6 py-4 text-gray-600 dark:text-gray-300">Jeżeli się zdenerwujesz, możesz go zawsze zniszczyć tyle razy ile chcesz</td>
+                        <td class="px-6 py-4 text-gray-600 dark:text-gray-300">Gdy spróbujesz wlać do niego wody, Twój komputer może się uszkodzić</td>
+                    </tr>
+                </tbody>
+                <tbody class="divide-y divide-gray-200 dark:divide-gray-600">
+                    <tr class="hover:bg-gray-50 dark:hover:bg-gray-600">
+                        <td class="px-6 py-4 text-gray-800 dark:text-white">Filozoficzny</td>
+                        <td class="px-6 py-4 text-gray-600 dark:text-gray-300">Studenci filozofii mają zaawansowane wątpliwości na temat decyzji życiowych</td>
+                        <td class="px-6 py-4 text-gray-600 dark:text-gray-300">Nikt nie może wykazać, że czajnik istnieje, powodzenia zatem w zrobieniu herbaty</td>
+                    </tr>
+                </tbody>
+                <tbody class="divide-y divide-gray-200 dark:divide-gray-600">
+                    <tr class="hover:bg-gray-50 dark:hover:bg-gray-600">
+                        <td class="px-6 py-4 text-gray-800 dark:text-white">Kawiarka</td>
+                        <td class="px-6 py-4 text-gray-600 dark:text-gray-300">Zapewnia kawę mocniejszą niż treści zadań zaliczeniowych z PO</td>
+                        <td class="px-6 py-4 text-gray-600 dark:text-gray-300">Robienie w niej kawy wymaga tyle cierpiwości co zrozumienie zadań zaiczeniowych z PO</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Sekcja animacji -->
+        <div id="warning" class="fixed bottom-8 right-8">
+            <div class="animate-ping inline-flex h-12 w-12 rounded-full bg-red-400 opacity-75 cursor-pointer" 
+                 onclick="coolDown()"></div>
+        </div>
     </div>
 
-    <div class="bg-red-800 text-yellow-300 p-4 my-6 rounded">
-        <h2 class="text-xl">🧬 COVID-19: Chipy w szczepionkach</h2>
-        <p class="text-sm mt-2">5G + Graphene Oxide = Kontrola umysłów?</p>
+    <!-- Game Over Modal -->
+    <div id="gameOver" class="hidden fixed inset-0 bg-black/90 flex items-center justify-center">
+        <div class="text-9xl font-bold text-red-500 animate-pulse">SIGNAL 418</div>
     </div>
 
-    <div class="bg-emerald-900 text-white p-4 my-6 rounded">
-        <h2 class="text-xl">🌐 Flat Earth Society</h2>
-        <p class="text-sm mt-2">Dlaczego NASA ukrywa prawdę?</p>
-    </div>
+    <script>
+        let temperature = 0;
+        let lives = 3;
+        const maxTemp = 200;
+        const heatEffect = document.getElementById('heatEffect');
 
-    <!-- Efekt cienia -->
-    <div class="bg-black text-white shadow-2xl p-6 my-8 rounded-lg shadow-red-500/50">
-        <h3 class="text-lg font-bold">👁️ NSA Prism 2.0</h3>
-        <p class="mt-2">Każde twoje kliknięcie jest monitorowane</p>
-    </div>
+        function updateTemperature() {
+            temperature += 0.1 *Math.max(1, Math.sqrt(temperature));
+            if (temperature > maxTemp) {
+                loseLife();
+                temperature = 0;
+            }
+            updateUI();
+        }
 
-    <!-- Tajna tabela -->
-    <table class="w-full bg-gray-800 text-yellow-300 rounded-lg overflow-hidden shadow-xl">
-        <thead class="bg-red-900">
-            <tr>
-                <th class="p-3 text-left">Teoria</th>
-                <th class="p-3 text-left">Status</th>
-                <th class="p-3 text-left">Dowody</th>
-                <th class="p-3 text-left">Linki</th>
-            </tr>
-        </thead>
-        <tbody>
-            <!-- Wiersz 1 -->
-            <tr class="hover:bg-gray-700 transition-colors border-b border-gray-600">
-                <td class="p-3 font-bold">🌑 Fałszywe lądowanie na Księżycu</td>
-                <td class="p-3 text-green-400">✅ Potwierdzone</td>
-                <td class="p-3">
-                    <ul class="list-disc pl-4">
-                        <li>Brak gwiazd na zdjęciach</li>
-                        <li>Nierealne cienie</li>
-                    </ul>
-                </td>
-                <td class="p-3">
-                    <a href="#film" class="text-blue-300 hover:text-blue-500 underline">Analiza NASA</a><br>
-                    <a href="#whistleblower" class="text-red-300 hover:text-red-500 underline">Zeznania Kubricka</a>
-                </td>
-            </tr>
+        function updateUI() {
+            const opacity = Math.min(0.5, temperature/maxTemp * 0.5);
+            heatEffect.style.background = `linear-gradient(to top, rgba(239, 68, 68, ${opacity}) 0%, rgba(239, 68, 68, 0) 100%)`;
+            
+            document.getElementById('temperatureInfo').textContent = 
+                `Temperatura: ${Math.floor(temperature)}°C`;
+            
+            document.getElementById('warning').style.display = 
+                temperature > 100 ? 'block' : 'none';
+        }
 
-            <!-- Wiersz 2 -->
-            <tr class="hover:bg-gray-700 transition-colors border-b border-gray-600">
-                <td class="p-3 font-bold">🧠 Projekt MKUltra 2.0</td>
-                <td class="p-3 text-yellow-400">⚠️ Aktywne</td>
-                <td class="p-3">
-                    <ul class="list-disc pl-4">
-                        <li>Wzrost liczby schizofrenii</li>
-                        <li>5G + szczepionki</li>
-                    </ul>
-                </td>
-                <td class="p-3">
-                    <a href="#cia" class="text-blue-300 hover:text-blue-500 underline">Dokumenty CIA</a><br>
-                    <a href="#mindcontrol" class="text-red-300 hover:text-red-500 underline">Przypadek Snowdena</a>
-                </td>
-            </tr>
+        function loseLife() {
+            lives--;
+            if (lives <= 0) {
+                document.getElementById('gameOver').classList.remove('hidden');
+                clearInterval(timer);
+            }
+            document.getElementById('lives').textContent = '❤️'.repeat(lives);
+        }
 
-            <!-- Wiersz 3 -->
-            <tr class="hover:bg-gray-700 transition-colors border-b border-gray-600">
-                <td class="p-3 font-bold">🦎 Gadzia Elita</td>
-                <td class="p-3 text-red-400">❌ Zatajone</td>
-                <td class="p-3">
-                    <ul class="list-disc pl-4">
-                        <li>Zdjęcia Obamy bez powiek</li>
-                        <li>Reptilian DNA</li>
-                    </ul>
-                </td>
-                <td class="p-3">
-                    <a href="#reptilians" class="text-blue-300 hover:text-blue-500 underline">Wywiad z Icke</a><br>
-                    <a href="#queen" class="text-red-300 hover:text-red-500 underline">Autopsja Królowej</a>
-                </td>
-            </tr>
+        function coolDown() {
+            temperature = Math.max(0, temperature - 110);
+            updateUI();
+        }
 
-            <!-- Wiersz 4 -->
-            <tr class="hover:bg-gray-700 transition-colors">
-                <td class="p-3 font-bold">🌍 Płaska Ziemia</td>
-                <td class="p-3 text-purple-400">🔍 Weryfikacja</td>
-                <td class="p-3">
-                    <ul class="list-disc pl-4">
-                        <li>Brak krzywizny horyzontu</li>
-                        <li>Antarktyczny mur lodowy</li>
-                    </ul>
-                </td>
-                <td class="p-3">
-                    <a href="#flatearth" class="text-blue-300 hover:text-blue-500 underline">Mapy FE</a><br>
-                    <a href="#nasa" class="text-red-300 hover:text-red-500 underline">Fałszerstwa NASA</a>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-
-    <!-- Animowany element -->
-    <div class="relative h-24">
-        <div class="absolute top-0 left-0 animate-pulse w-6 h-6 bg-red-500 rounded-full"></div>
-        <span class="ml-8 text-lg">UWAŻAJ: SYSTEM CIĘ OBSERWUJE</span>
-        <div class="absolute top-0 right-0 animate-spin">🛸</div>
-    </div>
+        let timer = setInterval(updateTemperature, 200);
+        document.getElementById('warning').addEventListener('click', coolDown);
+    </script>
 </body>
 </html>
