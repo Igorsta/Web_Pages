@@ -1,0 +1,10 @@
+<!-- main/templates/main/upload_image.html -->
+<h2>Upload a new image</h2>
+
+<form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Upload</button>
+</form>
+
+<a href="{% url 'home' %}">Back to homepage</a>

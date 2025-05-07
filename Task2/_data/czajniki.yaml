@@ -1,0 +1,9 @@
+- name: Elektryczny
+  desc: Można potencjalnie zainstalować Linuxa i Doom'a
+  link: /subsites/Elektryczny
+- name: Samowar
+  desc: Tradycyjny rosyjski czajnik... Można przerobić na miotacz ognia
+  link: /subsites/Samowar
+- name: Czajnik z Utah
+  desc: Dowód, że żyjemy w Matrixie (albo, że trzeba dotknąć trawy)
+  link: /subsites/Utah

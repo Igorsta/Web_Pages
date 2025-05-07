@@ -1,0 +1,206 @@
+<a href="{% url 'user_panel' %}">Go to my panel</a>
+<a href="{% url 'logout' %}">Logout</a>
+<h2>Welcome, {{ user.username }}</h2>
+
+<form method="get">
+    <label>Select image:</label>
+    <select name="selected" onchange="this.form.submit()">
+        <option value="">-- choose an image --</option>
+        {% for img in images %}
+            <option value="{{ img.name }}" {% if selected_image and img.name == selected_image.name %}selected{% endif %}>
+                {{ img.name }}
+            </option>
+        {% endfor %}
+    </select>
+</form>
+<a href="{% url 'upload_image' %}">Upload a new image</a>
+
+
+{% if selected_image %}
+    <h3>Selected Image: {{ selected_image.name }}</h3>
+
+    <button id="add-point-btn">Add Point</button>
+    <br>
+    <div id="message-container" style="text-align: center; font-size: 16px; color: blue; display: none;"></div>
+
+    <div id="image-container" style="position: relative; display: inline-block;">
+        <img src="{{ selected_image.image.url }}" id="main-image" style="max-width: 100%; display: block;" width="400px" height="400px" />
+        
+        {% for click in selected_image.clicks.all %}
+        <div class="click-dot" 
+            data-id="{{ click.id }}" 
+            style="left: {{ click.x }}px; top: {{ click.y }}px;">
+        <span class="dot-number"></span>
+        <button class="delete-dot-btn" title="Delete this point">✖</button>
+        </div>
+        {% endfor %}
+    </div>
+    
+
+    <style>
+    .image-container {
+        position: relative;
+        display: inline-block;
+    }
+    .click-dot {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background-color: red;
+        position: absolute;
+        cursor: move;
+    }
+    .dot-number {
+        position: absolute;
+        top: -10px;
+        left: -10px;
+        background: none;
+        border: none;
+        color: red;
+        font-size: 10px;
+    }
+    .delete-dot-btn {
+        position: absolute;
+        top: -10px;
+        left: 10px;
+        background: none;
+        border: none;
+        color: white;
+        font-size: 10px;
+        cursor: pointer;
+    }
+    </style>
+
+    <br>
+    <a href="{% url 'delete_image' selected_image.id %}">Delete image</a>
+{% endif %}
+
+
+<script>
+    document.querySelectorAll('.click-dot').forEach(dot => {
+    dot.addEventListener('mousedown', function (e) {
+    const dot = e.target;
+    let offsetX = e.clientX - dot.offsetLeft;
+    let offsetY = e.clientY - dot.offsetTop;
+
+    function move(e) {
+        dot.style.left = (e.clientX - offsetX) + 'px';
+        dot.style.top = (e.clientY - offsetY) + 'px';
+    }
+
+    function stop(e) {
+        document.removeEventListener('mousemove', move);
+        document.removeEventListener('mouseup', stop);
+
+        // Optionally send new position to backend
+        const newX = dot.offsetLeft;
+        const newY = dot.offsetTop;
+        const clickId = dot.dataset.id;
+
+        fetch('/update-click/', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': '{{ csrf_token }}'
+        },
+        body: JSON.stringify({
+            id: clickId,
+            x: newX,
+            y: newY
+        })
+        });
+    }
+
+    document.addEventListener('mousemove', move);
+    document.addEventListener('mouseup', stop);
+    });
+});
+</script>
+
+
+<script>
+    function renumberDots() {
+      const dots = document.querySelectorAll('.click-dot');
+      dots.forEach((dot, index) => {
+        dot.querySelector('.dot-number').innerText = index + 1;
+      });
+    }
+    
+    // Initial numbering when page loads
+    renumberDots();
+    
+    // Delete button logic
+    document.querySelectorAll('.delete-dot-btn').forEach(btn => {
+      btn.addEventListener('click', function (e) {
+        e.stopPropagation();
+        const dot = e.target.closest('.click-dot');
+        const clickId = dot.dataset.id;
+    
+        fetch('/delete-click/', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': '{{ csrf_token }}'
+          },
+          body: JSON.stringify({ id: clickId })
+        }).then(response => {
+          if (response.ok) {
+            dot.remove();
+            renumberDots();  // Update numbering after deletion
+          }
+        });
+      });
+    });
+</script>
+
+<script>
+    let addMode = false;
+
+    document.getElementById('add-point-btn').addEventListener('click', () => {
+        addMode = true;
+        const messageContainer = document.getElementById('message-container');
+        // Set the message and make it visible
+        messageContainer.innerText = "Click anywhere on the image to place a new point.";
+        messageContainer.style.display = "block";
+    });
+
+    document.getElementById('main-image').addEventListener('click', function (e) {
+        if (!addMode) return; // Ensure that the point is added only in addMode
+
+        // Get image position and clicked coordinates relative to the image
+        const rect = e.target.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+
+        // Send data to backend to save the point
+        fetch('/add-click/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': '{{ csrf_token }}'
+            },
+            body: JSON.stringify({
+                image_id: {{ selected_image.id }},
+                x: x,
+                y: y
+            })
+        }).then(response => response.json()).then(data => {
+            if (data.success) {
+                const container = document.getElementById('image-container');
+                const dot = document.createElement('div');
+                dot.className = 'click-dot';
+                dot.style.left = `${x}px`;
+                dot.style.top = `${y}px`;
+                dot.setAttribute('data-id', data.click_id);
+                dot.innerHTML = `<span class="dot-number"></span>
+                                <button class="delete-dot-btn">✖</button>`;
+                container.appendChild(dot);
+                renumberDots();
+            }
+        });
+
+        addMode = false; // Disable addMode after placing the point
+        document.getElementById('message-container').style.display = "none";
+    });
+</script>
+    
