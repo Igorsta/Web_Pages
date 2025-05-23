@@ -1,0 +1,16 @@
+{% extends "main/base.html" %}
+{% load static %}
+
+{% block title %}Upload a Common Path{% endblock title %}
+
+{% block content %}
+    <h2>Upload an Path to the Common Library</h2>
+    <p>This path will be available for other users to use.</p>
+    <form method="POST" enctype="multipart/form-data" action="{% url 'upload_common_image' %}">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Upload Common Image</button>
+    </form>
+    <br>
+    <a href="{% url 'home' %}">Back to Home</a>
+{% endblock content %}

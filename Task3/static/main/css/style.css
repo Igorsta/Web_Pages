@@ -1,0 +1,152 @@
+body {
+    font-family: sans-serif;
+    margin: 20px;
+}
+a {
+    margin-right: 10px;
+}
+h2, h3 {
+    color: #333;
+}
+form select, form button, #add-point-on-image-btn, #add-point-on-list-btn {
+    padding: 8px;
+    margin: 5px 0;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+}
+#image-container {
+    position: relative;
+    display: inline-block;
+    border: 1px solid #ddd;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+.click-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: red;
+    position: absolute;
+    cursor: move;
+    /* Dla lepszego pozycjonowania względem kursora */
+    transform: translate(-50%, -50%); 
+}
+.dot-number {
+    position: absolute;
+    top: -15px; /* nieco wyżej */
+    left: 50%;
+    transform: translateX(-50%);
+    color: blue; /* zmieniony kolor dla odróżnienia */
+    font-weight: bold;
+    font-size: 12px;
+    text-shadow: 0 0 2px white; /* dla lepszej czytelności na obrazie */
+    pointer-events: none;
+    user-select: none;
+}
+.delete-dot-btn {
+    position: absolute;
+    top: -8px; /* dostosuj pozycję */
+    right: -18px; /* dostosuj pozycję */
+    background: rgba(255, 255, 255, 0.7);
+    border: 1px solid #aaa;
+    color: red;
+    font-size: 12px; /* mniejszy */
+    width: 16px; /* mniejszy */
+    height: 16px; /* mniejszy */
+    line-height: 14px; /* wyśrodkowanie X */
+    text-align: center;
+    border-radius: 50%;
+    cursor: pointer;
+    padding: 0;
+}
+#connection-lines line {
+    stroke-dasharray: 3,3; /* Kreskowane linie */
+    stroke-linecap: round;
+}
+#coordinates-list-container {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    max-width: 400px; /* Ograniczenie szerokości */
+}
+#coordinates-list {
+    list-style-type: none;
+    padding-left: 0;
+}
+#coordinates-list li {
+    padding: 8px 0;
+    border-bottom: 1px dashed #eee;
+    display: flex; /* Dla lepszego ułożenia elementów */
+    align-items: center; /* Wyśrodkowanie w pionie */
+}
+#coordinates-list li:last-child {
+    border-bottom: none;
+}
+.coordinate-item input[type="number"] {
+    margin: 0 5px;
+    padding: 4px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    width: 70px; /* nieco szersze */
+}
+.coordinate-item button {
+    margin-left: 8px;
+    padding: 4px 8px;
+    font-size: 12px;
+    border-radius: 3px;
+    cursor: pointer;
+}
+.update-coord-btn {
+    background-color: #e0e0e0;
+    border: 1px solid #aaa;
+}
+.delete-coord-btn {
+    background-color: #fdd;
+    border: 1px solid #d99;
+    color: #900;
+}
+#message-container {
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 4px;
+    background-color: #e7f3fe;
+    border: 1px solid #d0e3f0;
+}
+#editor-layout {
+    display: flex; /* Enables flexbox layout */
+    align-items: flex-start; /* Aligns items to the top of the container */
+    gap: 20px; /* Optional: adds space between the image and the list */
+    margin-top: 10px; /* Optional: space above the layout */
+    margin-bottom: 10px; /* Optional: space below the layout */
+}
+.click-dot.highlighted,
+.click-dot:hover { /* Dodatkowe podświetlenie dla samej kropki */
+    background-color: yellow; /* Lub inny kolor wyróżnienia */
+    box-shadow: 0 0 5px 2px orange; /* Opcjonalny cień */
+    z-index: 10; /* Aby była nad innymi elementami, jeśli się nakładają */
+}
+
+#coordinates-list .coordinate-item.highlighted,
+#coordinates-list .coordinate-item:hover { /* Dodatkowe podświetlenie dla samego elementu listy */
+    background-color: #e6f7ff; /* Jasnoniebieskie tło */
+    font-weight: bold; /* Pogrubienie tekstu */
+}
+
+#image-container {
+    position: relative;
+    display: inline-flex; /* Zmienione z inline-block dla lepszego centrowania jeśli potrzebne */
+    justify-content: center; /* Wycentruj obraz w poziomie */
+    align-items: center;   /* Wycentruj obraz w pionie */
+    width: 400px;  /* Ustaw szerokość kontenera na 300px */
+    height: 400px; /* Ustaw wysokość kontenera na 300px */
+    border: 1px solid #ddd;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+#main-image {
+    display: block;
+    max-width: 100%;
+    max-height: 100%;
+}

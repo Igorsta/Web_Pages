@@ -8,23 +8,29 @@
 │   └── wsgi.py
 ├── main
 │   ├── __init__.py
+│   ├── apps.py
 │   ├── forms.py
 │   ├── models.py
+│   ├── permissions.py
+│   ├── serializers.py
 │   ├── templates
-│   │   └── main
-│   │       ├── base.html
-│   │       ├── home.html
-│   │       ├── login.html
-│   │       ├── register.html
-│   │       ├── upload_image.html
-│   │       └── user_panel.html
+│   │   ├── main
+│   │   │   ├── base.html
+│   │   │   ├── home.html
+│   │   │   ├── login.html
+│   │   │   ├── register.html
+│   │   │   ├── upload_image.html
+│   │   │   └── user_panel.html
+│   │   └── rest_framework
+│   │       └── api.html
+│   ├── tests.py
 │   ├── urls.py
 │   └── views.py
 ├── manage.py
 ├── project_dump.txt
 └── script.sh
 
-4 directories, 19 files
+5 directories, 24 files
 
 
 ===== settings.py =====
@@ -46,6 +52,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
+    'rest_framework.authtoken',
     'main',
 ]
 
@@ -95,6 +103,10 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static'),
+]
+
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGIN_URL = '/login/'
@@ -104,40 +116,61 @@ LOGOUT_REDIRECT_URL = '/login/'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication', 
+        'rest_framework.authentication.SessionAuthentication', 
+        
+    ],
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated', 
+    ],
+}
+
 ===== project-level urls.py =====
 from django.contrib import admin
 from django.urls import path, include
 from django.contrib.auth import views as auth_views
+from django.conf import settings
+from django.conf.urls.static import static
+from rest_framework.authtoken import views as authtoken_views 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('main.urls')),
     path('login/', auth_views.LoginView.as_view(template_name='main/login.html'), name='login'),
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
+    path('api/', include('main.urls')),
+    path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+    path('api-token-auth/', authtoken_views.obtain_auth_token, name='api_token_auth'),
 ]
 
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 ===== app-level urls.py =====
-from django.urls import path
+from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
-from .views import home, register, upload_image
-from main.views import home, upload_image, logout_view
 from django.contrib.auth import views as auth_views
-from django.contrib import admin
+from rest_framework.routers import DefaultRouter
 from . import views
 
+router = DefaultRouter()
+router.register(r'images', views.UserImageViewSet)
+router.register(r'clicks', views.ImageClickViewSet)
+
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('', home, name='home'),
-    path('login/', auth_views.LoginView.as_view(template_name='main/login.html'), name='login'),
-    path('logout/', logout_view, name='logout'),
-    path('', home, name='home'),
-    path('upload/', upload_image, name='upload_image'),
-    path('register/', register, name='register'),
+    path('', views.home, name='home'),
+    path('register/', views.register, name='register'),
+    path('add-click/', views.add_click, name='add_click'),
+    path('user-panel/', views.user_panel, name='user_panel'),
+    path('delete-click/', views.delete_click, name='delete_click'),
+    path('record-click/', views.record_click, name='record_click'),
+    path('update-click/', views.update_click, name='update_click'),
+    path('upload-image/', views.upload_image, name='upload_image'),
+    path('change-password/', views.change_password, name='change_password'),
     path('delete/<int:image_id>/', views.delete_image, name='delete_image'),
-    path('panel/', views.user_panel, name='user_panel'),
-    path('change_password/', views.change_password, name='change_password'),
+    path('', include(router.urls)),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
@@ -147,6 +180,10 @@ urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 from django.db import models
 from django.contrib.auth.models import User
 import uuid
+from django.conf import settings
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+from rest_framework.authtoken.models import Token
 
 class UserImage(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='images')
@@ -161,15 +198,146 @@ class UserImage(models.Model):
 
     def __str__(self):
         return self.name
+    
+class ImageClick(models.Model):
+    image = models.ForeignKey(UserImage, on_delete=models.CASCADE, related_name='clicks')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, default=1)
+    x = models.FloatField()
+    y = models.FloatField()
+
+    def __str__(self):
+        return f"Click on {self.image.name} by {self.user} at ({self.x}, {self.y})"
+
+@receiver(post_save, sender=settings.AUTH_USER_MODEL)
+def create_auth_token(sender, instance=None, created=False, **kwargs):
+    if created:
+        Token.objects.create(user=instance)
 
 
 ===== views.py =====
+# main/views.py
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm, PasswordChangeForm
 from django.contrib.auth import login, logout, update_session_auth_hash
 from django.shortcuts import render, redirect, get_object_or_404
 from .forms import UserImageForm
-from .models import UserImage
+from django.http import JsonResponse
+from .models import ImageClick, UserImage # Make sure UserImage is imported
+from django.views.decorators.csrf import csrf_exempt
+import json
+from rest_framework import viewsets, serializers
+from rest_framework.permissions import IsAuthenticated
+from .serializers import UserImageSerializer, ImageClickSerializer
+from .permissions import IsOwner
+
+class UserImageViewSet(viewsets.ModelViewSet):
+    queryset = UserImage.objects.all()  # Add this back
+    serializer_class = UserImageSerializer
+    permission_classes = [IsAuthenticated, IsOwner]
+
+    def get_queryset(self):
+        """
+        This view should return a list of all the images
+        for the currently authenticated user.
+        """
+        user = self.request.user
+        if user.is_authenticated:
+            return UserImage.objects.filter(user=user)
+        return UserImage.objects.none() # Or handle unauthenticated access as per your app's logic
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+
+class ImageClickViewSet(viewsets.ModelViewSet):
+    queryset = ImageClick.objects.all()  # Add this back
+    serializer_class = ImageClickSerializer
+    permission_classes = [IsAuthenticated, IsOwner]
+
+    def get_queryset(self):
+        """
+        This view should return a list of all image clicks
+        for the currently authenticated user.
+        """
+        user = self.request.user
+        if user.is_authenticated:
+            return ImageClick.objects.filter(user=user)
+        return ImageClick.objects.none() # Or handle unauthenticated access
+
+    def perform_create(self, serializer):
+        image_instance = serializer.validated_data.get('image')
+        if image_instance.user != self.request.user:
+            raise serializers.ValidationError("You can only add clicks to your own images.")
+        serializer.save(user=self.request.user, image=image_instance)
+
+    def perform_update(self, serializer):
+        if 'image' in serializer.validated_data:
+            image_instance = serializer.validated_data.get('image')
+            if image_instance.user != self.request.user:
+                raise serializers.ValidationError("You can only associate clicks with your own images.")
+        serializer.save()
+
+
+@csrf_exempt
+@login_required
+def add_click(request):
+    if request.method == "POST":
+        data = json.loads(request.body)
+        image_id = data['image_id']
+        x = float(data['x'])
+        y = float(data['y'])
+
+        image = get_object_or_404(UserImage, id=image_id, user=request.user)
+        click = ImageClick.objects.create(image=image, user=request.user, x=x, y=y)
+
+        return JsonResponse({
+            'success': True,
+            'click_id': click.id
+        })
+    return JsonResponse({'success': False})
+
+@csrf_exempt
+@login_required
+def delete_click(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        try:
+            click = ImageClick.objects.get(id=data['id'], user=request.user)
+            click.delete()
+            return JsonResponse({'status': 'deleted'})
+        except ImageClick.DoesNotExist:
+            return JsonResponse({'status': 'not found'}, status=404)
+
+@csrf_exempt
+@login_required
+def update_click(request):
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            click = ImageClick.objects.get(id=data['id'], user=request.user) # Check ownership
+            
+            click.x = data['x']
+            click.y = data['y']
+            click.save()
+            return JsonResponse({'status': 'success'})
+        except ImageClick.DoesNotExist:
+            return JsonResponse({'status': 'not found or forbidden'}, status=404)
+        except Exception as e:
+            return JsonResponse({'status': 'error', 'message': str(e)})
+    return JsonResponse({'status': 'invalid request'}, status=400)
+
+@login_required
+def record_click(request):
+    if request.method == "POST":
+        image_id = request.POST.get('image_id')
+        x = request.POST.get('x')
+        y = request.POST.get('y')
+
+        image = get_object_or_404(UserImage, id=image_id, user=request.user)
+        click = ImageClick.objects.create(image=image, user=request.user, x=x, y=y) # Assign current user
+        return JsonResponse({'status': 'ok'})
+
+    return JsonResponse({'status': 'error'}, status=400)
+
 
 @login_required
 def home(request):
@@ -205,39 +373,46 @@ def upload_image(request):
         form = UserImageForm()
     return render(request, 'main/upload_image.html', {'form': form})
 
-
-@login_required
-def delete_image(request, image_id):
-    image = get_object_or_404(UserImage, id=image_id, user=request.user)
-    image.image.delete()  # Delete the actual image file
-    image.delete()        # Delete the database record
-    return redirect('home')  #
-
-def logout_view(request):
-    logout(request)
-    return redirect('login')
+# Removed the first definition of delete_image as there were two.
+# The second one (below) redirects to 'user_panel' and is used by user_panel.html.
 
 @login_required
 def user_panel(request):
     images = UserImage.objects.filter(user=request.user)
+    # This form is for uploading new images from the user panel
     if request.method == 'POST':
-        # Handle image rename or update
-        form = UserImageForm(request.POST, request.FILES)
+        # This part of the original code seems to handle renaming through the same form
+        # as uploading. It should ideally be a separate mechanism or the form should
+        # take an instance. For now, let's assume user_panel's POST here is for new uploads.
+        # If `image_id` is in POST data, it implies an update.
+        image_id_to_update = request.POST.get('image_id_for_rename') # Assuming a distinct field name for clarity
+        if image_id_to_update:
+            image_instance = get_object_or_404(UserImage, id=image_id_to_update, user=request.user)
+            form = UserImageForm(request.POST, request.FILES, instance=image_instance)
+        else:
+            form = UserImageForm(request.POST, request.FILES)
+        
         if form.is_valid():
             image = form.save(commit=False)
-            image.user = request.user  # Ensure it's saved under the correct user
+            image.user = request.user
             image.save()
             return redirect('user_panel')
     else:
-        form = UserImageForm()
+        form = UserImageForm() # Form for uploading a new image / or empty form for rename if not POST
 
-    # Password change form
     password_form = PasswordChangeForm(user=request.user)
     
     return render(request, 'main/user_panel.html', {
         'images': images,
-        'form': form,
+        'upload_form': form, # Renamed for clarity in template if needed
         'password_form': password_form,
+        # To allow renaming, you'd pass an instance of UserImageForm for each image
+        # or handle it via a separate view/modal. The current user_panel.html implies
+        # a single form is used for renaming any image, which is problematic.
+        # For simplicity, the provided template's rename form posts to user_panel,
+        # so the above logic tries to handle it if image_id is present.
+        # The template uses 'form.as_p' which implies one form for upload/rename.
+        # Let's adjust user_panel.html to make more sense for rename.
     })
 
 @login_required
@@ -247,19 +422,25 @@ def change_password(request):
         if password_form.is_valid():
             password_form.save()
             update_session_auth_hash(request, password_form.user)
-            return redirect('user_panel')  # Redirect after password change
+            return redirect('user_panel')
     else:
         password_form = PasswordChangeForm(user=request.user)
     
-    return render(request, 'main/user_panel.html', {'password_form': password_form})
+    # If form is invalid, re-render user_panel with errors and other context
+    images = UserImage.objects.filter(user=request.user)
+    upload_form = UserImageForm() # Or maintain state if it was a multi-purpose page
+    return render(request, 'main/user_panel.html', {
+        'images': images,
+        'upload_form': upload_form,
+        'password_form': password_form, # This will have errors
+    })
 
 @login_required
 def delete_image(request, image_id):
     image = get_object_or_404(UserImage, id=image_id, user=request.user)
-    image.image.delete()  # Delete the actual image file
-    image.delete()        # Delete the database record
-    return redirect('user_panel')  # Redirect back to the user panel
-
+    image.image.delete()
+    image.delete()
+    return redirect('user_panel')
 
 ===== forms.py =====
 from django import forms
@@ -270,47 +451,222 @@ class UserImageForm(forms.ModelForm):
         model = UserImage
         fields = ['name', 'image']
 
-    def clean_name(self):
-        name = self.cleaned_data.get('name')
-     
-        if UserImage.objects.filter(user=self.instance.user, name=name).exists():
-            raise forms.ValidationError("This image name is already taken by you. Please choose a different name.")
-        return name
-
 
 ===== Template: base.html =====
 {% load static %}
-
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Image Path Editor{% endblock title %}</title>
+    <link rel="stylesheet" href="{% static 'main/css/style.css' %}">
+    {% block extra_css %}{% endblock extra_css %}
+</head>
+<body>
+    <nav>
+        <a href="{% url 'home' %}">Home</a>
+        {% if user.is_authenticated %}
+            <a href="{% url 'user_panel' %}">My Panel</a>
+            <a href="{% url 'logout' %}">Logout ({{ user.username }})</a>
+        {% else %}
+            <a href="{% url 'login' %}">Login</a>
+            <a href="{% url 'register' %}">Register</a>
+        {% endif %}
+    </nav>
+    <hr>
+    <main>
+        {% block content %}
+        {% endblock content %}
+    </main>
+    <hr>
+    <footer>
+        <p>© {% now "Y" %} Your Site Name</p>
+    </footer>
+    {% block extra_js %}{% endblock extra_js %}
+</body>
+</html>
 
 ===== Template: home.html =====
-<h2>Welcome, {{ user.username }}</h2>
-<a href="{% url 'logout' %}">Logout</a>
+{% extends "main/base.html" %}
+{% load static %}
 
-<form method="get">
-    <label>Select image:</label>
-    <select name="selected" onchange="this.form.submit()">
-        <option value="">-- choose an image --</option>
-        {% for img in images %}
-            <option value="{{ img.name }}" {% if selected_image and img.name == selected_image.name %}selected{% endif %}>
-                {{ img.name }}
-            </option>
-        {% endfor %}
-    </select>
-</form>
-<a href="{% url 'upload_image' %}">Upload a new image</a>
+{% block title %}Home - Image Path Editor{% endblock title %}
 
+{% block content %}
+    <h2>Welcome, {{ user.username }}</h2>
 
-{% if selected_image %}
-    <h3>Selected Image: {{ selected_image.name }}</h3>
-    <img src="{{ selected_image.image.url }}" alt="{{ selected_image.name }}" width="400px" height="400px">
-    <a href="{% url 'delete_image' selected_image.id %}">Delete image</a>
-{% endif %}
+    <form method="get" action="{% url 'home' %}">
+        <label for="image-select">My paths:</label>
+        <select name="selected" id="image-select" onchange="this.form.submit()">
+            <option value="">-- choose an image --</option>
+            {% for img in images %}
+                <option value="{{ img.name }}" {% if selected_image and img.name == selected_image.name %}selected{% endif %}>
+                    {{ img.name }}
+                </option>
+            {% endfor %}
+        </select>
+    </form>
+    <a href="{% url 'upload_image' %}">Upload a new image</a>
 
+    {% if selected_image %}
+        <h3>Selected Path: {{ selected_image.name }}</h3>
+        <div id="message-container" style="text-align: center; font-size: 16px; color: blue; display: none;"></div>
+        <div id="editor-layout">
+            <div id="image-option-containter">
+                <button id="add-point-on-image-btn">Add Point on Image</button>
+                <br>
+                <div id="image-container">
+                    <svg id="connection-lines" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none;"></svg>
+                    <img src="{{ selected_image.image.url }}" id="main-image" alt="{{ selected_image.name }}" style="max-width: 100%; display: block;" width="400px" height="400px" />
+                    {% for click in selected_image.clicks.all %}
+                    <div class="click-dot"
+                        data-id="{{ click.id }}"
+                        style="left: {{ click.x }}px; top: {{ click.y }}px;">
+                        <span class="dot-number"></span>
+                        <button class="delete-dot-btn" title="Delete this point">✖</button>
+                    </div>
+                    {% endfor %}
+                </div>
+                <br>
+                <a href="{% url 'delete_image' selected_image.id %}" onclick="return confirm('Are you sure you want to delete this image and all its points?');">Delete image</a>
+            </div>
+
+            <div id="coordinates-list-container">
+                <button id="add-point-on-list-btn">Add New Point to List</button>
+                <h4>Coordinates of Points:</h4>
+                <ul id="coordinates-list">
+                    {% for click in selected_image.clicks.all %}
+                        <li data-click-id="{{ click.id }}" class="coordinate-item">
+                            Point <span class="point-display-number">{{ forloop.counter }}</span>:
+                            X<input type="number" class="coord-x-input" value="{{ click.x|floatformat:2 }}" step="1.00" autocomplete="off">
+                            Y<input type="number" class="coord-y-input" value="{{ click.y|floatformat:2 }}" step="1.00" autocomplete="off">
+                            <button class="update-coord-btn">Update</button>
+                            <button class="delete-coord-btn">Delete</button>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    {% else %}
+        {% if user.is_authenticated %}
+        <p>Select an image to start editing or <a href="{% url 'upload_image' %}">upload a new one</a>.</p>
+        {% else %}
+        <p>Please <a href="{% url 'login' %}">login</a> to view or edit images.</p>
+        {% endif %}
+    {% endif %}
+{% endblock content %}
+
+{% block extra_js %}
+    <script>
+        const csrfToken = '{{ csrf_token }}';
+        const selectedImageId = {{ selected_image.id|default_if_none:"null" }};
+        let draggedDot = null; // Moved from inline script to here for clarity if functions.js needs it
+        let addModeOnClick = false; // Moved from inline script
+    </script>
+    <script src="{% static 'main/js/functions.js' %}"></script>
+    <script>
+        // Inline script from home.html (event listeners and initial calls)
+        document.addEventListener('DOMContentLoaded', () => {
+            const mainImage = document.getElementById('main-image');
+            if (mainImage) {
+                if (mainImage.complete) {
+                    initializePageElements();
+                } else {
+                    mainImage.addEventListener('load', initializePageElements);
+                }
+            } else {
+                const addPointOnImageBtn = document.getElementById('add-point-on-image-btn');
+                const addPointToListBtn = document.getElementById('add-point-on-list-btn');
+                if(addPointOnImageBtn) addPointOnImageBtn.disabled = true;
+                if(addPointToListBtn) addPointToListBtn.disabled = true;
+            }
+            if (selectedImageId) {
+                initializeCoordinateListInteractions();
+            }
+        });
+        
+        document.addEventListener("mousemove", (e) => {
+            if (!draggedDot) return;
+            const mainImage = document.getElementById('main-image');
+            if (!mainImage) return;
+            const containerRect = mainImage.getBoundingClientRect();
+            let newLeft = e.clientX - containerRect.left - (draggedDot.offsetWidth / 2);
+            let newTop = e.clientY - containerRect.top - (draggedDot.offsetHeight / 2);
+            const maxLeft = mainImage.width - (draggedDot.offsetWidth / 2);
+            const minLeft = (draggedDot.offsetWidth / 2);
+            const maxTop = mainImage.height - (draggedDot.offsetHeight / 2);
+            const minTop = (draggedDot.offsetHeight / 2);     
+            newLeft = Math.max(minLeft, Math.min(newLeft, maxLeft));
+            newTop = Math.max(minTop, Math.min(newTop, maxTop));
+            draggedDot.style.left = newLeft + "px";
+            draggedDot.style.top = newTop + "px";
+            redrawLines();
+            const clickId = draggedDot.dataset.id;
+            const listItem = document.querySelector(`#coordinates-list .coordinate-item[data-click-id="${clickId}"]`);
+            if (listItem) {
+                listItem.querySelector('.coord-x-input').value = parseFloat(newLeft).toFixed(2);
+                listItem.querySelector('.coord-y-input').value = parseFloat(newTop).toFixed(2);
+            }
+        });
+
+        const messageContainer = document.getElementById('message-container');
+        const addPointOnImageBtn = document.getElementById('add-point-on-image-btn');
+
+        if (addPointOnImageBtn) {
+            addPointOnImageBtn.addEventListener('click', () => {
+                addModeOnClick = !addModeOnClick;
+                const mainImgElem = document.getElementById('main-image');
+                if (addModeOnClick) {
+                    addPointOnImageBtn.textContent = "Stop Adding on Image";
+                    if(messageContainer) {
+                        messageContainer.innerText = "Click anywhere on the image to place a new point.";
+                        messageContainer.style.display = "block";
+                    }
+                    if(mainImgElem) mainImgElem.style.cursor = 'crosshair';
+                } else {
+                    addPointOnImageBtn.textContent = "Add Point on Image";
+                    if(messageContainer) messageContainer.style.display = "none";
+                    if(mainImgElem) mainImgElem.style.cursor = 'default';
+                }
+            });
+        }
+
+        const mainImageElement = document.getElementById('main-image');
+        if (mainImageElement) {
+            mainImageElement.addEventListener('click', function (e) {
+                if (!addModeOnClick || !selectedImageId) return;
+                const rect = e.target.getBoundingClientRect();
+                const x = parseFloat((e.clientX - rect.left).toFixed(2));
+                const y = parseFloat((e.clientY - rect.top).toFixed(2));
+                fetch('/add-click/', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'X-CSRFToken': csrfToken },
+                    body: JSON.stringify({ image_id: selectedImageId, x: x, y: y })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        createDotOnImage(data.click_id, x, y);
+                        createCoordinateListItem(data.click_id, x, y, false);
+                        renumberDotsAndListItems();
+                    } else {
+                        console.error("Failed to add click via image click", data);
+                    }
+                });
+            });
+        }
+    </script>
+{% endblock extra_js %}
 
 ===== Template: login.html =====
+{% load static %}
 <!DOCTYPE html>
 <html>
-<head><title>Login</title></head>
+<head>
+  <title>Login</title>
+  <link rel="stylesheet" href="{% static 'main/css/style.css' %}">
+</head>
 <body>
   <h2>Login</h2>
   <form method="post">
@@ -326,7 +682,10 @@ class UserImageForm(forms.ModelForm):
 ===== Template: register.html =====
 <!DOCTYPE html>
 <html>
-<head><title>Register</title></head>
+<head>
+  <title>Register</title>
+  <link rel="stylesheet" href="{% static 'main/css/style.css' %}">
+</head>
 <body>
   <h2>Register</h2>
   <form method="post">
@@ -353,8 +712,9 @@ class UserImageForm(forms.ModelForm):
 
 
 ===== Template: user_panel.html =====
-{% extends 'base.html' %}
 {% block content %}
+
+<a href="{% url 'home' %}">Back to Homepage</a>
   <h2>Welcome, {{ user.username }}!</h2>
 
   <!-- User images section -->
@@ -380,6 +740,8 @@ class UserImageForm(forms.ModelForm):
     {{ password_form.as_p }}
     <button type="submit">Change Password</button>
   </form>
+
+  
 {% endblock %}
 
 

@@ -1,0 +1,20 @@
+{
+  "compilerOptions": {
+    "target": "es6",       
+    "module": "esnext",       
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "outDir": "./static/ts/dist/",
+    "rootDir": "./static/ts/src/", 
+    "moduleResolution": "node",
+    "sourceMap": true 
+  },
+  "include": [
+    "./static/ts/src/**/*"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}

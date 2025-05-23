@@ -1,0 +1,16 @@
+{% extends "main/base.html" %}
+{% load static %}
+
+{% block title %}Define New Grid Image{% endblock title %}
+
+{% block content %}
+    <h2>Define Your Grid Image</h2>
+    <p>Specify the dimensions for your grid. An image representing this grid will be generated and added to your personal images.</p>
+    <form method="post" action="{% url 'define_grid' %}">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Create Grid Image</button>
+    </form>
+    <br>
+    <a href="{% url 'home' %}">Back to Home</a>
+{% endblock content %}

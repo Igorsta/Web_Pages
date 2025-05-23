@@ -1,206 +1,243 @@
-<a href="{% url 'user_panel' %}">Go to my panel</a>
-<a href="{% url 'logout' %}">Logout</a>
-<h2>Welcome, {{ user.username }}</h2>
+{% extends "main/base.html" %}
+{% load static %}
 
-<form method="get">
-    <label>Select image:</label>
-    <select name="selected" onchange="this.form.submit()">
-        <option value="">-- choose an image --</option>
-        {% for img in images %}
-            <option value="{{ img.name }}" {% if selected_image and img.name == selected_image.name %}selected{% endif %}>
-                {{ img.name }}
-            </option>
-        {% endfor %}
-    </select>
-</form>
-<a href="{% url 'upload_image' %}">Upload a new image</a>
+{% block title %}Home - Image Path Editor{% endblock title %}
 
+{% block content %}
+    <h2>Welcome, {{ user.username }}!</h2>
 
-{% if selected_image %}
-    <h3>Selected Image: {{ selected_image.name }}</h3>
+    {# --- IMAGE SELECTION SECTION --- #}
+    {% if not selected_image %}
+        <form method="get" action="{% url 'home' %}">
+            <label for="image-select">Personal paths:</label>
+            <select name="selected" id="image-select" onchange="this.form.submit()">
+                <option value="">-- choose an image --</option>
+                {% for img in user_images %}
+                    <option value="{{ img.name }}">
+                        {{ img.name }} (Yours)
+                    </option>
+                {% endfor %}
+            </select>
+        </form>
+        <a href="{% url 'upload_image' %}">Upload a new personal image</a>
 
-    <button id="add-point-btn">Add Point</button>
-    <br>
-    <div id="message-container" style="text-align: center; font-size: 16px; color: blue; display: none;"></div>
+        <hr>
+        <h3>Or Use a Common Image:</h3>
+        {% if common_images_list %}
+            <div class="common-images-grid" style="display: flex; flex-wrap: wrap; gap: 10px;">
+                {% for c_img in common_images_list %}
+                    <div class="common-image-item" style="border: 1px solid #ccc; padding: 5px; text-align: center;">
+                        <p>{{ c_img.name }}</p>
+                        {% if c_img.image %}
+                        <img src="{{ c_img.image.url }}" alt="{{ c_img.name }}" width="100" height="100" style="object-fit: cover;">
+                        <br>
+                        <a href="{% url 'use_common_image' c_img.id %}">Use this image</a>
+                        {% else %}
+                        <p>Image not available</p>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p>No common images available at the moment.</p>
+        {% endif %}
+        <hr>
 
-    <div id="image-container" style="position: relative; display: inline-block;">
-        <img src="{{ selected_image.image.url }}" id="main-image" style="max-width: 100%; display: block;" width="400px" height="400px" />
+    {% else %} {# An image IS selected, show the editor #}
         
-        {% for click in selected_image.clicks.all %}
-        <div class="click-dot" 
-            data-id="{{ click.id }}" 
-            style="left: {{ click.x }}px; top: {{ click.y }}px;">
-        <span class="dot-number"></span>
-        <button class="delete-dot-btn" title="Delete this point">✖</button>
+        <p><a href="{% url 'home' %}">Select a different image</a></p> 
+        
+        <h3>Selected Path: {{ selected_image.name }}</h3>
+
+        <div id="message-container" style="text-align: center; font-size: 16px; color: blue; display: none;"></div>
+        
+        <div id="editor-layout">
+            <div id="image-option-containter">
+                <button id="add-point-on-image-btn">Add Point on Image</button>
+                <br>
+                <div id="image-container">
+                    <svg id="connection-lines" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none;"></svg>
+                    <img src="{{ selected_image.image.url }}" id="main-image" alt="{{ selected_image.name }}" style="max-width: 100%; display: block;" width="400px" height="400px" />
+                    {% for click in selected_image.clicks.all %}
+                    <div class="click-dot"
+                        data-id="{{ click.id }}"
+                        style="left: {{ click.x }}px; top: {{ click.y }}px;">
+                        <span class="dot-number"></span>
+                        <button class="delete-dot-btn" title="Delete this point">✖</button>
+                    </div>
+                    {% endfor %}
+                </div>
+                <br>
+                <a href="{% url 'delete_image' selected_image.id %}" onclick="return confirm('Are you sure you want to delete this image and all its points?');">Delete image</a>
+            </div>
+
+            <div id="coordinates-list-container">
+                <button id="add-point-on-list-btn">Add New Point to List</button>
+                <h4>Coordinates of Points:</h4>
+                <ul id="coordinates-list">
+                    {% for click in selected_image.clicks.all %}
+                        <li data-click-id="{{ click.id }}" class="coordinate-item">
+                            Point <span class="point-display-number">{{ forloop.counter }}</span>:
+                            X<input type="number" class="coord-x-input" value="{{ click.x|floatformat:2 }}" step="1.00" autocomplete="off">
+                            Y<input type="number" class="coord-y-input" value="{{ click.y|floatformat:2 }}" step="1.00" autocomplete="off">
+                            <button class="update-coord-btn">Update</button>
+                            <button class="delete-coord-btn">Delete</button>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
         </div>
-        {% endfor %}
-    </div>
-    
+        <br>
+    {% endif %} {# End of 'if selected_image' / 'if not selected_image' logic #}
 
-    <style>
-    .image-container {
-        position: relative;
-        display: inline-block;
-    }
-    .click-dot {
-        width: 10px;
-        height: 10px;
-        border-radius: 50%;
-        background-color: red;
-        position: absolute;
-        cursor: move;
-    }
-    .dot-number {
-        position: absolute;
-        top: -10px;
-        left: -10px;
-        background: none;
-        border: none;
-        color: red;
-        font-size: 10px;
-    }
-    .delete-dot-btn {
-        position: absolute;
-        top: -10px;
-        left: 10px;
-        background: none;
-        border: none;
-        color: white;
-        font-size: 10px;
-        cursor: pointer;
-    }
-    </style>
+{% endblock content %}
 
-    <br>
-    <a href="{% url 'delete_image' selected_image.id %}">Delete image</a>
-{% endif %}
+{% block extra_js %}
+    <script>
+        const csrfToken = '{{ csrf_token }}';
+        const selectedImageId = {{ selected_image.id|default_if_none:"null" }};
+        // console.log("[HTML Init Script] selectedImageId:", selectedImageId); // For debugging
 
+        let draggedDot = null;
+        let addModeOnClick = false;
+    </script>
+    <script src="{% static 'main/js/functions.js' %}"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // console.log("[HTML DOMContentLoaded] Event fired. selectedImageId:", selectedImageId); // For debugging
 
-<script>
-    document.querySelectorAll('.click-dot').forEach(dot => {
-    dot.addEventListener('mousedown', function (e) {
-    const dot = e.target;
-    let offsetX = e.clientX - dot.offsetLeft;
-    let offsetY = e.clientY - dot.offsetTop;
-
-    function move(e) {
-        dot.style.left = (e.clientX - offsetX) + 'px';
-        dot.style.top = (e.clientY - offsetY) + 'px';
-    }
-
-    function stop(e) {
-        document.removeEventListener('mousemove', move);
-        document.removeEventListener('mouseup', stop);
-
-        // Optionally send new position to backend
-        const newX = dot.offsetLeft;
-        const newY = dot.offsetTop;
-        const clickId = dot.dataset.id;
-
-        fetch('/update-click/', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'X-CSRFToken': '{{ csrf_token }}'
-        },
-        body: JSON.stringify({
-            id: clickId,
-            x: newX,
-            y: newY
-        })
-        });
-    }
-
-    document.addEventListener('mousemove', move);
-    document.addEventListener('mouseup', stop);
-    });
-});
-</script>
-
-
-<script>
-    function renumberDots() {
-      const dots = document.querySelectorAll('.click-dot');
-      dots.forEach((dot, index) => {
-        dot.querySelector('.dot-number').innerText = index + 1;
-      });
-    }
-    
-    // Initial numbering when page loads
-    renumberDots();
-    
-    // Delete button logic
-    document.querySelectorAll('.delete-dot-btn').forEach(btn => {
-      btn.addEventListener('click', function (e) {
-        e.stopPropagation();
-        const dot = e.target.closest('.click-dot');
-        const clickId = dot.dataset.id;
-    
-        fetch('/delete-click/', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'X-CSRFToken': '{{ csrf_token }}'
-          },
-          body: JSON.stringify({ id: clickId })
-        }).then(response => {
-          if (response.ok) {
-            dot.remove();
-            renumberDots();  // Update numbering after deletion
-          }
-        });
-      });
-    });
-</script>
-
-<script>
-    let addMode = false;
-
-    document.getElementById('add-point-btn').addEventListener('click', () => {
-        addMode = true;
-        const messageContainer = document.getElementById('message-container');
-        // Set the message and make it visible
-        messageContainer.innerText = "Click anywhere on the image to place a new point.";
-        messageContainer.style.display = "block";
-    });
-
-    document.getElementById('main-image').addEventListener('click', function (e) {
-        if (!addMode) return; // Ensure that the point is added only in addMode
-
-        // Get image position and clicked coordinates relative to the image
-        const rect = e.target.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-
-        // Send data to backend to save the point
-        fetch('/add-click/', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRFToken': '{{ csrf_token }}'
-            },
-            body: JSON.stringify({
-                image_id: {{ selected_image.id }},
-                x: x,
-                y: y
-            })
-        }).then(response => response.json()).then(data => {
-            if (data.success) {
-                const container = document.getElementById('image-container');
-                const dot = document.createElement('div');
-                dot.className = 'click-dot';
-                dot.style.left = `${x}px`;
-                dot.style.top = `${y}px`;
-                dot.setAttribute('data-id', data.click_id);
-                dot.innerHTML = `<span class="dot-number"></span>
-                                <button class="delete-dot-btn">✖</button>`;
-                container.appendChild(dot);
-                renumberDots();
+            function initializeEditorComponents() {
+                // console.log("[HTML initializeEditorComponents] Called."); // For debugging
+                // This function assumes elements like #main-image are present.
+                if (typeof initializePageElements === 'function') {
+                    initializePageElements();
+                } else {
+                    console.error("initializePageElements is not defined. Check functions.js");
+                }
+                if (typeof initializeCoordinateListInteractions === 'function') {
+                    initializeCoordinateListInteractions();
+                } else {
+                    console.error("initializeCoordinateListInteractions is not defined. Check functions.js");
+                }
             }
-        });
 
-        addMode = false; // Disable addMode after placing the point
-        document.getElementById('message-container').style.display = "none";
-    });
-</script>
-    
+            if (selectedImageId) { // If an image is selected, its HTML (including #main-image) should be rendered
+                const mainImageElement = document.getElementById('main-image');
+                if (mainImageElement) {
+                    // console.log("[HTML DOMContentLoaded] main-image found."); // For debugging
+                    if (mainImageElement.complete) {
+                        // console.log("[HTML DOMContentLoaded] main-image already complete. Initializing editor."); // For debugging
+                        initializeEditorComponents();
+                    } else {
+                        // console.log("[HTML DOMContentLoaded] main-image not complete. Adding load listener."); // For debugging
+                        mainImageElement.addEventListener('load', () => {
+                            // console.log("[HTML DOMContentLoaded] main-image LOAD event. Initializing editor."); // For debugging
+                            initializeEditorComponents();
+                        });
+                    }
+                } else {
+                    // This case should ideally not happen if selectedImageId is true,
+                    // as it implies the editor block in HTML wasn't rendered.
+                    console.warn("[HTML DOMContentLoaded] selectedImageId is set, but #main-image not found.");
+                }
+            } else { // No image selected, editor part is not rendered
+                // console.log("[HTML DOMContentLoaded] No selectedImageId. Editor components not initialized."); // For debugging
+                const addPointOnImageBtn = document.getElementById('add-point-on-image-btn');
+                const addPointToListBtn = document.getElementById('add-point-on-list-btn');
+                if(addPointOnImageBtn) addPointOnImageBtn.disabled = true;
+                if(addPointToListBtn) addPointToListBtn.disabled = true;
+            }
+            
+            // Event listeners that should be active regardless of initial image selection,
+            // but their internal logic might depend on editor elements existing.
+            
+            const addPointOnImageBtn = document.getElementById('add-point-on-image-btn');
+            const messageContainer = document.getElementById('message-container');
+            if (addPointOnImageBtn) {
+                addPointOnImageBtn.addEventListener('click', () => {
+                    addModeOnClick = !addModeOnClick;
+                    const mainImgElem = document.getElementById('main-image'); // Needs to exist
+                    if (addModeOnClick) {
+                        addPointOnImageBtn.textContent = "Stop Adding on Image";
+                        if(messageContainer) {
+                            messageContainer.innerText = "Click anywhere on the image to place a new point.";
+                            messageContainer.style.display = "block";
+                        }
+                        if(mainImgElem) mainImgElem.style.cursor = 'crosshair';
+                    } else {
+                        addPointOnImageBtn.textContent = "Add Point on Image";
+                        if(messageContainer) messageContainer.style.display = "none";
+                        if(mainImgElem) mainImgElem.style.cursor = 'default';
+                    }
+                });
+            }
+
+            const mainImageEventTarget = document.getElementById('main-image'); // Get target for click
+            if (mainImageEventTarget) {
+                mainImageEventTarget.addEventListener('click', function (e) {
+                    if (!addModeOnClick || !selectedImageId) return;
+                    const rect = e.target.getBoundingClientRect();
+                    const x = parseFloat((e.clientX - rect.left).toFixed(2));
+                    const y = parseFloat((e.clientY - rect.top).toFixed(2));
+                    fetch('/add-click/', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json', 'X-CSRFToken': csrfToken },
+                        body: JSON.stringify({ image_id: selectedImageId, x: x, y: y })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            if (typeof createDotOnImage === 'function' && 
+                                typeof createCoordinateListItem === 'function' &&
+                                typeof renumberDotsAndListItems === 'function') {
+                                createDotOnImage(data.click_id, x, y);
+                                createCoordinateListItem(data.click_id, x, y, false);
+                                renumberDotsAndListItems();
+                            } else {
+                                console.error("One or more functions (createDotOnImage, createCoordinateListItem, renumberDotsAndListItems) are not defined.");
+                            }
+                        } else {
+                            console.error("Failed to add click via image click", data);
+                        }
+                    });
+                });
+            }
+            
+            document.addEventListener("mousemove", (e) => {
+                if (!draggedDot) return;
+                const mainImageForMove = document.getElementById('main-image');
+                if (!mainImageForMove) return; 
+                
+                const imageRect = mainImageForMove.getBoundingClientRect();
+                let newLeft = e.clientX - imageRect.left;
+                let newTop = e.clientY - imageRect.top;
+
+                const boundaryMaxLeft = mainImageForMove.width;
+                const boundaryMinLeft = 0;
+                const boundaryMaxTop = mainImageForMove.height;
+                const boundaryMinTop = 0;
+                
+                // Keep entire dot within image boundaries
+                newLeft = Math.max(boundaryMinLeft, Math.min(newLeft, boundaryMaxLeft));
+                newTop = Math.max(boundaryMinTop, Math.min(newTop, boundaryMaxTop));   
+
+                draggedDot.style.left = newLeft + "px";
+                draggedDot.style.top = newTop + "px";
+
+                if (typeof redrawLines === 'function') {
+                    redrawLines();
+                } else {
+                    console.error("redrawLines is not defined.");
+                }
+
+                const clickId = draggedDot.dataset.id;
+                const listItem = document.querySelector(`#coordinates-list .coordinate-item[data-click-id="${clickId}"]`);
+                if (listItem) {
+                    listItem.querySelector('.coord-x-input').value = parseFloat(newLeft).toFixed(2);
+                    listItem.querySelector('.coord-y-input').value = parseFloat(newTop).toFixed(2);
+                }
+            });
+
+        }); // End of DOMContentLoaded
+    </script>
+{% endblock extra_js %}

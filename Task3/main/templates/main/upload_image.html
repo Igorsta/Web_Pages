@@ -1,10 +1,13 @@
-<!-- main/templates/main/upload_image.html -->
-<h2>Upload a new image</h2>
+{% extends "main/base.html" %}
+{% load static %}
 
-<form method="POST" enctype="multipart/form-data">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Upload</button>
-</form>
+{% block title %}Upload Path{% endblock title %}
 
-<a href="{% url 'home' %}">Back to homepage</a>
+{% block content %}
+    <h2>Upload a new path</h2>
+    <form method="POST" enctype="multipart/form-data" action="{% url 'upload_image' %}">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Upload</button>
+    </form>
+{% endblock content %}

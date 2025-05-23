@@ -1,0 +1,39 @@
+{% extends "game_board/base.html" %}
+
+{% block title %}My Boards{% endblock %}
+
+{% block content %}
+<h1>My Game Boards</h1>
+<a href="{% url 'game_board:board_create' %}" class="button">Create New Board</a>
+<hr>
+{% if boards %}
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Dimensions</th>
+                <th>Dots</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for board in boards %}
+            <tr>
+                <td>{{ board.name }}</td>
+                <td>{{ board.rows }}x{{ board.cols }}</td>
+                <td>{{ board.dots_config|length }}</td>
+                <td>
+                    <a href="{% url 'game_board:board_edit' board.id %}" class="button">Edit</a>
+                    <form action="{% url 'game_board:board_delete' board.id %}" method="post" style="display: inline;" onsubmit="return confirm('Are you sure you want to delete this board?');">
+                        {% csrf_token %}
+                        <button type="submit" class="button button-danger">Delete</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <p>You haven't created any boards yet. <a href="{% url 'game_board:board_create' %}">Create one now!</a></p>
+{% endif %}
+{% endblock %}

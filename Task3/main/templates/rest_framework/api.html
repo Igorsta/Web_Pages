@@ -1,0 +1,19 @@
+{% extends "rest_framework/base.html" %}  {# extend DRF’s base layout #}
+{% load i18n %}                            {# for translating strings #}
+
+{# Optionally override the Bootstrap theme – you can point this to your own CSS if you like #}
+{% block bootstrap_theme %}
+  <link
+    rel="stylesheet"
+    href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
+    integrity="sha384-7nHVqZgEfT1Z2YKzy+YBmfmhgcKs4JXQgnauVpD6vSBOVTY7TsIseQ3C6E+
+    Ai5oX" crossorigin="anonymous"
+  >
+{% endblock %}
+
+{# You can override other blocks here (e.g. navbar, branding) if you need to customize the header #}
+
+{# Finally, render the standard browsable API content #}
+{% block content %}
+  {{ block.super }}
+{% endblock %}
