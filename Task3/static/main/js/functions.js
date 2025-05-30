@@ -202,12 +202,30 @@ function attachEventListenersToListItem(listItem, isNewInitially = false) {
             if (currentClickId && !isStillNew) { // Użyj flagi isStillNew
                 const dot = document.querySelector(`.click-dot[data-id="${currentClickId}"]`);
                 if (dot) {
-                    const newXFromInput = parseFloat(listItem.querySelector('.coord-x-input').value);
-                    const newYFromInput = parseFloat(listItem.querySelector('.coord-y-input').value);
+                    let newXFromInput = parseFloat(inputX.value); // Use inputX from outer scope
+                    let newYFromInput = parseFloat(inputY.value);
+                    const mainImageForMove = document.getElementById('main-image');
+                    if (!mainImageForMove) return; 
+                    
+                    const imageRect = mainImageForMove.getBoundingClientRect();
+
+                    const boundaryMaxLeft = mainImageForMove.width;
+                    const boundaryMinLeft = 0;
+                    const boundaryMaxTop = mainImageForMove.height;
+                    const boundaryMinTop = 0;
+                    
+                    // Keep entire dot within image boundaries
+                    newXFromInput = Math.max(boundaryMinLeft, Math.min(newXFromInput, boundaryMaxLeft));
+                    newYFromInput = Math.max(boundaryMinTop, Math.min(newYFromInput, boundaryMaxTop));   
+
+                    newXFromInput = Math.max(0, newXFromInput);
+                    newYFromInput = Math.max(0, newYFromInput)
 
                     if (!isNaN(newXFromInput) && !isNaN(newYFromInput)) {
                         dot.style.left = newXFromInput + 'px';
                         dot.style.top = newYFromInput + 'px';
+                        inputX.value = newXFromInput;
+                        inputY.value = newYFromInput;
                         redrawLines(); // Przesuń linie łączące punkty
                     }
                 }

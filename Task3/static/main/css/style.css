@@ -135,18 +135,31 @@ form select, form button, #add-point-on-image-btn, #add-point-on-list-btn {
 
 #image-container {
     position: relative;
-    display: inline-flex; /* Zmienione z inline-block dla lepszego centrowania jeśli potrzebne */
-    justify-content: center; /* Wycentruj obraz w poziomie */
-    align-items: center;   /* Wycentruj obraz w pionie */
-    width: 400px;  /* Ustaw szerokość kontenera na 300px */
-    height: 400px; /* Ustaw wysokość kontenera na 300px */
+    display: inline-block; /* Or 'block' if you want it to take full available width before shrinking */
     border: 1px solid #ddd;
     margin-top: 10px;
     margin-bottom: 10px;
+    /* REMOVE fixed width and height from here */
+    /* width: 400px; */
+    /* height: 400px; */
+    /* Add this to make the container shrink-to-fit the image */
+    line-height: 0; /* Fixes potential extra space below inline-block images */
 }
 
 #main-image {
-    display: block;
-    max-width: 100%;
-    max-height: 100%;
+    display: block; /* Or inline-block */
+    max-width: 400px;   /* Image will not exceed 400px width */
+    max-height: 400px;  /* Image will not exceed 400px height */      /* Allow height to adjust based on width and aspect ratio */
+    width: auto;
+    height: auto;
+    /* These (width: auto; height: auto;) are often default for <img> but good to be explicit */
+}
+
+#image-container #connection-lines { /* Be more specific if #connection-lines is used elsewhere */
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
 }

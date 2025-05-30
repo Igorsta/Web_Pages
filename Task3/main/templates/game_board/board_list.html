@@ -1,0 +1,39 @@
+{% extends "main/base.html" %}
+{% load static %} {# Good practice to include if you might add static files to this template later #}
+
+{% block title %}My Connect-Dots Boards{% endblock %}
+
+{% block head_extra %}
+ 
+{% endblock %}
+
+{% block content %}
+    <h2>My Connect-Dots Boards</h2>
+    <a href="{% url 'game_board:board_create' %}">Create New Board</a>
+    <hr style="margin-bottom: 20px;">
+
+    {% if boards %}
+        <ul class="board-list">
+            {% for board in boards %}
+            <li class="board-item">
+                <h3>{{ board.name }}</h3>
+                <p>Dimensions: {{ board.rows }} rows × {{ board.cols }} columns</p>
+                <p>Dot Pairs: ({{ board.dots_config|length }} dots total)</p>
+                {# You could add a small visual preview of the board here if desired #}
+                <a href="{% url 'game_board:board_edit' board.id %}">View</a>
+                <form action="{% url 'game_board:board_delete' board.id %}" method="post" style="display: inline;" onsubmit="return confirm('Are you sure you want to delete the board \'{{ board.name|escapejs }}\'?');">
+                    {% csrf_token %}
+                    <button type="submit">Delete</button>
+                </form>
+            </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p class="no-boards-message">You haven't created any Connect-Dots boards yet. <a href="{% url 'game_board:board_create' %}">Create one now!</a></p>
+    {% endif %}
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'main/ts/dist/grid.js' %}"></script>
+{% endblock %}
+

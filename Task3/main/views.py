@@ -16,55 +16,160 @@ from .models import ImageClick, UserImage, CommonImage # Make sure UserImage is 
 from .permissions import IsOwner
 import json
 import io
-
+from django.views.decorators.http import require_POST
+from .models import GameBoard
 from PIL import Image as PILImage, ImageDraw, ImageFont # Dodaj ImageFont, jeśli chcesz numery
-
+from django.core.exceptions import ValidationError
 from .forms import DefineGridForm
+from django.core.files.base import ContentFile
+import base64
+import re
 
 @login_required
-def define_grid(request):
-    if request.method == 'POST':
-        form = DefineGridForm(request.POST)
-        if form.is_valid():
-            name = form.cleaned_data['name']
-            cols = form.cleaned_data['columns']
-            rows = form.cleaned_data['rows']
+@require_POST # Ensure this view only accepts POST requests
+def save_grid_as_image_view(request):
+    try:
+        data = json.loads(request.body.decode('utf-8'))
+    except json.JSONDecodeError:
+        return JsonResponse({'status': 'error', 'message': 'Invalid JSON.'}, status=400)
 
-            cell_size = 50  # pixels per cell
-            line_thickness = 1
-            img_width = cols * cell_size + line_thickness
-            img_height = rows * cell_size + line_thickness
-            background_color = (255, 255, 255) # White
-            line_color = (0, 0, 0) # Black
+    image_data_url = data.get('image_data_url')
+    image_name = data.get('name', 'Generated Grid Image')
+    filename = data.get('filename', 'grid_image.png')
 
-            pil_img = PILImage.new('RGB', (img_width, img_height), background_color)
-            draw = ImageDraw.Draw(pil_img)
+    if not image_data_url:
+        return JsonResponse({'status': 'error', 'message': 'Missing image data URL.'}, status=400)
 
-            for i in range(cols + 1):
-                x = i * cell_size
-                draw.line([(x, 0), (x, img_height)], fill=line_color, width=line_thickness)
-            
-            for i in range(rows + 1):
-                y = i * cell_size
-                draw.line([(0, y), (img_width, y)], fill=line_color, width=line_thickness)
+    try:
+        # Decode the base64 data URL
+        # format: data:[<mime_type>][;base64],<data>
+        header, encoded_data = image_data_url.split(',', 1)
+        # mime_type = header.split(';')[0].split(':')[1] # e.g. image/png
 
-            img_io = io.BytesIO()
-            pil_img.save(img_io, format='PNG')
-            img_io.seek(0) # Reset buffer pointer
+        # Basic validation for filename (you might want more robust sanitization)
+        safe_filename = re.sub(r'[^\w\.\-]', '_', filename)
 
-            image_file = ContentFile(img_io.read(), name=f"{name.replace(' ', '_')}_grid.png")
-            
-            if UserImage.objects.filter(user=request.user, name=name).exists():
-                form.add_error('name', 'You already have an image with this name. Please choose a different name.')
-            else:
-                user_image_instance = UserImage(user=request.user, name=name)
-                user_image_instance.image.save(image_file.name, image_file, save=True)
-                
-                return redirect(f"{settings.LOGIN_REDIRECT_URL}?selected={user_image_instance.name}")
-    else:
-        form = DefineGridForm()
-    
-    return render(request, 'main/define_grid.html', {'form': form})
+        image_data_binary = base64.b64decode(encoded_data)
+        image_content_file = ContentFile(image_data_binary, name=safe_filename)
+
+        # Create a UserImage instance (or your equivalent model for path editing backgrounds)
+        # Ensure unique name if your UserImage.name must be unique
+        unique_image_name = image_name
+        counter = 1
+        while UserImage.objects.filter(user=request.user, name=unique_image_name).exists():
+            unique_image_name = f"{image_name}_{counter}"
+            counter += 1
+        
+        user_image = UserImage(user=request.user, name=unique_image_name)
+        user_image.image.save(safe_filename, image_content_file, save=True) # save=True will commit to DB
+
+        return JsonResponse({
+            'status': 'success',
+            'message': 'Grid image saved successfully.',
+            'image_id': user_image.id,
+            'image_name': user_image.name,
+            'image_url': user_image.image.url
+        })
+
+    except (TypeError, ValueError) as e: # Catch base64 decoding errors
+        return JsonResponse({'status': 'error', 'message': f'Invalid image data format: {str(e)}'}, status=400)
+    except Exception as e:
+        # Log the exception e
+        return JsonResponse({'status': 'error', 'message': f'An unexpected error occurred: {str(e)}'}, status=500)
+
+@login_required
+def board_list_view(request):
+    boards = GameBoard.objects.filter(user=request.user).order_by('-id')
+    return render(request, 'game_board/board_list.html', {'boards': boards})
+
+@login_required
+def board_editor_view(request, board_id=None):
+    board_instance = None
+    initial_board_data_json = "null" # Default for new board
+
+    if board_id:
+        board_instance = get_object_or_404(GameBoard, pk=board_id, user=request.user)
+        initial_board_data = {
+            "id": board_instance.id,
+            "name": board_instance.name,
+            "rows": board_instance.rows,
+            "cols": board_instance.cols,
+            "dots_config": board_instance.dots_config
+        }
+        initial_board_data_json = json.dumps(initial_board_data)
+
+
+    # This view primarily serves the HTML structure.
+    # The actual board creation/editing logic happens via API calls from TypeScript.
+    # However, you might pre-populate some form fields if editing.
+    context = {
+        'board_instance': board_instance,
+        'initial_board_data_json': initial_board_data_json,
+    }
+    return render(request, 'game_board/board_editor.html', context)
+
+
+@login_required
+@require_POST # Ensures this view only accepts POST requests
+def save_board_api_view(request):
+    try:
+        data = json.loads(request.body.decode('utf-8'))
+    except json.JSONDecodeError:
+        return JsonResponse({'status': 'error', 'message': 'Invalid JSON'}, status=400)
+
+    board_id = data.get('id')
+    name = data.get('name', 'Untitled Board')
+    rows = data.get('rows')
+    cols = data.get('cols')
+    dots_config = data.get('dots_config', [])
+
+    if not all([name, isinstance(rows, int), isinstance(cols, int), isinstance(dots_config, list)]):
+        return JsonResponse({'status': 'error', 'message': 'Missing or invalid data fields.'}, status=400)
+
+    try:
+        if board_id:
+            # Update existing board
+            board = get_object_or_404(GameBoard, pk=board_id, user=request.user)
+            board.name = name
+            board.rows = rows
+            board.cols = cols
+            board.dots_config = dots_config
+            board.save() # This will call full_clean()
+            return JsonResponse({'status': 'success', 'message': 'Board updated successfully.', 'board_id': board.id})
+        else:
+            # Create new board
+            board = GameBoard(user=request.user, name=name, rows=rows, cols=cols, dots_config=dots_config)
+            board.save() # This will call full_clean()
+            return JsonResponse({'status': 'success', 'message': 'Board created successfully.', 'board_id': board.id}, status=201)
+    except ValidationError as e:
+        return JsonResponse({'status': 'error', 'message': 'Validation Error', 'errors': e.message_dict}, status=400)
+    except Exception as e:
+        # Log the exception e
+        return JsonResponse({'status': 'error', 'message': f'An unexpected error occurred: {str(e)}'}, status=500)
+
+
+@login_required
+def get_board_data_api_view(request, board_id):
+    board = get_object_or_404(GameBoard, pk=board_id, user=request.user)
+    data = {
+        "id": board.id,
+        "name": board.name,
+        "rows": board.rows,
+        "cols": board.cols,
+        "dots_config": board.dots_config
+    }
+    return JsonResponse(data)
+
+
+@login_required
+@require_POST # Use POST for destructive actions
+def board_delete_view(request, board_id):
+    board = get_object_or_404(GameBoard, pk=board_id, user=request.user)
+    board.delete()
+    # If called via AJAX, return JSON. If via form, redirect.
+    if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+        return JsonResponse({'status': 'success', 'message': 'Board deleted successfully.'})
+    return redirect('game_board:board_list')
 
 class UserImageViewSet(viewsets.ModelViewSet):
     queryset = UserImage.objects.all()  # Add this back

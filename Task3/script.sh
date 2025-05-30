@@ -1,8 +1,10 @@
-# Create a file to hold everything
-output="project_dump.txt"
-> "$output"  # Clear or create the file
+#!/bin/bash
 
-# Save project structure
+# Create or clear the output file
+output="project_dump.txt"
+> "$output"
+
+# Save project structure (excluding common folders)
 echo "===== PROJECT STRUCTURE =====" >> "$output"
 tree -I '__pycache__|migrations|env|venv|*.pyc|media|static' >> "$output"
 
@@ -35,6 +37,24 @@ for f in main/templates/main/*.html; do
     cat "$f" >> "$output"
 done
 
-# Optional: Add urls from templates
+# Save TypeScript files
+find static -type f -name '*.ts' | while read -r f; do
+    echo -e "\n\n===== TypeScript: $(basename "$f") =====" >> "$output"
+    cat "$f" >> "$output"
+done
+
+# Save CSS files
+find static -type f -name '*.css' | while read -r f; do
+    echo -e "\n\n===== CSS: $(basename "$f") =====" >> "$output"
+    cat "$f" >> "$output"
+done
+
+# Save JavaScript files
+find static -type f -name '*.js' | while read -r f; do
+    echo -e "\n\n===== JavaScript: $(basename "$f") =====" >> "$output"
+    cat "$f" >> "$output"
+done
+
+# Optional: Add base.html if exists
 echo -e "\n\n===== base.html (if exists) =====" >> "$output"
 [ -f main/templates/base.html ] && cat main/templates/base.html >> "$output"

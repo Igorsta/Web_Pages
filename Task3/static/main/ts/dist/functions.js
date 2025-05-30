@@ -24,10 +24,10 @@ function renumberDotsAndListItems() {
     redrawLines();
 }
 function redrawLines() {
-    const svg = document.getElementById('connection-lines'); // Lub SVGSVGElement
+    const svg = document.getElementById('connection-lines');
     if (!svg)
         return;
-    svg.innerHTML = ''; // Wyczyść poprzednie linie
+    svg.innerHTML = '';
     const dots = Array.from(document.querySelectorAll('.click-dot'));
     if (dots.length < 2)
         return;
@@ -35,7 +35,6 @@ function redrawLines() {
         const dot1 = dots[i];
         const dot2 = dots[i + 1];
         const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-        // Pobieranie stylu left/top i parsowanie na liczbę
         const x1 = parseFloat(dot1.style.left || '0');
         const y1 = parseFloat(dot1.style.top || '0');
         const x2 = parseFloat(dot2.style.left || '0');
@@ -45,7 +44,7 @@ function redrawLines() {
         line.setAttribute('x2', x2.toString());
         line.setAttribute('y2', y2.toString());
         line.setAttribute('stroke-width', '2');
-        line.setAttribute('stroke', '#ff0000'); // Możesz zmienić kolor linii
+        line.setAttribute('stroke', '#ff0000');
         svg.appendChild(line);
     }
 }
@@ -56,7 +55,7 @@ function createCoordinateListItem(clickId, x, y, isNew = false) {
         listItem.setAttribute('data-click-id', clickId.toString());
     }
     const pointNumberSpan = document.createElement('span');
-    pointNumberSpan.classList.add('point-display-number'); // Numer zostanie ustawiony przez renumberDotsAndListItems
+    pointNumberSpan.classList.add('point-display-number');
     const inputX = document.createElement('input');
     inputX.type = 'number';
     inputX.classList.add('coord-x-input');
@@ -116,20 +115,18 @@ function attachEventListenersToListItem(listItem, isNewInitially = false) {
             alert('Please enter valid numbers for X and Y.');
             return;
         }
-        // Zakładamy, że item_id to selectedImageId dla UserImage
-        // Jeśli masz też GridImage, musisz przekazać odpowiedni item_id i item_type
         const requestBody = {
-            item_id: selectedImageId, // TODO: Dostosuj, jeśli masz różne typy itemów
-            item_type: 'user_image', // TODO: Dostosuj
+            item_id: selectedImageId,
+            item_type: 'user_image',
             x: newX,
             y: newY,
-            id: currentClickId // Dla update
+            id: currentClickId
         };
-        if (isStillNew || currentClickId === null) { // Zapis nowego punktu
+        if (isStillNew || currentClickId === null) {
             fetch('/add-click/', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json', 'X-CSRFToken': csrfToken },
-                body: JSON.stringify({ image_id: requestBody.item_id, x: newX, y: newY }) // Starsza wersja API
+                body: JSON.stringify({ image_id: requestBody.item_id, x: newX, y: newY })
             })
                 .then(response => response.json())
                 .then(data => {
@@ -140,7 +137,7 @@ function attachEventListenersToListItem(listItem, isNewInitially = false) {
                         updateBtn.classList.remove('save-new-coord-btn');
                     }
                     isStillNew = false;
-                    createDotOnImage(data.click_id, newX, newY); // Zakładając, że to UserImage
+                    createDotOnImage(data.click_id, newX, newY);
                     renumberDotsAndListItems();
                 }
                 else {
@@ -148,7 +145,7 @@ function attachEventListenersToListItem(listItem, isNewInitially = false) {
                 }
             }).catch(error => console.error('Error saving new point:', error));
         }
-        else { // Aktualizacja istniejącego punktu
+        else {
             fetch('/update-click/', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json', 'X-CSRFToken': csrfToken },
@@ -194,9 +191,6 @@ function attachEventListenersToListItem(listItem, isNewInitially = false) {
         const currentClickIdStr = listItem.dataset.clickId;
         if (isStillNew || !currentClickIdStr) {
             listItem.remove();
-            // Jeśli to był tymczasowy punkt, usuń też kropkę z obrazu (jeśli istnieje)
-            // const tempDot = document.querySelector(`.click-dot.temp[data-temp-id="${listItem.dataset.tempId}"]`);
-            // if (tempDot) tempDot.remove();
             renumberDotsAndListItems();
             return;
         }
@@ -242,7 +236,7 @@ function attachEventListenersToListItem(listItem, isNewInitially = false) {
 function initializeCoordinateListInteractions() {
     document.querySelectorAll('#coordinates-list .coordinate-item').forEach(item => {
         const clickId = item.dataset.clickId;
-        if (clickId) { // Sprawdź, czy clickId istnieje i nie jest pusty
+        if (clickId) {
             attachEventListenersToListItem(item, false);
         }
     });
@@ -250,41 +244,32 @@ function initializeCoordinateListInteractions() {
     if (addPointToListBtn) {
         addPointToListBtn.addEventListener('click', () => {
             const mainImage = document.getElementById('main-image');
-            // Użyj domyślnych wartości, jeśli obraz nie istnieje lub nie ma wymiarów
             const defaultX = mainImage ? mainImage.width / 2 : 50;
             const defaultY = mainImage ? mainImage.height / 2 : 50;
             createCoordinateListItem(null, defaultX, defaultY, true);
-            renumberDotsAndListItems(); // Upewnij się, że renumeracja jest wywoływana
+            renumberDotsAndListItems();
         });
     }
 }
 function initializeDot(dot) {
     const image = document.getElementById("main-image");
-    // Usunięto `if (!image) return;` aby pozwolić na inicjalizację kropek nawet bez obrazu (np. tymczasowych)
-    // ale niektóre funkcje wewnątrz mogą potrzebować `image`
     dot.addEventListener("mousedown", (e) => {
         if (e.button !== 0)
-            return; // Tylko lewy przycisk myszy
-        // Nie przeciągaj, jeśli to tymczasowa kropka (lub dodaj logikę do tego)
-        // if (dot.classList.contains('temp-dot')) return; 
-        draggedDot = dot; // Ustaw aktualnie przeciąganą kropkę (zmienna globalna)
-        // offsetX, offsetY nie są używane w tym fragmencie, więc można je pominąć, jeśli nie są potrzebne globalnie
-        e.preventDefault(); // Zapobiegaj domyślnemu zachowaniu (np. zaznaczanie tekstu)
+            return;
+        draggedDot = dot;
+        e.preventDefault();
         document.addEventListener('mouseup', handleDocumentMouseUp, { once: true });
     });
     const deleteBtn = dot.querySelector('.delete-dot-btn');
     if (deleteBtn) {
         deleteBtn.addEventListener('click', function (e) {
-            e.stopPropagation(); // Zapobiegaj propagacji kliknięcia (np. na obrazek)
+            e.stopPropagation();
             const clickIdStr = dot.dataset.id;
             if (!clickIdStr) {
                 console.warn("Dot has no data-id for deletion:", dot);
-                // Jeśli to tymczasowa kropka bez ID, usuń ją bezpośrednio z DOM
-                // if (dot.classList.contains('some-temp-class')) { dot.remove(); renumberDotsAndListItems(); }
                 return;
             }
             const clickId = parseInt(clickIdStr, 10);
-            // Usunięto confirm() zgodnie z wcześniejszym życzeniem
             fetch('/delete-click/', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json', 'X-CSRFToken': csrfToken },
@@ -346,7 +331,6 @@ function handleDocumentMouseUp() {
         .then(response => {
         if (!response.ok) {
             console.error('Position save failed after drag for dot ID:', clickId, response.statusText);
-            // Możesz chcieć przywrócić kropkę na poprzednią pozycję lub dać znać użytkownikowi
         }
         return response.json();
     })
@@ -356,13 +340,12 @@ function handleDocumentMouseUp() {
         }
     })
         .catch(error => console.error('Error updating position after drag:', error));
-    draggedDot = null; // Zakończ przeciąganie
+    draggedDot = null;
 }
 function createDotOnImage(clickId, x, y) {
     const container = document.getElementById('image-container');
     if (!container) {
         console.error("Element with ID 'image-container' not found.");
-        // Rzuć błąd lub zwróć pusty element, aby uniknąć dalszych problemów
         throw new Error("Image container not found, cannot create dot.");
     }
     const dot = document.createElement('div');
@@ -373,7 +356,7 @@ function createDotOnImage(clickId, x, y) {
     dot.innerHTML = `<span class="dot-number"></span>
                     <button class="delete-dot-btn" title="Delete this point">✖</button>`;
     container.appendChild(dot);
-    initializeDot(dot); // Zainicjuj nowo utworzoną kropkę
+    initializeDot(dot);
     return dot;
 }
 //# sourceMappingURL=functions.js.map

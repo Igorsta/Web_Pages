@@ -1,5 +1,8 @@
 ===== PROJECT STRUCTURE =====
 .
+├── backup
+│   ├── functions.js
+│   └── home.html
 ├── db.sqlite3
 ├── login_required_project
 │   ├── __init__.py
@@ -8,29 +11,190 @@
 │   └── wsgi.py
 ├── main
 │   ├── __init__.py
+│   ├── admin.py
 │   ├── apps.py
 │   ├── forms.py
 │   ├── models.py
 │   ├── permissions.py
 │   ├── serializers.py
 │   ├── templates
+│   │   ├── game_board
+│   │   │   ├── base.html
+│   │   │   ├── board_editor.html
+│   │   │   └── board_list.html
 │   │   ├── main
 │   │   │   ├── base.html
+│   │   │   ├── define_grid.html
 │   │   │   ├── home.html
 │   │   │   ├── login.html
 │   │   │   ├── register.html
+│   │   │   ├── upload_common_image.html
 │   │   │   ├── upload_image.html
 │   │   │   └── user_panel.html
+│   │   ├── registration
+│   │   │   ├── login.html
+│   │   │   └── register.html
 │   │   └── rest_framework
 │   │       └── api.html
 │   ├── tests.py
 │   ├── urls.py
+│   ├── urls_board.py
 │   └── views.py
 ├── manage.py
+├── node_modules
+│   └── typescript
+│       ├── LICENSE.txt
+│       ├── README.md
+│       ├── SECURITY.md
+│       ├── ThirdPartyNoticeText.txt
+│       ├── bin
+│       │   ├── tsc
+│       │   └── tsserver
+│       ├── lib
+│       │   ├── _tsc.js
+│       │   ├── _tsserver.js
+│       │   ├── _typingsInstaller.js
+│       │   ├── cs
+│       │   │   └── diagnosticMessages.generated.json
+│       │   ├── de
+│       │   │   └── diagnosticMessages.generated.json
+│       │   ├── es
+│       │   │   └── diagnosticMessages.generated.json
+│       │   ├── fr
+│       │   │   └── diagnosticMessages.generated.json
+│       │   ├── it
+│       │   │   └── diagnosticMessages.generated.json
+│       │   ├── ja
+│       │   │   └── diagnosticMessages.generated.json
+│       │   ├── ko
+│       │   │   └── diagnosticMessages.generated.json
+│       │   ├── lib.d.ts
+│       │   ├── lib.decorators.d.ts
+│       │   ├── lib.decorators.legacy.d.ts
+│       │   ├── lib.dom.asynciterable.d.ts
+│       │   ├── lib.dom.d.ts
+│       │   ├── lib.dom.iterable.d.ts
+│       │   ├── lib.es2015.collection.d.ts
+│       │   ├── lib.es2015.core.d.ts
+│       │   ├── lib.es2015.d.ts
+│       │   ├── lib.es2015.generator.d.ts
+│       │   ├── lib.es2015.iterable.d.ts
+│       │   ├── lib.es2015.promise.d.ts
+│       │   ├── lib.es2015.proxy.d.ts
+│       │   ├── lib.es2015.reflect.d.ts
+│       │   ├── lib.es2015.symbol.d.ts
+│       │   ├── lib.es2015.symbol.wellknown.d.ts
+│       │   ├── lib.es2016.array.include.d.ts
+│       │   ├── lib.es2016.d.ts
+│       │   ├── lib.es2016.full.d.ts
+│       │   ├── lib.es2016.intl.d.ts
+│       │   ├── lib.es2017.arraybuffer.d.ts
+│       │   ├── lib.es2017.d.ts
+│       │   ├── lib.es2017.date.d.ts
+│       │   ├── lib.es2017.full.d.ts
+│       │   ├── lib.es2017.intl.d.ts
+│       │   ├── lib.es2017.object.d.ts
+│       │   ├── lib.es2017.sharedmemory.d.ts
+│       │   ├── lib.es2017.string.d.ts
+│       │   ├── lib.es2017.typedarrays.d.ts
+│       │   ├── lib.es2018.asyncgenerator.d.ts
+│       │   ├── lib.es2018.asynciterable.d.ts
+│       │   ├── lib.es2018.d.ts
+│       │   ├── lib.es2018.full.d.ts
+│       │   ├── lib.es2018.intl.d.ts
+│       │   ├── lib.es2018.promise.d.ts
+│       │   ├── lib.es2018.regexp.d.ts
+│       │   ├── lib.es2019.array.d.ts
+│       │   ├── lib.es2019.d.ts
+│       │   ├── lib.es2019.full.d.ts
+│       │   ├── lib.es2019.intl.d.ts
+│       │   ├── lib.es2019.object.d.ts
+│       │   ├── lib.es2019.string.d.ts
+│       │   ├── lib.es2019.symbol.d.ts
+│       │   ├── lib.es2020.bigint.d.ts
+│       │   ├── lib.es2020.d.ts
+│       │   ├── lib.es2020.date.d.ts
+│       │   ├── lib.es2020.full.d.ts
+│       │   ├── lib.es2020.intl.d.ts
+│       │   ├── lib.es2020.number.d.ts
+│       │   ├── lib.es2020.promise.d.ts
+│       │   ├── lib.es2020.sharedmemory.d.ts
+│       │   ├── lib.es2020.string.d.ts
+│       │   ├── lib.es2020.symbol.wellknown.d.ts
+│       │   ├── lib.es2021.d.ts
+│       │   ├── lib.es2021.full.d.ts
+│       │   ├── lib.es2021.intl.d.ts
+│       │   ├── lib.es2021.promise.d.ts
+│       │   ├── lib.es2021.string.d.ts
+│       │   ├── lib.es2021.weakref.d.ts
+│       │   ├── lib.es2022.array.d.ts
+│       │   ├── lib.es2022.d.ts
+│       │   ├── lib.es2022.error.d.ts
+│       │   ├── lib.es2022.full.d.ts
+│       │   ├── lib.es2022.intl.d.ts
+│       │   ├── lib.es2022.object.d.ts
+│       │   ├── lib.es2022.regexp.d.ts
+│       │   ├── lib.es2022.string.d.ts
+│       │   ├── lib.es2023.array.d.ts
+│       │   ├── lib.es2023.collection.d.ts
+│       │   ├── lib.es2023.d.ts
+│       │   ├── lib.es2023.full.d.ts
+│       │   ├── lib.es2023.intl.d.ts
+│       │   ├── lib.es2024.arraybuffer.d.ts
+│       │   ├── lib.es2024.collection.d.ts
+│       │   ├── lib.es2024.d.ts
+│       │   ├── lib.es2024.full.d.ts
+│       │   ├── lib.es2024.object.d.ts
+│       │   ├── lib.es2024.promise.d.ts
+│       │   ├── lib.es2024.regexp.d.ts
+│       │   ├── lib.es2024.sharedmemory.d.ts
+│       │   ├── lib.es2024.string.d.ts
+│       │   ├── lib.es5.d.ts
+│       │   ├── lib.es6.d.ts
+│       │   ├── lib.esnext.array.d.ts
+│       │   ├── lib.esnext.collection.d.ts
+│       │   ├── lib.esnext.d.ts
+│       │   ├── lib.esnext.decorators.d.ts
+│       │   ├── lib.esnext.disposable.d.ts
+│       │   ├── lib.esnext.float16.d.ts
+│       │   ├── lib.esnext.full.d.ts
+│       │   ├── lib.esnext.intl.d.ts
+│       │   ├── lib.esnext.iterator.d.ts
+│       │   ├── lib.esnext.promise.d.ts
+│       │   ├── lib.scripthost.d.ts
+│       │   ├── lib.webworker.asynciterable.d.ts
+│       │   ├── lib.webworker.d.ts
+│       │   ├── lib.webworker.importscripts.d.ts
+│       │   ├── lib.webworker.iterable.d.ts
+│       │   ├── pl
+│       │   │   └── diagnosticMessages.generated.json
+│       │   ├── pt-br
+│       │   │   └── diagnosticMessages.generated.json
+│       │   ├── ru
+│       │   │   └── diagnosticMessages.generated.json
+│       │   ├── tr
+│       │   │   └── diagnosticMessages.generated.json
+│       │   ├── tsc.js
+│       │   ├── tsserver.js
+│       │   ├── tsserverlibrary.d.ts
+│       │   ├── tsserverlibrary.js
+│       │   ├── typesMap.json
+│       │   ├── typescript.d.ts
+│       │   ├── typescript.js
+│       │   ├── typingsInstaller.js
+│       │   ├── watchGuard.js
+│       │   ├── zh-cn
+│       │   │   └── diagnosticMessages.generated.json
+│       │   └── zh-tw
+│       │       └── diagnosticMessages.generated.json
+│       └── package.json
+├── package-lock.json
+├── package.json
 ├── project_dump.txt
-└── script.sh
+├── script.sh
+└── tsconfig.json
 
-5 directories, 24 files
+25 directories, 168 files
 
 
 ===== settings.py =====
@@ -134,6 +298,7 @@ from django.contrib.auth import views as auth_views
 from django.conf import settings
 from django.conf.urls.static import static
 from rest_framework.authtoken import views as authtoken_views 
+from main import views as main_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -143,21 +308,27 @@ urlpatterns = [
     path('api/', include('main.urls')),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     path('api-token-auth/', authtoken_views.obtain_auth_token, name='api_token_auth'),
+    path('board/', include('main.urls_board')),
+    path('api/save_grid_as_image/', main_views.save_grid_as_image_view, name='save_grid_as_image_api'), # NEW
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 ===== app-level urls.py =====
+# main/urls.py
 from django.urls import path, include
-from django.conf import settings
-from django.conf.urls.static import static
-from django.contrib.auth import views as auth_views
+# from django.conf import settings # Not needed here if MEDIA_URL is handled at project level
+# from django.conf.urls.static import static # Not needed here
+# from django.contrib.auth import views as auth_views # Auth views usually at project level
 from rest_framework.routers import DefaultRouter
 from . import views
 
 router = DefaultRouter()
 router.register(r'images', views.UserImageViewSet)
 router.register(r'clicks', views.ImageClickViewSet)
+
+# Keep app_name if you use it for these non-board URLs, or remove if not needed.
+# app_name = 'main' # Example, if you namespace these
 
 urlpatterns = [
     path('', views.home, name='home'),
@@ -170,11 +341,19 @@ urlpatterns = [
     path('upload-image/', views.upload_image, name='upload_image'),
     path('change-password/', views.change_password, name='change_password'),
     path('delete/<int:image_id>/', views.delete_image, name='delete_image'),
-    path('', include(router.urls)),
+    path('use-common-image/<int:common_image_id>/', views.use_common_image, name='use_common_image'),
+    path('upload-common-image/', views.upload_common_image, name='upload_common_image'),
+    # path('define-grid/', views.define_grid, name='define_grid'), # Ensure this view exists if uncommented
+    path('', include(router.urls)), # For your DRF viewsets
+    # REMOVE THE FOLLOWING BOARD URLS FROM HERE:
+    # path('create/', views.board_editor_view, name='board_create'),
+    # path('<int:board_id>/edit/', views.board_editor_view, name='board_edit'),
+    # path('<int:board_id>/delete/', views.board_delete_view, name='board_delete'),
+    # path('api/save_board/', views.save_board_api_view, name='save_board_api'),
+    # path('api/board/<int:board_id>/', views.get_board_data_api_view, name='get_board_data_api'),
 ]
 
-urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-
+# urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) # Usually handled at project level
 
 ===== models.py =====
 from django.db import models
@@ -184,6 +363,7 @@ from django.conf import settings
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from rest_framework.authtoken.models import Token
+from django.core.exceptions import ValidationError
 
 class UserImage(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='images')
@@ -208,10 +388,67 @@ class ImageClick(models.Model):
     def __str__(self):
         return f"Click on {self.image.name} by {self.user} at ({self.x}, {self.y})"
 
+class CommonImage(models.Model):
+    name = models.CharField(max_length=100, unique=True, help_text="Descriptive name for the common image.")
+    image = models.ImageField(upload_to='common_images/%Y/%m/%d/', help_text="The actual image file.")
+    description = models.TextField(blank=True, null=True, help_text="Optional description.")
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        ordering = ['name']
+        verbose_name = "Common Image"
+    
+
 @receiver(post_save, sender=settings.AUTH_USER_MODEL)
 def create_auth_token(sender, instance=None, created=False, **kwargs):
     if created:
         Token.objects.create(user=instance)
+
+class GameBoard(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='game_boards')
+    name = models.CharField(max_length=100, default="Untitled Board")
+    rows = models.PositiveIntegerField()
+    cols = models.PositiveIntegerField()
+    dots_config = models.JSONField(default=list, blank=True)
+
+    def __str__(self):
+        return f"{self.name} ({self.rows}x{self.cols}) by {self.user.username}"
+
+    def clean(self):
+        super().clean()
+        if not (1 < self.rows <= 50): # Example limits
+            raise ValidationError({'rows': 'Rows must be between 2 and 50.'})
+        if not (1 < self.cols <= 50): # Example limits
+            raise ValidationError({'cols': 'Columns must be between 2 and 50.'})
+
+        if self.dots_config:
+            if not isinstance(self.dots_config, list):
+                raise ValidationError({'dots_config': 'Dots configuration must be a list.'})
+
+            dot_colors_count = {}
+            occupied_cells = set()
+
+            for dot in self.dots_config:
+                if not all(k in dot for k in ['row', 'col', 'color']):
+                    raise ValidationError({'dots_config': 'Each dot must have row, col, and color.'})
+                if not (0 <= dot['row'] < self.rows and 0 <= dot['col'] < self.cols):
+                    raise ValidationError({'dots_config': f"Dot at ({dot['row']},{dot['col']}) is out of bounds."})
+
+                cell = (dot['row'], dot['col'])
+                if cell in occupied_cells:
+                    raise ValidationError({'dots_config': f"Cell ({dot['row']},{dot['col']}) is occupied by more than one dot."})
+                occupied_cells.add(cell)
+
+                dot_colors_count[dot['color']] = dot_colors_count.get(dot['color'], 0) + 1
+
+            for color, count in dot_colors_count.items():
+                if count != 2:
+                    raise ValidationError({'dots_config': f"Color {color} must be used for exactly two dots. Found {count}."})
+
+    def save(self, *args, **kwargs):
+        self.full_clean() # Call clean() before saving
+        super().save(*args, **kwargs)
 
 
 ===== views.py =====
@@ -220,15 +457,173 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm, PasswordChangeForm
 from django.contrib.auth import login, logout, update_session_auth_hash
 from django.shortcuts import render, redirect, get_object_or_404
-from .forms import UserImageForm
 from django.http import JsonResponse
-from .models import ImageClick, UserImage # Make sure UserImage is imported
 from django.views.decorators.csrf import csrf_exempt
-import json
+from django.core.files.base import ContentFile
+from django.db import transaction 
+from django.conf import settings
 from rest_framework import viewsets, serializers
 from rest_framework.permissions import IsAuthenticated
 from .serializers import UserImageSerializer, ImageClickSerializer
+from .forms import UserImageForm, CommonImageUploadForm 
+from .models import ImageClick, UserImage, CommonImage # Make sure UserImage is imported
 from .permissions import IsOwner
+import json
+import io
+from django.views.decorators.http import require_POST
+from .models import GameBoard
+from PIL import Image as PILImage, ImageDraw, ImageFont # Dodaj ImageFont, jeśli chcesz numery
+from django.core.exceptions import ValidationError
+from .forms import DefineGridForm
+from django.core.files.base import ContentFile
+import base64
+import re
+
+@login_required
+@require_POST # Ensure this view only accepts POST requests
+def save_grid_as_image_view(request):
+    try:
+        data = json.loads(request.body.decode('utf-8'))
+    except json.JSONDecodeError:
+        return JsonResponse({'status': 'error', 'message': 'Invalid JSON.'}, status=400)
+
+    image_data_url = data.get('image_data_url')
+    image_name = data.get('name', 'Generated Grid Image')
+    filename = data.get('filename', 'grid_image.png')
+
+    if not image_data_url:
+        return JsonResponse({'status': 'error', 'message': 'Missing image data URL.'}, status=400)
+
+    try:
+        # Decode the base64 data URL
+        # format: data:[<mime_type>][;base64],<data>
+        header, encoded_data = image_data_url.split(',', 1)
+        # mime_type = header.split(';')[0].split(':')[1] # e.g. image/png
+
+        # Basic validation for filename (you might want more robust sanitization)
+        safe_filename = re.sub(r'[^\w\.\-]', '_', filename)
+
+        image_data_binary = base64.b64decode(encoded_data)
+        image_content_file = ContentFile(image_data_binary, name=safe_filename)
+
+        # Create a UserImage instance (or your equivalent model for path editing backgrounds)
+        # Ensure unique name if your UserImage.name must be unique
+        unique_image_name = image_name
+        counter = 1
+        while UserImage.objects.filter(user=request.user, name=unique_image_name).exists():
+            unique_image_name = f"{image_name}_{counter}"
+            counter += 1
+        
+        user_image = UserImage(user=request.user, name=unique_image_name)
+        user_image.image.save(safe_filename, image_content_file, save=True) # save=True will commit to DB
+
+        return JsonResponse({
+            'status': 'success',
+            'message': 'Grid image saved successfully.',
+            'image_id': user_image.id,
+            'image_name': user_image.name,
+            'image_url': user_image.image.url
+        })
+
+    except (TypeError, ValueError) as e: # Catch base64 decoding errors
+        return JsonResponse({'status': 'error', 'message': f'Invalid image data format: {str(e)}'}, status=400)
+    except Exception as e:
+        # Log the exception e
+        return JsonResponse({'status': 'error', 'message': f'An unexpected error occurred: {str(e)}'}, status=500)
+
+@login_required
+def board_list_view(request):
+    boards = GameBoard.objects.filter(user=request.user).order_by('-id')
+    return render(request, 'game_board/board_list.html', {'boards': boards})
+
+@login_required
+def board_editor_view(request, board_id=None):
+    board_instance = None
+    initial_board_data_json = "null" # Default for new board
+
+    if board_id:
+        board_instance = get_object_or_404(GameBoard, pk=board_id, user=request.user)
+        initial_board_data = {
+            "id": board_instance.id,
+            "name": board_instance.name,
+            "rows": board_instance.rows,
+            "cols": board_instance.cols,
+            "dots_config": board_instance.dots_config
+        }
+        initial_board_data_json = json.dumps(initial_board_data)
+
+
+    # This view primarily serves the HTML structure.
+    # The actual board creation/editing logic happens via API calls from TypeScript.
+    # However, you might pre-populate some form fields if editing.
+    context = {
+        'board_instance': board_instance,
+        'initial_board_data_json': initial_board_data_json,
+    }
+    return render(request, 'game_board/board_editor.html', context)
+
+
+@login_required
+@require_POST # Ensures this view only accepts POST requests
+def save_board_api_view(request):
+    try:
+        data = json.loads(request.body.decode('utf-8'))
+    except json.JSONDecodeError:
+        return JsonResponse({'status': 'error', 'message': 'Invalid JSON'}, status=400)
+
+    board_id = data.get('id')
+    name = data.get('name', 'Untitled Board')
+    rows = data.get('rows')
+    cols = data.get('cols')
+    dots_config = data.get('dots_config', [])
+
+    if not all([name, isinstance(rows, int), isinstance(cols, int), isinstance(dots_config, list)]):
+        return JsonResponse({'status': 'error', 'message': 'Missing or invalid data fields.'}, status=400)
+
+    try:
+        if board_id:
+            # Update existing board
+            board = get_object_or_404(GameBoard, pk=board_id, user=request.user)
+            board.name = name
+            board.rows = rows
+            board.cols = cols
+            board.dots_config = dots_config
+            board.save() # This will call full_clean()
+            return JsonResponse({'status': 'success', 'message': 'Board updated successfully.', 'board_id': board.id})
+        else:
+            # Create new board
+            board = GameBoard(user=request.user, name=name, rows=rows, cols=cols, dots_config=dots_config)
+            board.save() # This will call full_clean()
+            return JsonResponse({'status': 'success', 'message': 'Board created successfully.', 'board_id': board.id}, status=201)
+    except ValidationError as e:
+        return JsonResponse({'status': 'error', 'message': 'Validation Error', 'errors': e.message_dict}, status=400)
+    except Exception as e:
+        # Log the exception e
+        return JsonResponse({'status': 'error', 'message': f'An unexpected error occurred: {str(e)}'}, status=500)
+
+
+@login_required
+def get_board_data_api_view(request, board_id):
+    board = get_object_or_404(GameBoard, pk=board_id, user=request.user)
+    data = {
+        "id": board.id,
+        "name": board.name,
+        "rows": board.rows,
+        "cols": board.cols,
+        "dots_config": board.dots_config
+    }
+    return JsonResponse(data)
+
+
+@login_required
+@require_POST # Use POST for destructive actions
+def board_delete_view(request, board_id):
+    board = get_object_or_404(GameBoard, pk=board_id, user=request.user)
+    board.delete()
+    # If called via AJAX, return JSON. If via form, redirect.
+    if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+        return JsonResponse({'status': 'success', 'message': 'Board deleted successfully.'})
+    return redirect('game_board:board_list')
 
 class UserImageViewSet(viewsets.ModelViewSet):
     queryset = UserImage.objects.all()  # Add this back
@@ -236,15 +631,11 @@ class UserImageViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated, IsOwner]
 
     def get_queryset(self):
-        """
-        This view should return a list of all the images
-        for the currently authenticated user.
-        """
         user = self.request.user
         if user.is_authenticated:
             return UserImage.objects.filter(user=user)
-        return UserImage.objects.none() # Or handle unauthenticated access as per your app's logic
-
+        return UserImage.objects.none() 
+    
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
 
@@ -254,10 +645,6 @@ class ImageClickViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated, IsOwner]
 
     def get_queryset(self):
-        """
-        This view should return a list of all image clicks
-        for the currently authenticated user.
-        """
         user = self.request.user
         if user.is_authenticated:
             return ImageClick.objects.filter(user=user)
@@ -338,14 +725,42 @@ def record_click(request):
 
     return JsonResponse({'status': 'error'}, status=400)
 
+@login_required
+@transaction.atomic # Ensures that if any part fails, the whole operation is rolled back
+def use_common_image(request, common_image_id):
+    common_image = get_object_or_404(CommonImage, id=common_image_id)
+    
+    new_image_name_base = common_image.name
+    new_image_name = new_image_name_base
+    counter = 1
+    while UserImage.objects.filter(user=request.user, name=new_image_name).exists():
+        new_image_name = f"{new_image_name_base}_{counter}"
+        counter += 1
+
+    user_image = UserImage(
+        user=request.user,
+        name=new_image_name
+    )
+
+    try:
+        with open(common_image.image.path, 'rb') as f:
+            image_content = ContentFile(f.read(), name=common_image.image.name.split('/')[-1]) # Get original filename
+            user_image.image.save(image_content.name, image_content, save=True) # Save the file to UserImage
+        
+        return redirect(f"{settings.LOGIN_REDIRECT_URL}?selected={user_image.name}")
+    except IOError as e:
+        print(f"Error copying common image file: {e}") # Log this properly
+        return redirect('home') # Or wherever appropriate
 
 @login_required
 def home(request):
-    images = UserImage.objects.filter(user=request.user)
+    user_images_list = UserImage.objects.filter(user=request.user) # Ensure this is the variable name
+    common_images_list = CommonImage.objects.all()
     selected = request.GET.get('selected')
-    selected_image = images.filter(name=selected).first() if selected else None
+    selected_image = user_images_list.filter(name=selected).first() if selected else None
     return render(request, 'main/home.html', {
-        'images': images,
+        'user_images': user_images_list,
+        'common_images_list': common_images_list,   
         'selected_image': selected_image,
     })
 
@@ -373,18 +788,22 @@ def upload_image(request):
         form = UserImageForm()
     return render(request, 'main/upload_image.html', {'form': form})
 
-# Removed the first definition of delete_image as there were two.
-# The second one (below) redirects to 'user_panel' and is used by user_panel.html.
+@login_required
+def upload_common_image(request):
+    if request.method == 'POST':
+        form = CommonImageUploadForm(request.POST, request.FILES)
+        if form.is_valid():
+            common_image = form.save(commit=False)
+            common_image.save()
+            return redirect('home') # Or to a page showing common images
+    else:
+        form = CommonImageUploadForm()
+    return render(request, 'main/upload_common_image.html', {'form': form})
 
 @login_required
 def user_panel(request):
     images = UserImage.objects.filter(user=request.user)
-    # This form is for uploading new images from the user panel
     if request.method == 'POST':
-        # This part of the original code seems to handle renaming through the same form
-        # as uploading. It should ideally be a separate mechanism or the form should
-        # take an instance. For now, let's assume user_panel's POST here is for new uploads.
-        # If `image_id` is in POST data, it implies an update.
         image_id_to_update = request.POST.get('image_id_for_rename') # Assuming a distinct field name for clarity
         if image_id_to_update:
             image_instance = get_object_or_404(UserImage, id=image_id_to_update, user=request.user)
@@ -406,13 +825,6 @@ def user_panel(request):
         'images': images,
         'upload_form': form, # Renamed for clarity in template if needed
         'password_form': password_form,
-        # To allow renaming, you'd pass an instance of UserImageForm for each image
-        # or handle it via a separate view/modal. The current user_panel.html implies
-        # a single form is used for renaming any image, which is problematic.
-        # For simplicity, the provided template's rename form posts to user_panel,
-        # so the above logic tries to handle it if image_id is present.
-        # The template uses 'form.as_p' which implies one form for upload/rename.
-        # Let's adjust user_panel.html to make more sense for rename.
     })
 
 @login_required
@@ -426,7 +838,6 @@ def change_password(request):
     else:
         password_form = PasswordChangeForm(user=request.user)
     
-    # If form is invalid, re-render user_panel with errors and other context
     images = UserImage.objects.filter(user=request.user)
     upload_form = UserImageForm() # Or maintain state if it was a multi-purpose page
     return render(request, 'main/user_panel.html', {
@@ -444,13 +855,30 @@ def delete_image(request, image_id):
 
 ===== forms.py =====
 from django import forms
-from .models import UserImage
+from .models import UserImage, CommonImage
 
 class UserImageForm(forms.ModelForm):
     class Meta:
         model = UserImage
         fields = ['name', 'image']
 
+class CommonImageUploadForm(forms.ModelForm): # New form
+    class Meta:
+        model = CommonImage
+        fields = ['name', 'image', 'description']
+        widgets = {
+            'description': forms.Textarea(attrs={'rows': 3}),
+        }
+        help_texts = {
+            'name': 'A unique name for this shared image.',
+            'image': 'Select the image file.',
+            'description': 'Optional: Briefly describe the image.'
+        }
+
+class DefineGridForm(forms.Form): # New form for grid definition
+    name = forms.CharField(max_length=100, label="Grid Name", help_text="Name for this grid image.")
+    columns = forms.IntegerField(min_value=1, max_value=50, initial=5, label="Columns (Vertical Lines)")
+    rows = forms.IntegerField(min_value=1, max_value=50, initial=5, label="Rows (Horizontal Lines)")
 
 ===== Template: base.html =====
 {% load static %}
@@ -459,19 +887,26 @@ class UserImageForm(forms.ModelForm):
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Image Path Editor{% endblock title %}</title>
-    <link rel="stylesheet" href="{% static 'main/css/style.css' %}">
+    <title>{% block title %}Path Editor{% endblock title %}</title>
+    <link rel="stylesheet" href="{% static 'main/css/style.css' %}"> {# Assuming your main CSS is here #}
     {% block extra_css %}{% endblock extra_css %}
+    {% block head_extra %}{% endblock head_extra %}
 </head>
 <body>
     <nav>
         <a href="{% url 'home' %}">Home</a>
         {% if user.is_authenticated %}
-            <a href="{% url 'user_panel' %}">My Panel</a>
-            <a href="{% url 'logout' %}">Logout ({{ user.username }})</a>
+            <a href="{% url 'user_panel' %}">My Panel (Image Paths)</a>
+            <a href="{% url 'upload_image' %}">Upload Personal Path</a>
+            <a href="{% url 'upload_common_image' %}">Upload Common Path</a>
+            <a href="{% url 'game_board:board_list' %}">My Boards</a>
+            <a href="{% url 'game_board:board_create' %}">Create New Board</a>
+            <a href="{% url 'logout' %}" style="float:right;">Logout ({{ user.username }})</a>
         {% else %}
             <a href="{% url 'login' %}">Login</a>
-            <a href="{% url 'register' %}">Register</a>
+            {% if not on_register_page %} {# Assuming you have a context variable 'on_register_page' #}
+                <a href="{% url 'register' %}">Register</a>
+            {% endif %}
         {% endif %}
     </nav>
     <hr>
@@ -479,13 +914,27 @@ class UserImageForm(forms.ModelForm):
         {% block content %}
         {% endblock content %}
     </main>
-    <hr>
-    <footer>
-        <p>© {% now "Y" %} Your Site Name</p>
-    </footer>
     {% block extra_js %}{% endblock extra_js %}
 </body>
 </html>
+
+===== Template: define_grid.html =====
+{% extends "main/base.html" %}
+{% load static %}
+
+{% block title %}Define New Grid Image{% endblock title %}
+
+{% block content %}
+    <h2>Define Your Grid Image</h2>
+    <p>Specify the dimensions for your grid. An image representing this grid will be generated and added to your personal images.</p>
+    <form method="post" action="{% url 'define_grid' %}">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Create Grid Image</button>
+    </form>
+    <br>
+    <a href="{% url 'home' %}">Back to Home</a>
+{% endblock content %}
 
 ===== Template: home.html =====
 {% extends "main/base.html" %}
@@ -494,31 +943,60 @@ class UserImageForm(forms.ModelForm):
 {% block title %}Home - Image Path Editor{% endblock title %}
 
 {% block content %}
-    <h2>Welcome, {{ user.username }}</h2>
+    <h2>Welcome, {{ user.username }}!</h2>
 
-    <form method="get" action="{% url 'home' %}">
-        <label for="image-select">My paths:</label>
-        <select name="selected" id="image-select" onchange="this.form.submit()">
-            <option value="">-- choose an image --</option>
-            {% for img in images %}
-                <option value="{{ img.name }}" {% if selected_image and img.name == selected_image.name %}selected{% endif %}>
-                    {{ img.name }}
-                </option>
-            {% endfor %}
-        </select>
-    </form>
-    <a href="{% url 'upload_image' %}">Upload a new image</a>
+    {# --- IMAGE SELECTION SECTION --- #}
+    {% if not selected_image %}
+        <form method="get" action="{% url 'home' %}">
+            <label for="image-select">Personal paths:</label>
+            <select name="selected" id="image-select" onchange="this.form.submit()">
+                <option value="">-- choose an image --</option>
+                {% for img in user_images %}
+                    <option value="{{ img.name }}">
+                        {{ img.name }} (Yours)
+                    </option>
+                {% endfor %}
+            </select>
+        </form>
+        <a href="{% url 'upload_image' %}">Upload a new personal image</a>
 
-    {% if selected_image %}
+        <hr>
+        <h3>Or Use a Common Image:</h3>
+        {% if common_images_list %}
+            <div class="common-images-grid" style="display: flex; flex-wrap: wrap; gap: 10px;">
+                {% for c_img in common_images_list %}
+                    <div class="common-image-item" style="border: 1px solid #ccc; padding: 5px; text-align: center;">
+                        <p>{{ c_img.name }}</p>
+                        {% if c_img.image %}
+                        <img src="{{ c_img.image.url }}" alt="{{ c_img.name }}" width="100" height="100" style="object-fit: cover;">
+                        <br>
+                        <a href="{% url 'use_common_image' c_img.id %}">Use this image</a>
+                        {% else %}
+                        <p>Image not available</p>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p>No common images available at the moment.</p>
+        {% endif %}
+        <hr>
+
+    {% else %} {# An image IS selected, show the editor #}
+        
+        <p><a href="{% url 'home' %}">Select a different image</a></p> 
+        
         <h3>Selected Path: {{ selected_image.name }}</h3>
+
         <div id="message-container" style="text-align: center; font-size: 16px; color: blue; display: none;"></div>
+        
         <div id="editor-layout">
             <div id="image-option-containter">
                 <button id="add-point-on-image-btn">Add Point on Image</button>
                 <br>
                 <div id="image-container">
                     <svg id="connection-lines" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none;"></svg>
-                    <img src="{{ selected_image.image.url }}" id="main-image" alt="{{ selected_image.name }}" style="max-width: 100%; display: block;" width="400px" height="400px" />
+                    <img src="{{ selected_image.image.url }}" id="main-image" alt="{{ selected_image.name }}" />
                     {% for click in selected_image.clicks.all %}
                     <div class="click-dot"
                         data-id="{{ click.id }}"
@@ -548,201 +1026,2414 @@ class UserImageForm(forms.ModelForm):
                 </ul>
             </div>
         </div>
-    {% else %}
-        {% if user.is_authenticated %}
-        <p>Select an image to start editing or <a href="{% url 'upload_image' %}">upload a new one</a>.</p>
-        {% else %}
-        <p>Please <a href="{% url 'login' %}">login</a> to view or edit images.</p>
-        {% endif %}
-    {% endif %}
+        <br>
+    {% endif %} {# End of 'if selected_image' / 'if not selected_image' logic #}
+
 {% endblock content %}
 
 {% block extra_js %}
     <script>
         const csrfToken = '{{ csrf_token }}';
         const selectedImageId = {{ selected_image.id|default_if_none:"null" }};
-        let draggedDot = null; // Moved from inline script to here for clarity if functions.js needs it
-        let addModeOnClick = false; // Moved from inline script
+        // console.log("[HTML Init Script] selectedImageId:", selectedImageId); // For debugging
+
+        let draggedDot = null;
+        let addModeOnClick = false;
     </script>
     <script src="{% static 'main/js/functions.js' %}"></script>
     <script>
-        // Inline script from home.html (event listeners and initial calls)
         document.addEventListener('DOMContentLoaded', () => {
-            const mainImage = document.getElementById('main-image');
-            if (mainImage) {
-                if (mainImage.complete) {
+            // console.log("[HTML DOMContentLoaded] Event fired. selectedImageId:", selectedImageId); // For debugging
+
+            function initializeEditorComponents() {
+                // console.log("[HTML initializeEditorComponents] Called."); // For debugging
+                // This function assumes elements like #main-image are present.
+                if (typeof initializePageElements === 'function') {
                     initializePageElements();
                 } else {
-                    mainImage.addEventListener('load', initializePageElements);
+                    console.error("initializePageElements is not defined. Check functions.js");
                 }
-            } else {
+                if (typeof initializeCoordinateListInteractions === 'function') {
+                    initializeCoordinateListInteractions();
+                } else {
+                    console.error("initializeCoordinateListInteractions is not defined. Check functions.js");
+                }
+            }
+
+            if (selectedImageId) { // If an image is selected, its HTML (including #main-image) should be rendered
+                const mainImageElement = document.getElementById('main-image');
+                if (mainImageElement) {
+                    // console.log("[HTML DOMContentLoaded] main-image found."); // For debugging
+                    if (mainImageElement.complete) {
+                        // console.log("[HTML DOMContentLoaded] main-image already complete. Initializing editor."); // For debugging
+                        initializeEditorComponents();
+                    } else {
+                        // console.log("[HTML DOMContentLoaded] main-image not complete. Adding load listener."); // For debugging
+                        mainImageElement.addEventListener('load', () => {
+                            // console.log("[HTML DOMContentLoaded] main-image LOAD event. Initializing editor."); // For debugging
+                            initializeEditorComponents();
+                        });
+                    }
+                } else {
+                    // This case should ideally not happen if selectedImageId is true,
+                    // as it implies the editor block in HTML wasn't rendered.
+                    console.warn("[HTML DOMContentLoaded] selectedImageId is set, but #main-image not found.");
+                }
+            } else { // No image selected, editor part is not rendered
+                // console.log("[HTML DOMContentLoaded] No selectedImageId. Editor components not initialized."); // For debugging
                 const addPointOnImageBtn = document.getElementById('add-point-on-image-btn');
                 const addPointToListBtn = document.getElementById('add-point-on-list-btn');
                 if(addPointOnImageBtn) addPointOnImageBtn.disabled = true;
                 if(addPointToListBtn) addPointToListBtn.disabled = true;
             }
-            if (selectedImageId) {
-                initializeCoordinateListInteractions();
-            }
-        });
-        
-        document.addEventListener("mousemove", (e) => {
-            if (!draggedDot) return;
-            const mainImage = document.getElementById('main-image');
-            if (!mainImage) return;
-            const containerRect = mainImage.getBoundingClientRect();
-            let newLeft = e.clientX - containerRect.left - (draggedDot.offsetWidth / 2);
-            let newTop = e.clientY - containerRect.top - (draggedDot.offsetHeight / 2);
-            const maxLeft = mainImage.width - (draggedDot.offsetWidth / 2);
-            const minLeft = (draggedDot.offsetWidth / 2);
-            const maxTop = mainImage.height - (draggedDot.offsetHeight / 2);
-            const minTop = (draggedDot.offsetHeight / 2);     
-            newLeft = Math.max(minLeft, Math.min(newLeft, maxLeft));
-            newTop = Math.max(minTop, Math.min(newTop, maxTop));
-            draggedDot.style.left = newLeft + "px";
-            draggedDot.style.top = newTop + "px";
-            redrawLines();
-            const clickId = draggedDot.dataset.id;
-            const listItem = document.querySelector(`#coordinates-list .coordinate-item[data-click-id="${clickId}"]`);
-            if (listItem) {
-                listItem.querySelector('.coord-x-input').value = parseFloat(newLeft).toFixed(2);
-                listItem.querySelector('.coord-y-input').value = parseFloat(newTop).toFixed(2);
-            }
-        });
-
-        const messageContainer = document.getElementById('message-container');
-        const addPointOnImageBtn = document.getElementById('add-point-on-image-btn');
-
-        if (addPointOnImageBtn) {
-            addPointOnImageBtn.addEventListener('click', () => {
-                addModeOnClick = !addModeOnClick;
-                const mainImgElem = document.getElementById('main-image');
-                if (addModeOnClick) {
-                    addPointOnImageBtn.textContent = "Stop Adding on Image";
-                    if(messageContainer) {
-                        messageContainer.innerText = "Click anywhere on the image to place a new point.";
-                        messageContainer.style.display = "block";
-                    }
-                    if(mainImgElem) mainImgElem.style.cursor = 'crosshair';
-                } else {
-                    addPointOnImageBtn.textContent = "Add Point on Image";
-                    if(messageContainer) messageContainer.style.display = "none";
-                    if(mainImgElem) mainImgElem.style.cursor = 'default';
-                }
-            });
-        }
-
-        const mainImageElement = document.getElementById('main-image');
-        if (mainImageElement) {
-            mainImageElement.addEventListener('click', function (e) {
-                if (!addModeOnClick || !selectedImageId) return;
-                const rect = e.target.getBoundingClientRect();
-                const x = parseFloat((e.clientX - rect.left).toFixed(2));
-                const y = parseFloat((e.clientY - rect.top).toFixed(2));
-                fetch('/add-click/', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json', 'X-CSRFToken': csrfToken },
-                    body: JSON.stringify({ image_id: selectedImageId, x: x, y: y })
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        createDotOnImage(data.click_id, x, y);
-                        createCoordinateListItem(data.click_id, x, y, false);
-                        renumberDotsAndListItems();
+            
+            // Event listeners that should be active regardless of initial image selection,
+            // but their internal logic might depend on editor elements existing.
+            
+            const addPointOnImageBtn = document.getElementById('add-point-on-image-btn');
+            const messageContainer = document.getElementById('message-container');
+            if (addPointOnImageBtn) {
+                addPointOnImageBtn.addEventListener('click', () => {
+                    addModeOnClick = !addModeOnClick;
+                    const mainImgElem = document.getElementById('main-image'); // Needs to exist
+                    if (addModeOnClick) {
+                        addPointOnImageBtn.textContent = "Stop Adding on Image";
+                        if(messageContainer) {
+                            messageContainer.innerText = "Click anywhere on the image to place a new point.";
+                            messageContainer.style.display = "block";
+                        }
+                        if(mainImgElem) mainImgElem.style.cursor = 'crosshair';
                     } else {
-                        console.error("Failed to add click via image click", data);
+                        addPointOnImageBtn.textContent = "Add Point on Image";
+                        if(messageContainer) messageContainer.style.display = "none";
+                        if(mainImgElem) mainImgElem.style.cursor = 'default';
                     }
                 });
+            }
+
+            const mainImageEventTarget = document.getElementById('main-image'); // Get target for click
+            if (mainImageEventTarget) {
+                mainImageEventTarget.addEventListener('click', function (e) {
+                    if (!addModeOnClick || !selectedImageId) return;
+                    const rect = e.target.getBoundingClientRect();
+                    const x = parseFloat((e.clientX - rect.left).toFixed(2));
+                    const y = parseFloat((e.clientY - rect.top).toFixed(2));
+                    fetch('/add-click/', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json', 'X-CSRFToken': csrfToken },
+                        body: JSON.stringify({ image_id: selectedImageId, x: x, y: y })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            if (typeof createDotOnImage === 'function' && 
+                                typeof createCoordinateListItem === 'function' &&
+                                typeof renumberDotsAndListItems === 'function') {
+                                createDotOnImage(data.click_id, x, y);
+                                createCoordinateListItem(data.click_id, x, y, false);
+                                renumberDotsAndListItems();
+                            } else {
+                                console.error("One or more functions (createDotOnImage, createCoordinateListItem, renumberDotsAndListItems) are not defined.");
+                            }
+                        } else {
+                            console.error("Failed to add click via image click", data);
+                        }
+                    });
+                });
+            }
+            
+            document.addEventListener("mousemove", (e) => {
+                if (!draggedDot) return;
+                const mainImageForMove = document.getElementById('main-image');
+                if (!mainImageForMove) return; 
+                
+                const imageRect = mainImageForMove.getBoundingClientRect();
+                let newLeft = e.clientX - imageRect.left;
+                let newTop = e.clientY - imageRect.top;
+
+                const boundaryMaxLeft = mainImageForMove.width;
+                const boundaryMinLeft = 0;
+                const boundaryMaxTop = mainImageForMove.height;
+                const boundaryMinTop = 0;
+                
+                // Keep entire dot within image boundaries
+                newLeft = Math.max(boundaryMinLeft, Math.min(newLeft, boundaryMaxLeft));
+                newTop = Math.max(boundaryMinTop, Math.min(newTop, boundaryMaxTop));   
+
+                draggedDot.style.left = newLeft + "px";
+                draggedDot.style.top = newTop + "px";
+
+                if (typeof redrawLines === 'function') {
+                    redrawLines();
+                } else {
+                    console.error("redrawLines is not defined.");
+                }
+
+                const clickId = draggedDot.dataset.id;
+                const listItem = document.querySelector(`#coordinates-list .coordinate-item[data-click-id="${clickId}"]`);
+                if (listItem) {
+                    listItem.querySelector('.coord-x-input').value = parseFloat(newLeft).toFixed(2);
+                    listItem.querySelector('.coord-y-input').value = parseFloat(newTop).toFixed(2);
+                }
             });
-        }
+
+        }); // End of DOMContentLoaded
     </script>
 {% endblock extra_js %}
 
 ===== Template: login.html =====
+{% extends "main/base.html" %}
 {% load static %}
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Login</title>
-  <link rel="stylesheet" href="{% static 'main/css/style.css' %}">
-</head>
-<body>
-  <h2>Login</h2>
-  <form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Login</button>
-  </form>
-  <p>Don't have an account? <a href="/register/">Register here</a></p>
-</body>
-</html>
 
+{% block title %}Login{% endblock title %}
+
+{% block content %}
+    <h2>Login</h2>
+    <form method="post" action="{% url 'login' %}">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Login</button>
+    </form>
+    <p>Don't have an account? <a href="{% url 'register' %}">Register here</a></p>
+{% endblock content %}
 
 ===== Template: register.html =====
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Register</title>
-  <link rel="stylesheet" href="{% static 'main/css/style.css' %}">
-</head>
-<body>
-  <h2>Register</h2>
-  <form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Register</button>
-  </form>
-  <p>Already have an account? <a href="/login/">Login here</a></p>
-</body>
-</html>
+{% extends "main/base.html" %}
+{% load static %}
 
+{% block title %}Register{% endblock title %}
+
+{% block content %}
+    <h2>Register</h2>
+    <form method="post" action="{% url 'register' %}">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Register</button>
+    </form>
+    <p>Already have an account? <a href="{% url 'login' %}">Login here</a></p>
+{% endblock content %}
+
+===== Template: upload_common_image.html =====
+{% extends "main/base.html" %}
+{% load static %}
+
+{% block title %}Upload a Common Path{% endblock title %}
+
+{% block content %}
+    <h2>Upload an Path to the Common Library</h2>
+    <p>This path will be available for other users to use.</p>
+    <form method="POST" enctype="multipart/form-data" action="{% url 'upload_common_image' %}">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Upload Common Image</button>
+    </form>
+    <br>
+    <a href="{% url 'home' %}">Back to Home</a>
+{% endblock content %}
 
 ===== Template: upload_image.html =====
-<!-- main/templates/main/upload_image.html -->
-<h2>Upload a new image</h2>
+{% extends "main/base.html" %}
+{% load static %}
 
-<form method="POST" enctype="multipart/form-data">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Upload</button>
-</form>
+{% block title %}Upload Path{% endblock title %}
 
-<a href="{% url 'home' %}">Back to homepage</a>
-
+{% block content %}
+    <h2>Upload a new path</h2>
+    <form method="POST" enctype="multipart/form-data" action="{% url 'upload_image' %}">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Upload</button>
+    </form>
+{% endblock content %}
 
 ===== Template: user_panel.html =====
+{% extends "main/base.html" %}
+{% load static %}
+
+{% block title %}User Panel - {{ user.username }}{% endblock title %}
+
 {% block content %}
+    <h2>Welcome, {{ user.username }}!</h2>
 
-<a href="{% url 'home' %}">Back to Homepage</a>
-  <h2>Welcome, {{ user.username }}!</h2>
+    <h3>Your Personal Paths</h3>
+    {% if images %}
+    <ul>
+        {% for image_obj in images %}
+        <li>
+            <p>{{ image_obj.name }}</p>
+            <img src="{{ image_obj.image.url }}" alt="{{ image_obj.name }}" width="100" height="100">
+            <form action="{% url 'user_panel' %}" method="post" style="display: inline-block; margin-right: 10px;">
+                {% csrf_token %}
+                <input type="hidden" name="image_id_for_rename" value="{{ image_obj.id }}">
+                <input type="text" name="name" value="{{ image_obj.name }}" placeholder="New name" required>
+                <button type="submit" name="action" value="rename_image">Rename</button>
+            </form>
+            <a href="{% url 'delete_image' image_obj.id %}" onclick="return confirm('Are you sure you want to delete this image and its points?');" style="display: inline-block;">Delete</a>
+        </li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <p>You have not uploaded any paths yet. <a href="{% url 'upload_image' %}">Upload one now.</a></p>
+    {% endif %}
 
-  <!-- User images section -->
-  <h3>Your Uploaded Images</h3>
-  <ul>
-    {% for image in images %}
-      <li>
-        <img src="{{ image.image.url }}" width="100" height="100">
-        <form action="{% url 'user_panel' %}" method="post" enctype="multipart/form-data">
-          {% csrf_token %}
-          {{ form.as_p }}
-          <input type="hidden" name="image_id" value="{{ image.id }}">
-          <button type="submit">Rename</button>
-        </form>
-        <a href="{% url 'delete_image' image.id %}">Delete</a>
-      </li>
-    {% endfor %}
-  </ul>
+    <hr>
+    <h3>Upload New Path from Panel</h3>
+    <form method="POST" enctype="multipart/form-data" action="{% url 'user_panel' %}">
+        {% csrf_token %}
+        {{ upload_form.as_p }} {# Assuming you pass 'upload_form' from the view for new uploads #}
+        <button type="submit" name="action" value="upload_new_image">Upload New Path</button>
+    </form>
+    <hr>
 
-  <h3>Change Your Password</h3>
-  <form method="post" action="{% url 'change_password' %}">
-    {% csrf_token %}
-    {{ password_form.as_p }}
-    <button type="submit">Change Password</button>
-  </form>
+    <h3>Change Your Password</h3>
+    <form method="post" action="{% url 'change_password' %}">
+        {% csrf_token %}
+        {{ password_form.as_p }}
+        <button type="submit">Change Password</button>
+    </form>
+{% endblock content %}
 
-  
-{% endblock %}
+===== TypeScript: functions.ts =====
+// functions.ts
 
+// Deklaracje typów dla zmiennych globalnych (zakładamy, że są zdefiniowane gdzie indziej)
+declare const csrfToken: string;
+declare const selectedImageId: number | null;
+declare let draggedDot: HTMLElement | null;
+
+// --- Interfejsy dla danych z serwera (opcjonalne, ale dobre dla typowania) ---
+interface ClickData {
+    id: number;
+    x?: number;
+    y?: number;
+    col_index?: number;
+    row_index?: number;
+   
+}
+
+interface AddClickResponse {
+    success: boolean;
+    click_id?: number;
+    is_grid_click?: boolean;
+    error?: string;
+}
+
+interface UpdateClickResponse {
+    status: 'success' | 'error' | 'not found or forbidden';
+    message?: string;
+}
+
+interface DeleteClickResponse {
+    status: 'deleted' | 'not found' | 'error';
+}
+
+
+// --- Funkcje ---
+
+function initializePageElements(): void {
+    redrawLines();
+    document.querySelectorAll<HTMLElement>('.click-dot').forEach(initializeDot);
+    renumberDotsAndListItems();
+}
+
+function renumberDotsAndListItems(): void {
+    const dots = document.querySelectorAll<HTMLElement>('.click-dot');
+    dots.forEach((dot, index) => {
+        const dotNumberElement = dot.querySelector<HTMLSpanElement>('.dot-number');
+        if (dotNumberElement) {
+            dotNumberElement.innerText = (index + 1).toString();
+        }
+    });
+
+    const listItems = document.querySelectorAll<HTMLLIElement>('#coordinates-list .coordinate-item');
+    listItems.forEach((item, index) => {
+        const pointDisplayNumber = item.querySelector<HTMLSpanElement>('.point-display-number');
+        if (pointDisplayNumber) {
+            pointDisplayNumber.innerText = (index + 1).toString();
+        }
+    });
+    redrawLines();
+}
+
+function redrawLines(): void {
+    const svg = document.getElementById('connection-lines') as SVGElement | null;
+    if (!svg) return;
+    svg.innerHTML = '';
+
+    const dots = Array.from(document.querySelectorAll<HTMLElement>('.click-dot'));
+    if (dots.length < 2) return;
+
+    for (let i = 0; i < dots.length - 1; i++) {
+        const dot1 = dots[i];
+        const dot2 = dots[i + 1];
+        const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+
+       
+        const x1 = parseFloat(dot1.style.left || '0');
+        const y1 = parseFloat(dot1.style.top || '0');
+        const x2 = parseFloat(dot2.style.left || '0');
+        const y2 = parseFloat(dot2.style.top || '0');
+
+        line.setAttribute('x1', x1.toString());
+        line.setAttribute('y1', y1.toString());
+        line.setAttribute('x2', x2.toString());
+        line.setAttribute('y2', y2.toString());
+        line.setAttribute('stroke-width', '2');
+        line.setAttribute('stroke', '#ff0000');
+        svg.appendChild(line);
+    }
+}
+
+function createCoordinateListItem(clickId: number | null, x: number, y: number, isNew: boolean = false): HTMLLIElement {
+    const listItem = document.createElement('li');
+    listItem.classList.add('coordinate-item');
+    if (!isNew && clickId !== null) {
+        listItem.setAttribute('data-click-id', clickId.toString());
+    }
+
+    const pointNumberSpan = document.createElement('span');
+    pointNumberSpan.classList.add('point-display-number');
+
+    const inputX = document.createElement('input');
+    inputX.type = 'number';
+    inputX.classList.add('coord-x-input');
+    inputX.value = x.toFixed(2);
+    inputX.step = '0.01';
+    inputX.autocomplete = 'off';
+
+
+    const inputY = document.createElement('input');
+    inputY.type = 'number';
+    inputY.classList.add('coord-y-input');
+    inputY.value = y.toFixed(2);
+    inputY.step = '0.01';
+    inputY.autocomplete = 'off';
+
+    const updateButton = document.createElement('button');
+    updateButton.classList.add('update-coord-btn');
+    updateButton.textContent = isNew ? 'Save New' : 'Update';
+    if (isNew) {
+        updateButton.classList.add('save-new-coord-btn');
+    }
+
+    const deleteButton = document.createElement('button');
+    deleteButton.classList.add('delete-coord-btn');
+    deleteButton.textContent = 'Delete';
+
+    listItem.appendChild(document.createTextNode('Point '));
+    listItem.appendChild(pointNumberSpan);
+    listItem.appendChild(document.createTextNode(': X '));
+    listItem.appendChild(inputX);
+    listItem.appendChild(document.createTextNode(' Y '));
+    listItem.appendChild(inputY);
+    listItem.appendChild(updateButton);
+    listItem.appendChild(deleteButton);
+
+    const coordinatesList = document.getElementById('coordinates-list');
+    if (coordinatesList) {
+        coordinatesList.appendChild(listItem);
+    } else {
+        console.error("Element with ID 'coordinates-list' not found.");
+    }
+    
+    attachEventListenersToListItem(listItem, isNew);
+    return listItem;
+}
+
+function attachEventListenersToListItem(listItem: HTMLLIElement, isNewInitially: boolean = false): void {
+    const updateBtn = listItem.querySelector<HTMLButtonElement>('.update-coord-btn');
+    const deleteBtn = listItem.querySelector<HTMLButtonElement>('.delete-coord-btn');
+    const inputX = listItem.querySelector<HTMLInputElement>('.coord-x-input');
+    const inputY = listItem.querySelector<HTMLInputElement>('.coord-y-input');
+    let isStillNew = isNewInitially;
+
+    if (!updateBtn || !deleteBtn || !inputX || !inputY) {
+        console.error("Could not find all required elements within list item:", listItem);
+        return;
+    }
+
+    console.log(`[attachEventListenersToListItem] For item data-id=${listItem.dataset.clickId}, X_val=${inputX.value}, Y_val=${inputY.value}`);
+
+    updateBtn.addEventListener('click', function() {
+        const currentClickIdStr = listItem.dataset.clickId;
+        const currentClickId = currentClickIdStr ? parseInt(currentClickIdStr, 10) : null;
+        const newX = parseFloat(inputX.value);
+        const newY = parseFloat(inputY.value);
+
+        if (isNaN(newX) || isNaN(newY)) {
+            alert('Please enter valid numbers for X and Y.');
+            return;
+        }
+
+        const requestBody = {
+            item_id: selectedImageId,
+            item_type: 'user_image', 
+            x: newX,
+            y: newY,
+            id: currentClickId
+        };
+        
+        if (isStillNew || currentClickId === null) {
+            fetch('/add-click/', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'X-CSRFToken': csrfToken },
+                body: JSON.stringify({ image_id: requestBody.item_id, x: newX, y: newY })
+            })
+            .then(response => response.json() as Promise<AddClickResponse>)
+            .then(data => {
+                if (data.success && data.click_id !== undefined) {
+                    listItem.setAttribute('data-click-id', data.click_id.toString());
+                    updateBtn.textContent = 'Update';
+                    if (updateBtn.classList.contains('save-new-coord-btn')) {
+                        updateBtn.classList.remove('save-new-coord-btn');
+                    }
+                    isStillNew = false;
+                    createDotOnImage(data.click_id, newX, newY);
+                    renumberDotsAndListItems();
+                } else { 
+                    alert('Failed to save new point. ' + (data.error || '')); 
+                }
+            }).catch(error => console.error('Error saving new point:', error));
+        } else {
+            fetch('/update-click/', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'X-CSRFToken': csrfToken },
+                body: JSON.stringify({ id: currentClickId, x: newX, y: newY })
+            })
+            .then(response => response.json() as Promise<UpdateClickResponse>)
+            .then(data => {
+                if (data.status === 'success') {
+                    const dot = document.querySelector<HTMLElement>(`.click-dot[data-id="${currentClickId}"]`);
+                    if (dot) {
+                        dot.style.left = newX + 'px';
+                        dot.style.top = newY + 'px';
+                        redrawLines();
+                    }
+                } else { 
+                    alert('Failed to update point. ' + (data.message || ''));
+                }
+            }).catch(error => console.error('Error updating point:', error));
+        }
+    });
+
+    listItem.addEventListener('mouseenter', () => {
+        const clickId = listItem.dataset.clickId;
+        if (!clickId) return;
+
+        listItem.classList.add('highlighted');
+        const dotElement = document.querySelector<HTMLElement>(`.click-dot[data-id="${clickId}"]`);
+        if (dotElement) {
+            dotElement.classList.add('highlighted');
+        }
+    });
+
+    listItem.addEventListener('mouseleave', () => {
+        const clickId = listItem.dataset.clickId;
+        if (!clickId) return;
+
+        listItem.classList.remove('highlighted');
+        const dotElement = document.querySelector<HTMLElement>(`.click-dot[data-id="${clickId}"]`);
+        if (dotElement) {
+            dotElement.classList.remove('highlighted');
+        }
+    });
+
+    deleteBtn.addEventListener('click', function() {
+        const currentClickIdStr = listItem.dataset.clickId;
+        
+        if (isStillNew || !currentClickIdStr) {
+            listItem.remove();
+           
+           
+           
+            renumberDotsAndListItems();
+            return;
+        }
+        const currentClickId = parseInt(currentClickIdStr, 10);
+
+        fetch('/delete-click/', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'X-CSRFToken': csrfToken },
+            body: JSON.stringify({ id: currentClickId })
+        })
+        .then(response => response.json() as Promise<DeleteClickResponse>)
+        .then(data => {
+            if (data.status === 'deleted') {
+                listItem.remove();
+                const dot = document.querySelector<HTMLElement>(`.click-dot[data-id="${currentClickId}"]`);
+                if (dot) dot.remove();
+                renumberDotsAndListItems();
+            } else { 
+                alert('Failed to delete point.'); 
+            }
+        }).catch(error => console.error('Error deleting point:', error));
+    });
+
+    [inputX, inputY].forEach(inputField => {
+        inputField.addEventListener('input', function() {
+            const currentClickIdStr = listItem.dataset.clickId;
+            if (currentClickIdStr && !isStillNew) {
+                const currentClickId = parseInt(currentClickIdStr, 10);
+                const dot = document.querySelector<HTMLElement>(`.click-dot[data-id="${currentClickId}"]`);
+                if (dot) {
+                    const newXFromInput = parseFloat(inputX.value);
+                    const newYFromInput = parseFloat(inputY.value);
+
+                    if (!isNaN(newXFromInput) && !isNaN(newYFromInput)) {
+                        dot.style.left = newXFromInput + 'px';
+                        dot.style.top = newYFromInput + 'px';
+                        redrawLines();
+                    }
+                }
+            }
+        });
+    });
+}
+
+function initializeCoordinateListInteractions(): void {
+    document.querySelectorAll<HTMLLIElement>('#coordinates-list .coordinate-item').forEach(item => {
+        const clickId = item.dataset.clickId;
+        if (clickId) {
+            attachEventListenersToListItem(item, false);
+        }
+    });
+
+    const addPointToListBtn = document.getElementById('add-point-on-list-btn');
+    if (addPointToListBtn) {
+        addPointToListBtn.addEventListener('click', () => {
+            const mainImage = document.getElementById('main-image') as HTMLImageElement | null;
+           
+            const defaultX = mainImage ? mainImage.width / 2 : 50;
+            const defaultY = mainImage ? mainImage.height / 2 : 50;
+            
+            createCoordinateListItem(null, defaultX, defaultY, true);
+            renumberDotsAndListItems();
+        });
+    }
+}
+
+
+function initializeDot(dot: HTMLElement): void {
+    const image = document.getElementById("main-image") as HTMLImageElement | null;
+   
+   
+
+    dot.addEventListener("mousedown", (e: MouseEvent) => {
+        if (e.button !== 0) return;
+       
+       
+
+        draggedDot = dot;
+       
+        e.preventDefault();
+        document.addEventListener('mouseup', handleDocumentMouseUp, { once: true });
+    });
+
+    const deleteBtn = dot.querySelector<HTMLButtonElement>('.delete-dot-btn');
+    if (deleteBtn) {
+        deleteBtn.addEventListener('click', function (e: MouseEvent) {
+            e.stopPropagation();
+            const clickIdStr = dot.dataset.id;
+            if (!clickIdStr) {
+                console.warn("Dot has no data-id for deletion:", dot);
+               
+               
+                return;
+            }
+            const clickId = parseInt(clickIdStr, 10);
+
+           
+            fetch('/delete-click/', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'X-CSRFToken': csrfToken },
+                body: JSON.stringify({ id: clickId })
+            })
+            .then(response => response.json() as Promise<DeleteClickResponse>)
+            .then(data => {
+                if (data.status === 'deleted') {
+                    dot.remove();
+                    const listItem = document.querySelector<HTMLLIElement>(`#coordinates-list .coordinate-item[data-click-id="${clickId}"]`);
+                    if (listItem) listItem.remove();
+                    renumberDotsAndListItems();
+                } else {
+                    alert('Failed to delete point.');
+                }
+            }).catch(error => console.error('Error deleting point:', error));
+        });
+    }
+
+    dot.addEventListener('mouseenter', () => {
+        const clickId = dot.dataset.id;
+        if (!clickId) return;
+        dot.classList.add('highlighted');
+        const listItem = document.querySelector<HTMLLIElement>(`#coordinates-list .coordinate-item[data-click-id="${clickId}"]`);
+        if (listItem) {
+            listItem.classList.add('highlighted');
+        }
+    });
+
+    dot.addEventListener('mouseleave', () => {
+        const clickId = dot.dataset.id;
+        if (!clickId) return;
+        dot.classList.remove('highlighted');
+        const listItem = document.querySelector<HTMLLIElement>(`#coordinates-list .coordinate-item[data-click-id="${clickId}"]`);
+        if (listItem) {
+            listItem.classList.remove('highlighted');
+        }
+    });
+}
+
+
+function handleDocumentMouseUp(): void {
+    if (!draggedDot) return;
+
+    const finalX = parseFloat(draggedDot.style.left || '0');
+    const finalY = parseFloat(draggedDot.style.top || '0');
+    const clickIdStr = draggedDot.dataset.id;
+
+    if (!clickIdStr) {
+        console.error("Dragged dot has no data-id for update:", draggedDot);
+        draggedDot = null;
+        return;
+    }
+    const clickId = parseInt(clickIdStr, 10);
+
+    fetch('/update-click/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'X-CSRFToken': csrfToken },
+        body: JSON.stringify({ id: clickId, x: finalX, y: finalY })
+    })
+    .then(response => {
+        if (!response.ok) {
+            console.error('Position save failed after drag for dot ID:', clickId, response.statusText);
+           
+        }
+        return response.json() as Promise<UpdateClickResponse>;
+    })
+    .then(data => {
+        if (data.status !== 'success') {
+            console.warn('Update click response status not success:', data);
+        }
+    })
+    .catch(error => console.error('Error updating position after drag:', error));
+    
+    draggedDot = null;
+}
+
+function createDotOnImage(clickId: number, x: number, y: number): HTMLElement {
+    const container = document.getElementById('image-container');
+    if (!container) {
+        console.error("Element with ID 'image-container' not found.");
+       
+        throw new Error("Image container not found, cannot create dot.");
+    }
+    const dot = document.createElement('div');
+    dot.className = 'click-dot';
+    dot.style.left = `${x}px`;
+    dot.style.top = `${y}px`;
+    dot.setAttribute('data-id', clickId.toString());
+    dot.innerHTML = `<span class="dot-number"></span>
+                    <button class="delete-dot-btn" title="Delete this point">✖</button>`;
+    container.appendChild(dot);
+    initializeDot(dot);
+    return dot;
+}
+
+===== TypeScript: grid.ts =====
+interface Dot {
+    row: number;
+    col: number;
+    color: string;
+}
+
+interface BoardState {
+    id: number | null;
+    name: string;
+    rows: number;
+    cols: number;
+    dots: Dot[];
+}
+
+class BoardEditor {
+    private gridContainer: HTMLElement;
+    private numRowsInput: HTMLInputElement;
+    private numColsInput: HTMLInputElement;
+    private boardNameInput: HTMLInputElement;
+    private generateGridButton: HTMLButtonElement;
+    private saveBoardButton: HTMLButtonElement;
+    private saveAsImageButton: HTMLButtonElement;
+    private colorPaletteContainer: HTMLElement;
+    private selectedColorDisplay: HTMLElement;
+    private messagesDiv: HTMLElement;
+    private csrfToken: string;
+    private boardIdInput: HTMLInputElement;
+    private cellSizePx: number = 0;
+
+    private boardState: BoardState = {
+        id: null,
+        name: "My New Board",
+        rows: 5,
+        cols: 5,
+        dots: []
+    };
+
+    private availableColors: string[] = [
+        "#FF0000", "#00FF00", "#0000FF", "#FFFF00", "#FF00FF", "#00FFFF",
+        "#FFA500", "#800080", "#A52A2A", "#008000"
+    ];
+    private selectedColor: string | null = null;
+    private firstDotOfPair: { row: number, col: number } | null = null;
+    private readonly MAX_GRID_DIMENSION_PX = 400;
+    private readonly MIN_CELL_SIZE_PX = 10;
+
+
+    constructor() {
+        this.gridContainer = document.getElementById('grid-container')!;
+        this.numRowsInput = document.getElementById('numRows') as HTMLInputElement;
+        this.numColsInput = document.getElementById('numCols') as HTMLInputElement;
+        this.boardNameInput = document.getElementById('boardName') as HTMLInputElement;
+        this.generateGridButton = document.getElementById('generateGridButton') as HTMLButtonElement;
+        this.saveBoardButton = document.getElementById('saveBoardButton') as HTMLButtonElement;
+        this.colorPaletteContainer = document.getElementById('color-palette')!;
+        this.selectedColorDisplay = document.getElementById('selected-color-display')!;
+        this.messagesDiv = document.getElementById('messages')!;
+        this.boardIdInput = document.getElementById('boardId') as HTMLInputElement;
+        this.saveAsImageButton = document.getElementById('saveAsImageButton') as HTMLButtonElement;
+
+        const csrfTokenElement = document.querySelector('[name=csrfmiddlewaretoken]') as HTMLInputElement;
+        this.csrfToken = csrfTokenElement ? csrfTokenElement.value : '';
+
+        this.loadInitialBoardData();
+        this.initEventListeners();
+        this.populateColorPalette();
+        if (!this.boardState.id) {
+            this.updateBoardStateFromInputs();
+        }
+        this.renderGrid();
+    }
+
+    private loadInitialBoardData(): void {
+        const initialDataScript = document.getElementById('initial-board-data');
+        if (initialDataScript && initialDataScript.textContent) {
+            try {
+                const data = JSON.parse(initialDataScript.textContent);
+                if (data && data.id) {
+                    this.boardState.id = data.id;
+                    this.boardState.name = data.name;
+                    this.boardState.rows = data.rows;
+                    this.boardState.cols = data.cols;
+                    this.boardState.dots = data.dots_config || [];
+
+                    this.boardNameInput.value = this.boardState.name;
+                    this.numRowsInput.value = this.boardState.rows.toString();
+                    this.numColsInput.value = this.boardState.cols.toString();
+                }
+            } catch (e) {
+                console.error("Error parsing initial board data:", e);
+            }
+        }
+    }
+
+    private initEventListeners(): void {
+        this.saveAsImageButton.addEventListener('click', () => this.handleSaveAsImage());
+        
+        this.generateGridButton.addEventListener('click', () => {
+            const oldRows = this.boardState.rows;
+            const oldCols = this.boardState.cols;
+            const newRows = parseInt(this.numRowsInput.value, 10);
+            const newCols = parseInt(this.numColsInput.value, 10);
+
+            if (this.boardState.rows !== newRows || this.boardState.cols !== newCols) {
+                 this.boardState.dots = this.boardState.dots.filter(dot =>
+                    dot.row < newRows && dot.col < newCols
+                );
+                this.firstDotOfPair = null;
+            }
+            this.boardState.rows = newRows;
+            this.boardState.cols = newCols;
+            this.renderGrid();
+        });
+
+        this.saveBoardButton.addEventListener('click', () => this.saveBoard());
+
+        this.boardNameInput.addEventListener('input', () => {
+            this.boardState.name = this.boardNameInput.value;
+             const titleDisplay = document.getElementById('board-title-display');
+             if(titleDisplay) titleDisplay.textContent = this.boardState.name;
+        });
+    }
+
+    private updateBoardStateFromInputs(): void {
+        this.boardState.name = this.boardNameInput.value;
+        this.boardState.rows = parseInt(this.numRowsInput.value, 10) || 5;
+        this.boardState.cols = parseInt(this.numColsInput.value, 10) || 5;
+    }
+
+    private populateColorPalette(): void {
+        this.availableColors.forEach(color => {
+            const colorButton = document.createElement('div');
+            colorButton.classList.add('color-button');
+            colorButton.style.backgroundColor = color;
+            colorButton.dataset.color = color;
+            colorButton.addEventListener('click', () => this.selectColor(color, colorButton));
+            this.colorPaletteContainer.appendChild(colorButton);
+        });
+    }
+
+    private selectColor(color: string, buttonElement: HTMLElement): void {
+        this.selectedColor = color;
+        this.firstDotOfPair = null;
+        this.selectedColorDisplay.textContent = color;
+        this.selectedColorDisplay.style.color = color;
+
+        document.querySelectorAll('.color-button.selected').forEach(btn => btn.classList.remove('selected'));
+        buttonElement.classList.add('selected');
+    }
+
+    private renderGrid(): void {
+        this.gridContainer.innerHTML = '';
+
+        const numRows = this.boardState.rows;
+        const numCols = this.boardState.cols;
+
+        if (numRows <= 0 || numCols <= 0) {
+            this.gridContainer.style.width = '0px';
+            this.gridContainer.style.height = '0px';
+            return;
+        }
+
+        let calculatedCellSizePx: number;
+        const cellWidthIfLimitedByCols = this.MAX_GRID_DIMENSION_PX / numCols;
+        const cellHeightIfLimitedByRows = this.MAX_GRID_DIMENSION_PX / numRows;
+        calculatedCellSizePx = Math.floor(Math.min(cellWidthIfLimitedByCols, cellHeightIfLimitedByRows));
+        calculatedCellSizePx = Math.max(calculatedCellSizePx, this.MIN_CELL_SIZE_PX);
+        this.cellSizePx = calculatedCellSizePx;
+
+        const totalGridWidth = this.cellSizePx * numCols;
+        const totalGridHeight = this.cellSizePx * numRows;
+
+        this.gridContainer.style.width = `${totalGridWidth}px`;
+        this.gridContainer.style.height = `${totalGridHeight}px`;
+
+        this.gridContainer.style.gridTemplateRows = `repeat(${numRows}, ${this.cellSizePx}px)`;
+        this.gridContainer.style.gridTemplateColumns = `repeat(${numCols}, ${this.cellSizePx}px)`;
+
+        for (let r = 0; r < numRows; r++) {
+            for (let c = 0; c < numCols; c++) {
+                const cell = document.createElement('div');
+                cell.classList.add('grid-cell');
+                cell.dataset.row = r.toString();
+                cell.dataset.col = c.toString();
+                cell.addEventListener('click', () => this.handleCellClick(r, c));
+                this.gridContainer.appendChild(cell);
+            }
+        }
+        this.renderDots();
+    }
+
+    private renderDots(): void {
+        this.gridContainer.querySelectorAll('.dot-visual').forEach(dv => dv.remove());
+
+        this.boardState.dots.forEach(dot => {
+            const cell = this.gridContainer.querySelector(`.grid-cell[data-row='${dot.row}'][data-col='${dot.col}']`);
+            if (cell) {
+                const dotVisual = document.createElement('div');
+                dotVisual.classList.add('dot-visual');
+                dotVisual.style.backgroundColor = dot.color;
+                cell.appendChild(dotVisual);
+            }
+        });
+    }
+
+    private handleCellClick(row: number, col: number): void {
+        if (!this.selectedColor) {
+            this.showMessage("Please select a color first.", "error");
+            return;
+        }
+
+        const existingDotIndex = this.boardState.dots.findIndex(d => d.row === row && d.col === col);
+
+        if (existingDotIndex !== -1) {
+            const existingDot = this.boardState.dots[existingDotIndex];
+            if (existingDot.color === this.selectedColor) {
+                this.boardState.dots.splice(existingDotIndex, 1);
+                if (this.firstDotOfPair && this.firstDotOfPair.row === row && this.firstDotOfPair.col === col) {
+                    this.firstDotOfPair = null;
+                }
+                this.renderDots();
+                this.showMessage(`Dot removed from (${row}, ${col}).`, "info");
+            } else {
+                 this.showMessage("Cell is already occupied by a different color.", "error");
+            }
+            return;
+        }
+
+        const dotsOfSelectedColor = this.boardState.dots.filter(d => d.color === this.selectedColor);
+
+        if (dotsOfSelectedColor.length >= 2) {
+            this.showMessage(`Already placed two dots for color ${this.selectedColor}. Select a different color or remove existing dots of this color.`, "error");
+            return;
+        }
+
+        const newDot: Dot = { row, col, color: this.selectedColor };
+
+        if (!this.firstDotOfPair) {
+            this.boardState.dots.push(newDot);
+            this.firstDotOfPair = { row, col };
+            this.showMessage(`First dot of color ${this.selectedColor} placed at (${row}, ${col}). Click another empty cell.`, "info");
+        } else {
+            if (this.firstDotOfPair.row === row && this.firstDotOfPair.col === col) { // Prevent placing second dot on the first dot's cell
+                this.showMessage("Cannot place the second dot on the same cell as the first.", "error");
+                return;
+            }
+            this.boardState.dots.push(newDot);
+            this.showMessage(`Second dot of color ${this.selectedColor} placed at (${row}, ${col}). Pair complete.`, "success");
+            this.firstDotOfPair = null;
+        }
+        this.renderDots();
+    }
+
+    private async saveBoard(): Promise<void> {
+        if (!this.boardNameInput.value.trim()) {
+            this.showMessage("Board name cannot be empty.", "error");
+            return;
+        }
+        this.boardState.name = this.boardNameInput.value.trim();
+
+        const colorCounts: { [key: string]: number } = {};
+        this.boardState.dots.forEach(dot => {
+            colorCounts[dot.color] = (colorCounts[dot.color] || 0) + 1;
+        });
+
+        for (const color in colorCounts) {
+            if (colorCounts[color] === 1) {
+                 this.showMessage(`Color ${color} has only one dot. Please complete the pair or remove it.`, "error");
+                 return;
+            }
+        }
+
+        const payload = {
+            id: this.boardState.id,
+            name: this.boardState.name,
+            rows: this.boardState.rows,
+            cols: this.boardState.cols,
+            dots_config: this.boardState.dots
+        };
+
+        try {
+            const response = await fetch('/board/api/save_board/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': this.csrfToken,
+                    'X-Requested-With': 'XMLHttpRequest'
+                },
+                body: JSON.stringify(payload)
+            });
+
+            const result = await response.json();
+
+            if (response.ok) {
+                this.showMessage(result.message || "Board saved successfully!", "success");
+                if (result.board_id) {
+                    this.boardState.id = result.board_id;
+                    this.boardIdInput.value = result.board_id.toString();
+                    const titleDisplay = document.getElementById('board-title-display');
+                    if(titleDisplay) {
+                         titleDisplay.textContent = this.boardState.name;
+                    } else {
+                        const h1 = document.querySelector('h1');
+                        if(h1) h1.innerHTML = `Edit Board: <span id="board-title-display">${this.boardState.name}</span>`;
+                    }
+                    if (this.boardState.id && !window.location.pathname.includes(this.boardState.id.toString())) {
+                         window.history.pushState({}, '', `/board/${this.boardState.id}/edit/`);
+                    }
+                }
+            } else {
+                let errorMsg = result.message || "Failed to save board.";
+                if (result.errors) {
+                    errorMsg += "<ul>";
+                    for (const field in result.errors) {
+                        result.errors[field].forEach((err: string) => {
+                            errorMsg += `<li>${field}: ${err}</li>`;
+                        });
+                    }
+                    errorMsg += "</ul>";
+                }
+                this.showMessage(errorMsg, "error", false);
+            }
+        } catch (error) {
+            console.error("Error saving board:", error);
+            this.showMessage("An unexpected error occurred while saving.", "error");
+        }
+    }
+
+    public async getBoardAsImageDataURL(format: 'image/png' | 'image/jpeg' = 'image/png'): Promise<string | null> {
+        const rows = this.boardState.rows;
+        const cols = this.boardState.cols;
+        const dots = this.boardState.dots;
+
+        if (rows <= 0 || cols <= 0 || this.cellSizePx <= 0) {
+            console.error("Board dimensions or cell size invalid for image generation.");
+            return null;
+        }
+
+        const canvas = document.createElement('canvas');
+        const canvasWidth = cols * this.cellSizePx;
+        const canvasHeight = rows * this.cellSizePx;
+        canvas.width = canvasWidth;
+        canvas.height = canvasHeight;
+
+        const ctx = canvas.getContext('2d');
+        if (!ctx) {
+            console.error("Could not get 2D context from canvas");
+            return null;
+        }
+
+        // 1. Draw background (optional)
+        ctx.fillStyle = "#FFFFFF"; // White background
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        // 2. Draw grid lines
+        ctx.strokeStyle = "#CCCCCC"; // Light grey for grid lines
+        ctx.lineWidth = 1;
+
+        for (let r = 0; r <= rows; r++) {
+            ctx.beginPath();
+            ctx.moveTo(0, r * this.cellSizePx);
+            ctx.lineTo(canvas.width, r * this.cellSizePx);
+            ctx.stroke();
+        }
+        for (let c = 0; c <= cols; c++) {
+            ctx.beginPath();
+            ctx.moveTo(c * this.cellSizePx, 0);
+            ctx.lineTo(c * this.cellSizePx, canvas.height);
+            ctx.stroke();
+        }
+
+        // 3. Draw the colored dots
+        const dotRadius = this.cellSizePx * 0.35; // 35% of cell size for dot radius
+        dots.forEach(dot => {
+            const centerX = dot.col * this.cellSizePx + this.cellSizePx / 2;
+            const centerY = dot.row * this.cellSizePx + this.cellSizePx / 2;
+
+            ctx.beginPath();
+            ctx.arc(centerX, centerY, dotRadius, 0, 2 * Math.PI, false);
+            ctx.fillStyle = dot.color;
+            ctx.fill();
+            // Optional: add a border to dots
+            // ctx.lineWidth = 1;
+            // ctx.strokeStyle = '#333333';
+            // ctx.stroke();
+        });
+
+        return canvas.toDataURL(format);
+    }
+
+    public async handleSaveAsImage(): Promise<void> {
+        this.showMessage("Generating image...", "info", false);
+        const imageDataURL = await this.getBoardAsImageDataURL();
+
+        if (!imageDataURL) {
+            this.showMessage("Failed to generate image data.", "error");
+            return;
+        }
+
+        // Prepare data for backend
+        const boardName = this.boardState.name || "Generated Grid Board";
+        const fileName = `${boardName.replace(/[^a-zA-Z0-9]/g, '_')}_${Date.now()}.png`;
+
+        const payload = {
+            name: boardName,       // Name for the UserImage
+            image_data_url: imageDataURL,
+            filename: fileName     // Suggested filename
+        };
+
+        try {
+            const response = await fetch('/api/save_grid_as_image/', { // NEW ENDPOINT
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': this.csrfToken,
+                },
+                body: JSON.stringify(payload)
+            });
+
+            const result = await response.json();
+            if (response.ok && result.status === 'success') {
+                this.showMessage(`Board saved as image: ${result.image_name}. You can now use it for path editing.`, "success");
+                // Optionally redirect or update UI
+            } else {
+                this.showMessage(result.message || "Failed to save board as image on server.", "error");
+            }
+        } catch (error) {
+            console.error("Error saving board as image:", error);
+            this.showMessage("An error occurred while sending image to server.", "error");
+        }
+    }
+
+    private showMessage(message: string, type: 'success' | 'error' | 'info', autoClear: boolean = true): void {
+        this.messagesDiv.innerHTML = `<p class="${type}">${message}</p>`;
+        if (autoClear) {
+            setTimeout(() => {
+                this.messagesDiv.innerHTML = '';
+            }, 5000);
+        }
+    }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    if (document.getElementById('grid-container')) {
+        new BoardEditor();
+    }
+});
+
+===== CSS: style.css =====
+body {
+    font-family: sans-serif;
+    margin: 20px;
+}
+a {
+    margin-right: 10px;
+}
+h2, h3 {
+    color: #333;
+}
+form select, form button, #add-point-on-image-btn, #add-point-on-list-btn {
+    padding: 8px;
+    margin: 5px 0;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+}
+#image-container {
+    position: relative;
+    display: inline-block;
+    border: 1px solid #ddd;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+.click-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: red;
+    position: absolute;
+    cursor: move;
+    /* Dla lepszego pozycjonowania względem kursora */
+    transform: translate(-50%, -50%); 
+}
+.dot-number {
+    position: absolute;
+    top: -15px; /* nieco wyżej */
+    left: 50%;
+    transform: translateX(-50%);
+    color: blue; /* zmieniony kolor dla odróżnienia */
+    font-weight: bold;
+    font-size: 12px;
+    text-shadow: 0 0 2px white; /* dla lepszej czytelności na obrazie */
+    pointer-events: none;
+    user-select: none;
+}
+.delete-dot-btn {
+    position: absolute;
+    top: -8px; /* dostosuj pozycję */
+    right: -18px; /* dostosuj pozycję */
+    background: rgba(255, 255, 255, 0.7);
+    border: 1px solid #aaa;
+    color: red;
+    font-size: 12px; /* mniejszy */
+    width: 16px; /* mniejszy */
+    height: 16px; /* mniejszy */
+    line-height: 14px; /* wyśrodkowanie X */
+    text-align: center;
+    border-radius: 50%;
+    cursor: pointer;
+    padding: 0;
+}
+#connection-lines line {
+    stroke-dasharray: 3,3; /* Kreskowane linie */
+    stroke-linecap: round;
+}
+#coordinates-list-container {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    max-width: 400px; /* Ograniczenie szerokości */
+}
+#coordinates-list {
+    list-style-type: none;
+    padding-left: 0;
+}
+#coordinates-list li {
+    padding: 8px 0;
+    border-bottom: 1px dashed #eee;
+    display: flex; /* Dla lepszego ułożenia elementów */
+    align-items: center; /* Wyśrodkowanie w pionie */
+}
+#coordinates-list li:last-child {
+    border-bottom: none;
+}
+.coordinate-item input[type="number"] {
+    margin: 0 5px;
+    padding: 4px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    width: 70px; /* nieco szersze */
+}
+.coordinate-item button {
+    margin-left: 8px;
+    padding: 4px 8px;
+    font-size: 12px;
+    border-radius: 3px;
+    cursor: pointer;
+}
+.update-coord-btn {
+    background-color: #e0e0e0;
+    border: 1px solid #aaa;
+}
+.delete-coord-btn {
+    background-color: #fdd;
+    border: 1px solid #d99;
+    color: #900;
+}
+#message-container {
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 4px;
+    background-color: #e7f3fe;
+    border: 1px solid #d0e3f0;
+}
+#editor-layout {
+    display: flex; /* Enables flexbox layout */
+    align-items: flex-start; /* Aligns items to the top of the container */
+    gap: 20px; /* Optional: adds space between the image and the list */
+    margin-top: 10px; /* Optional: space above the layout */
+    margin-bottom: 10px; /* Optional: space below the layout */
+}
+.click-dot.highlighted,
+.click-dot:hover { /* Dodatkowe podświetlenie dla samej kropki */
+    background-color: yellow; /* Lub inny kolor wyróżnienia */
+    box-shadow: 0 0 5px 2px orange; /* Opcjonalny cień */
+    z-index: 10; /* Aby była nad innymi elementami, jeśli się nakładają */
+}
+
+#coordinates-list .coordinate-item.highlighted,
+#coordinates-list .coordinate-item:hover { /* Dodatkowe podświetlenie dla samego elementu listy */
+    background-color: #e6f7ff; /* Jasnoniebieskie tło */
+    font-weight: bold; /* Pogrubienie tekstu */
+}
+
+#image-container {
+    position: relative;
+    display: inline-block; /* Or 'block' if you want it to take full available width before shrinking */
+    border: 1px solid #ddd;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    /* REMOVE fixed width and height from here */
+    /* width: 400px; */
+    /* height: 400px; */
+    /* Add this to make the container shrink-to-fit the image */
+    line-height: 0; /* Fixes potential extra space below inline-block images */
+}
+
+#main-image {
+    display: block; /* Or inline-block */
+    max-width: 400px;   /* Image will not exceed 400px width */
+    max-height: 400px;  /* Image will not exceed 400px height */      /* Allow height to adjust based on width and aspect ratio */
+    width: auto;
+    height: auto;
+    /* These (width: auto; height: auto;) are often default for <img> but good to be explicit */
+}
+
+#image-container #connection-lines { /* Be more specific if #connection-lines is used elsewhere */
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+===== JavaScript: functions.js =====
+function initializePageElements() {
+    redrawLines();
+    document.querySelectorAll('.click-dot').forEach(initializeDot);
+    renumberDotsAndListItems();
+}
+
+function renumberDotsAndListItems() {
+    const dots = document.querySelectorAll('.click-dot');
+    dots.forEach((dot, index) => {
+        const dotNumberElement = dot.querySelector('.dot-number');
+        if (dotNumberElement) dotNumberElement.innerText = index + 1;
+    });
+
+    const listItems = document.querySelectorAll('#coordinates-list .coordinate-item');
+    listItems.forEach((item, index) => {
+        const pointDisplayNumber = item.querySelector('.point-display-number');
+        if (pointDisplayNumber) pointDisplayNumber.innerText = index + 1;
+    });
+    redrawLines();
+}
+
+function redrawLines() {
+    const svg = document.getElementById('connection-lines');
+    if (!svg) return;
+    svg.innerHTML = '';
+
+    const dots = Array.from(document.querySelectorAll('.click-dot'));
+    if (dots.length < 2) return;
+
+    for(let i = 0; i < dots.length - 1; i++) {
+        const dot1 = dots[i];
+        const dot2 = dots[i + 1];
+        const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+        const x1 = parseFloat(dot1.style.left); // Kropka jest już wyśrodkowana przez transform
+        const y1 = parseFloat(dot1.style.top);
+        const x2 = parseFloat(dot2.style.left);
+        const y2 = parseFloat(dot2.style.top);
+
+        line.setAttribute('x1', x1);
+        line.setAttribute('y1', y1);
+        line.setAttribute('x2', x2);
+        line.setAttribute('y2', y2);
+        line.setAttribute('stroke-width', '2');
+        line.setAttribute('stroke', '#ff0000');
+        svg.appendChild(line);
+    }
+}
+
+function createCoordinateListItem(clickId, x, y, isNew = false) {
+    const listItem = document.createElement('li');
+    listItem.classList.add('coordinate-item');
+    if (!isNew && clickId) {
+        listItem.setAttribute('data-click-id', clickId);
+    }
+
+    const pointNumberSpan = document.createElement('span');
+    pointNumberSpan.classList.add('point-display-number');
+
+    const inputX = document.createElement('input');
+    inputX.type = 'number';
+    inputX.classList.add('coord-x-input');
+    inputX.value = parseFloat(x).toFixed(2);
+    inputX.step = '0.01';
+
+    const inputY = document.createElement('input');
+    inputY.type = 'number';
+    inputY.classList.add('coord-y-input');
+    inputY.value = parseFloat(y).toFixed(2);
+    inputY.step = '0.01';
+
+    const updateButton = document.createElement('button');
+    updateButton.classList.add('update-coord-btn');
+    updateButton.textContent = isNew ? 'Save New' : 'Update';
+    if (isNew) {
+        updateButton.classList.add('save-new-coord-btn');
+    }
+
+    const deleteButton = document.createElement('button');
+    deleteButton.classList.add('delete-coord-btn');
+    deleteButton.textContent = 'Delete';
+
+    listItem.appendChild(document.createTextNode('Point'));
+    listItem.appendChild(pointNumberSpan);
+    listItem.appendChild(document.createTextNode(': X'));
+    listItem.appendChild(inputX);
+    listItem.appendChild(document.createTextNode('Y'));
+    listItem.appendChild(inputY);
+    listItem.appendChild(updateButton);
+    listItem.appendChild(deleteButton);
+
+    document.getElementById('coordinates-list').appendChild(listItem);
+    attachEventListenersToListItem(listItem, isNew); // Przekazuj tylko isNew
+    return listItem;
+}
+
+function attachEventListenersToListItem(listItem, isNewInitially = false) {
+    const updateBtn = listItem.querySelector('.update-coord-btn');
+    const deleteBtn = listItem.querySelector('.delete-coord-btn');
+    const inputX = listItem.querySelector('.coord-x-input');
+    const inputY = listItem.querySelector('.coord-y-input');
+    let isStillNew = isNewInitially; // Flaga do śledzenia, czy element jest nowy
+
+    console.log(`[attachEventListenersToListItem] For item data-id=${listItem.dataset.clickId}, X_val=${inputX.value}, Y_val=${inputY.value}`);
+
+    updateBtn.addEventListener('click', function() {
+        const currentClickId = listItem.dataset.clickId;
+        const newX = parseFloat(inputX.value);
+        const newY = parseFloat(inputY.value);
+
+        if (isNaN(newX) || isNaN(newY)) {
+            alert('Please enter valid numbers for X and Y.');
+            return;
+        }
+
+        if (isStillNew || !currentClickId) { // Zapis nowego punktu
+            fetch('/add-click/', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'X-CSRFToken': csrfToken },
+                body: JSON.stringify({ image_id: selectedImageId, x: newX, y: newY })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    listItem.setAttribute('data-click-id', data.click_id);
+                    updateBtn.textContent = 'Update';
+                    updateBtn.classList.remove('save-new-coord-btn');
+                    isStillNew = false; // Już nie jest nowy
+                    createDotOnImage(data.click_id, newX, newY);
+                    renumberDotsAndListItems();
+                } else { alert('Failed to save new point.'); }
+            });
+        } else { // Aktualizacja istniejącego punktu
+            fetch('/update-click/', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'X-CSRFToken': csrfToken },
+                body: JSON.stringify({ id: currentClickId, x: newX, y: newY })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    const dot = document.querySelector(`.click-dot[data-id="${currentClickId}"]`);
+                    if (dot) {
+                        dot.style.left = newX + 'px';
+                        dot.style.top = newY + 'px';
+                        redrawLines();
+                    }
+                } else { alert('Failed to update point.'); }
+            });
+        }
+
+    });
+
+    listItem.addEventListener('mouseenter', () => {
+        const clickId = listItem.dataset.clickId;
+        if (!clickId) return; // Nie podświetlaj, jeśli to nowy, niezapisany element
+
+        listItem.classList.add('highlighted'); // Podświetl sam element listy
+        const dotElement = document.querySelector(`.click-dot[data-id="${clickId}"]`);
+        if (dotElement) {
+            dotElement.classList.add('highlighted');
+        }
+    });
+
+    listItem.addEventListener('mouseleave', () => {
+        const clickId = listItem.dataset.clickId;
+        if (!clickId) return;
+
+        listItem.classList.remove('highlighted'); // Usuń podświetlenie z elementu listy
+        const dotElement = document.querySelector(`.click-dot[data-id="${clickId}"]`);
+        if (dotElement) {
+            dotElement.classList.remove('highlighted');
+        }
+    });
+
+    deleteBtn.addEventListener('click', function() {
+        const currentClickId = listItem.dataset.clickId;
+        if (isStillNew || !currentClickId) {
+            listItem.remove();
+            renumberDotsAndListItems();
+            return;
+        }
+
+        fetch('/delete-click/', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'X-CSRFToken': csrfToken },
+            body: JSON.stringify({ id: currentClickId })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'deleted') {
+                listItem.remove();
+                const dot = document.querySelector(`.click-dot[data-id="${currentClickId}"]`);
+                if (dot) dot.remove();
+                renumberDotsAndListItems();
+            } else { alert('Failed to delete point.'); }
+        });
+    });
+
+    [inputX, inputY].forEach(input => {
+        input.addEventListener('input', function() { // ZMIANA: 'input' zamiast 'change'
+            const currentClickId = listItem.dataset.clickId;
+            if (currentClickId && !isStillNew) { // Użyj flagi isStillNew
+                const dot = document.querySelector(`.click-dot[data-id="${currentClickId}"]`);
+                if (dot) {
+                    const newXFromInput = parseFloat(listItem.querySelector('.coord-x-input').value);
+                    const newYFromInput = parseFloat(listItem.querySelector('.coord-y-input').value);
+
+                    if (!isNaN(newXFromInput) && !isNaN(newYFromInput)) {
+                        dot.style.left = newXFromInput + 'px';
+                        dot.style.top = newYFromInput + 'px';
+                        redrawLines(); // Przesuń linie łączące punkty
+                    }
+                }
+            }
+        });
+    });
+}
+
+function initializeCoordinateListInteractions() {
+    document.querySelectorAll('#coordinates-list .coordinate-item').forEach(item => {
+        const clickId = item.dataset.clickId;
+        if (clickId) {
+                attachEventListenersToListItem(item, false);
+        }
+    });
+
+    const addPointToListBtn = document.getElementById('add-point-on-list-btn');
+    if (addPointToListBtn) {
+        addPointToListBtn.addEventListener('click', () => {
+            const mainImage = document.getElementById('main-image');
+            const defaultX = mainImage ? mainImage.width / 2 : 50;
+            const defaultY = mainImage ? mainImage.height / 2 : 50;
+            createCoordinateListItem(null, defaultX, defaultY, true);
+            renumberDotsAndListItems();
+        });
+    }
+}
+
+function initializeDot(dot) {
+    const image = document.getElementById("main-image");
+    if (!image) return;
+
+    let offsetX = 0, offsetY = 0;
+
+    dot.addEventListener("mousedown", (e) => {
+        if (e.button !== 0) return;
+        draggedDot = dot; // Ustaw aktualnie przeciąganą kropkę
+        const rect = dot.getBoundingClientRect();
+        offsetX = e.clientX - rect.left;
+        offsetY = e.clientY - rect.top;
+        
+        e.preventDefault();
+        document.addEventListener('mouseup', handleDocumentMouseUp, { once: true });
+    });
+
+    dot.querySelector('.delete-dot-btn').addEventListener('click', function (e) {
+        const clickId = dot.dataset.id;
+        if (confirm('Are you sure you want to delete this point?')) {
+            fetch('/delete-click/', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'X-CSRFToken': csrfToken },
+                body: JSON.stringify({ id: clickId })
+            }).then(response => response.json()).then(data => {
+                if (data.status === 'deleted') {
+                    dot.remove();
+                    const listItem = document.querySelector(`#coordinates-list .coordinate-item[data-click-id="${clickId}"]`);
+                    if (listItem) listItem.remove();
+                    renumberDotsAndListItems();
+                }
+            });
+        }
+    });
+
+    dot.addEventListener('mouseenter', () => {
+        const clickId = dot.dataset.id;
+        if (!clickId) return;
+
+        dot.classList.add('highlighted'); // Podświetl samą kropkę
+        const listItem = document.querySelector(`#coordinates-list .coordinate-item[data-click-id="${clickId}"]`);
+        if (listItem) {
+            listItem.classList.add('highlighted');
+        }
+    });
+
+    dot.addEventListener('mouseleave', () => {
+        const clickId = dot.dataset.id;
+        if (!clickId) return;
+
+        dot.classList.remove('highlighted'); // Usuń podświetlenie z kropki
+        const listItem = document.querySelector(`#coordinates-list .coordinate-item[data-click-id="${clickId}"]`);
+        if (listItem) {
+            listItem.classList.remove('highlighted');
+        }
+    });
+}
+
+function handleDocumentMouseUp() {
+    if (!draggedDot) return;
+
+    const finalX = parseFloat(draggedDot.style.left);
+    const finalY = parseFloat(draggedDot.style.top);
+
+    fetch('/update-click/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'X-CSRFToken': csrfToken },
+        body: JSON.stringify({ id: draggedDot.dataset.id, x: finalX, y: finalY })
+    }).then(response => {
+        if (!response.ok) console.error('Position save failed after drag for dot ID:', draggedDot.dataset.id);
+    });
+    draggedDot = null; // Zakończ przeciąganie
+}
+
+function createDotOnImage(clickId, x, y) {
+    const container = document.getElementById('image-container');
+    const dot = document.createElement('div');
+    dot.className = 'click-dot';
+    dot.style.left = `${x}px`;
+    dot.style.top = `${y}px`;
+    dot.setAttribute('data-id', clickId);
+    dot.innerHTML = `<span class="dot-number"></span>
+                    <button class="delete-dot-btn" title="Delete this point">✖</button>`;
+    container.appendChild(dot);
+    initializeDot(dot);
+    return dot;
+}
+
+
+===== JavaScript: grid.js =====
+"use strict";
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+class BoardEditor {
+    constructor() {
+        this.cellSizePx = 0;
+        this.boardState = {
+            id: null,
+            name: "My New Board",
+            rows: 5,
+            cols: 5,
+            dots: []
+        };
+        this.availableColors = [
+            "#FF0000", "#00FF00", "#0000FF", "#FFFF00", "#FF00FF", "#00FFFF",
+            "#FFA500", "#800080", "#A52A2A", "#008000"
+        ];
+        this.selectedColor = null;
+        this.firstDotOfPair = null;
+        this.MAX_GRID_DIMENSION_PX = 400;
+        this.MIN_CELL_SIZE_PX = 10;
+        this.gridContainer = document.getElementById('grid-container');
+        this.numRowsInput = document.getElementById('numRows');
+        this.numColsInput = document.getElementById('numCols');
+        this.boardNameInput = document.getElementById('boardName');
+        this.generateGridButton = document.getElementById('generateGridButton');
+        this.saveBoardButton = document.getElementById('saveBoardButton');
+        this.colorPaletteContainer = document.getElementById('color-palette');
+        this.selectedColorDisplay = document.getElementById('selected-color-display');
+        this.messagesDiv = document.getElementById('messages');
+        this.boardIdInput = document.getElementById('boardId');
+        this.saveAsImageButton = document.getElementById('saveAsImageButton');
+        const csrfTokenElement = document.querySelector('[name=csrfmiddlewaretoken]');
+        this.csrfToken = csrfTokenElement ? csrfTokenElement.value : '';
+        this.loadInitialBoardData();
+        this.initEventListeners();
+        this.populateColorPalette();
+        if (!this.boardState.id) {
+            this.updateBoardStateFromInputs();
+        }
+        this.renderGrid();
+    }
+    loadInitialBoardData() {
+        const initialDataScript = document.getElementById('initial-board-data');
+        if (initialDataScript && initialDataScript.textContent) {
+            try {
+                const data = JSON.parse(initialDataScript.textContent);
+                if (data && data.id) {
+                    this.boardState.id = data.id;
+                    this.boardState.name = data.name;
+                    this.boardState.rows = data.rows;
+                    this.boardState.cols = data.cols;
+                    this.boardState.dots = data.dots_config || [];
+                    this.boardNameInput.value = this.boardState.name;
+                    this.numRowsInput.value = this.boardState.rows.toString();
+                    this.numColsInput.value = this.boardState.cols.toString();
+                }
+            }
+            catch (e) {
+                console.error("Error parsing initial board data:", e);
+            }
+        }
+    }
+    initEventListeners() {
+        this.saveAsImageButton.addEventListener('click', () => this.handleSaveAsImage());
+        this.generateGridButton.addEventListener('click', () => {
+            const oldRows = this.boardState.rows;
+            const oldCols = this.boardState.cols;
+            const newRows = parseInt(this.numRowsInput.value, 10);
+            const newCols = parseInt(this.numColsInput.value, 10);
+            if (this.boardState.rows !== newRows || this.boardState.cols !== newCols) {
+                this.boardState.dots = this.boardState.dots.filter(dot => dot.row < newRows && dot.col < newCols);
+                this.firstDotOfPair = null;
+            }
+            this.boardState.rows = newRows;
+            this.boardState.cols = newCols;
+            this.renderGrid();
+        });
+        this.saveBoardButton.addEventListener('click', () => this.saveBoard());
+        this.boardNameInput.addEventListener('input', () => {
+            this.boardState.name = this.boardNameInput.value;
+            const titleDisplay = document.getElementById('board-title-display');
+            if (titleDisplay)
+                titleDisplay.textContent = this.boardState.name;
+        });
+    }
+    updateBoardStateFromInputs() {
+        this.boardState.name = this.boardNameInput.value;
+        this.boardState.rows = parseInt(this.numRowsInput.value, 10) || 5;
+        this.boardState.cols = parseInt(this.numColsInput.value, 10) || 5;
+    }
+    populateColorPalette() {
+        this.availableColors.forEach(color => {
+            const colorButton = document.createElement('div');
+            colorButton.classList.add('color-button');
+            colorButton.style.backgroundColor = color;
+            colorButton.dataset.color = color;
+            colorButton.addEventListener('click', () => this.selectColor(color, colorButton));
+            this.colorPaletteContainer.appendChild(colorButton);
+        });
+    }
+    selectColor(color, buttonElement) {
+        this.selectedColor = color;
+        this.firstDotOfPair = null;
+        this.selectedColorDisplay.textContent = color;
+        this.selectedColorDisplay.style.color = color;
+        document.querySelectorAll('.color-button.selected').forEach(btn => btn.classList.remove('selected'));
+        buttonElement.classList.add('selected');
+    }
+    renderGrid() {
+        this.gridContainer.innerHTML = '';
+        const numRows = this.boardState.rows;
+        const numCols = this.boardState.cols;
+        if (numRows <= 0 || numCols <= 0) {
+            this.gridContainer.style.width = '0px';
+            this.gridContainer.style.height = '0px';
+            return;
+        }
+        let calculatedCellSizePx;
+        const cellWidthIfLimitedByCols = this.MAX_GRID_DIMENSION_PX / numCols;
+        const cellHeightIfLimitedByRows = this.MAX_GRID_DIMENSION_PX / numRows;
+        calculatedCellSizePx = Math.floor(Math.min(cellWidthIfLimitedByCols, cellHeightIfLimitedByRows));
+        calculatedCellSizePx = Math.max(calculatedCellSizePx, this.MIN_CELL_SIZE_PX);
+        this.cellSizePx = calculatedCellSizePx;
+        const totalGridWidth = this.cellSizePx * numCols;
+        const totalGridHeight = this.cellSizePx * numRows;
+        this.gridContainer.style.width = `${totalGridWidth}px`;
+        this.gridContainer.style.height = `${totalGridHeight}px`;
+        this.gridContainer.style.gridTemplateRows = `repeat(${numRows}, ${this.cellSizePx}px)`;
+        this.gridContainer.style.gridTemplateColumns = `repeat(${numCols}, ${this.cellSizePx}px)`;
+        for (let r = 0; r < numRows; r++) {
+            for (let c = 0; c < numCols; c++) {
+                const cell = document.createElement('div');
+                cell.classList.add('grid-cell');
+                cell.dataset.row = r.toString();
+                cell.dataset.col = c.toString();
+                cell.addEventListener('click', () => this.handleCellClick(r, c));
+                this.gridContainer.appendChild(cell);
+            }
+        }
+        this.renderDots();
+    }
+    renderDots() {
+        this.gridContainer.querySelectorAll('.dot-visual').forEach(dv => dv.remove());
+        this.boardState.dots.forEach(dot => {
+            const cell = this.gridContainer.querySelector(`.grid-cell[data-row='${dot.row}'][data-col='${dot.col}']`);
+            if (cell) {
+                const dotVisual = document.createElement('div');
+                dotVisual.classList.add('dot-visual');
+                dotVisual.style.backgroundColor = dot.color;
+                cell.appendChild(dotVisual);
+            }
+        });
+    }
+    handleCellClick(row, col) {
+        if (!this.selectedColor) {
+            this.showMessage("Please select a color first.", "error");
+            return;
+        }
+        const existingDotIndex = this.boardState.dots.findIndex(d => d.row === row && d.col === col);
+        if (existingDotIndex !== -1) {
+            const existingDot = this.boardState.dots[existingDotIndex];
+            if (existingDot.color === this.selectedColor) {
+                this.boardState.dots.splice(existingDotIndex, 1);
+                if (this.firstDotOfPair && this.firstDotOfPair.row === row && this.firstDotOfPair.col === col) {
+                    this.firstDotOfPair = null;
+                }
+                this.renderDots();
+                this.showMessage(`Dot removed from (${row}, ${col}).`, "info");
+            }
+            else {
+                this.showMessage("Cell is already occupied by a different color.", "error");
+            }
+            return;
+        }
+        const dotsOfSelectedColor = this.boardState.dots.filter(d => d.color === this.selectedColor);
+        if (dotsOfSelectedColor.length >= 2) {
+            this.showMessage(`Already placed two dots for color ${this.selectedColor}. Select a different color or remove existing dots of this color.`, "error");
+            return;
+        }
+        const newDot = { row, col, color: this.selectedColor };
+        if (!this.firstDotOfPair) {
+            this.boardState.dots.push(newDot);
+            this.firstDotOfPair = { row, col };
+            this.showMessage(`First dot of color ${this.selectedColor} placed at (${row}, ${col}). Click another empty cell.`, "info");
+        }
+        else {
+            if (this.firstDotOfPair.row === row && this.firstDotOfPair.col === col) { // Prevent placing second dot on the first dot's cell
+                this.showMessage("Cannot place the second dot on the same cell as the first.", "error");
+                return;
+            }
+            this.boardState.dots.push(newDot);
+            this.showMessage(`Second dot of color ${this.selectedColor} placed at (${row}, ${col}). Pair complete.`, "success");
+            this.firstDotOfPair = null;
+        }
+        this.renderDots();
+    }
+    saveBoard() {
+        return __awaiter(this, void 0, void 0, function* () {
+            if (!this.boardNameInput.value.trim()) {
+                this.showMessage("Board name cannot be empty.", "error");
+                return;
+            }
+            this.boardState.name = this.boardNameInput.value.trim();
+            const colorCounts = {};
+            this.boardState.dots.forEach(dot => {
+                colorCounts[dot.color] = (colorCounts[dot.color] || 0) + 1;
+            });
+            for (const color in colorCounts) {
+                if (colorCounts[color] === 1) {
+                    this.showMessage(`Color ${color} has only one dot. Please complete the pair or remove it.`, "error");
+                    return;
+                }
+            }
+            const payload = {
+                id: this.boardState.id,
+                name: this.boardState.name,
+                rows: this.boardState.rows,
+                cols: this.boardState.cols,
+                dots_config: this.boardState.dots
+            };
+            try {
+                const response = yield fetch('/board/api/save_board/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': this.csrfToken,
+                        'X-Requested-With': 'XMLHttpRequest'
+                    },
+                    body: JSON.stringify(payload)
+                });
+                const result = yield response.json();
+                if (response.ok) {
+                    this.showMessage(result.message || "Board saved successfully!", "success");
+                    if (result.board_id) {
+                        this.boardState.id = result.board_id;
+                        this.boardIdInput.value = result.board_id.toString();
+                        const titleDisplay = document.getElementById('board-title-display');
+                        if (titleDisplay) {
+                            titleDisplay.textContent = this.boardState.name;
+                        }
+                        else {
+                            const h1 = document.querySelector('h1');
+                            if (h1)
+                                h1.innerHTML = `Edit Board: <span id="board-title-display">${this.boardState.name}</span>`;
+                        }
+                        if (this.boardState.id && !window.location.pathname.includes(this.boardState.id.toString())) {
+                            window.history.pushState({}, '', `/board/${this.boardState.id}/edit/`);
+                        }
+                    }
+                }
+                else {
+                    let errorMsg = result.message || "Failed to save board.";
+                    if (result.errors) {
+                        errorMsg += "<ul>";
+                        for (const field in result.errors) {
+                            result.errors[field].forEach((err) => {
+                                errorMsg += `<li>${field}: ${err}</li>`;
+                            });
+                        }
+                        errorMsg += "</ul>";
+                    }
+                    this.showMessage(errorMsg, "error", false);
+                }
+            }
+            catch (error) {
+                console.error("Error saving board:", error);
+                this.showMessage("An unexpected error occurred while saving.", "error");
+            }
+        });
+    }
+    getBoardAsImageDataURL() {
+        return __awaiter(this, arguments, void 0, function* (format = 'image/png') {
+            const rows = this.boardState.rows;
+            const cols = this.boardState.cols;
+            const dots = this.boardState.dots;
+            if (rows <= 0 || cols <= 0 || this.cellSizePx <= 0) {
+                console.error("Board dimensions or cell size invalid for image generation.");
+                return null;
+            }
+            const canvas = document.createElement('canvas');
+            const canvasWidth = cols * this.cellSizePx;
+            const canvasHeight = rows * this.cellSizePx;
+            canvas.width = canvasWidth;
+            canvas.height = canvasHeight;
+            const ctx = canvas.getContext('2d');
+            if (!ctx) {
+                console.error("Could not get 2D context from canvas");
+                return null;
+            }
+            // 1. Draw background (optional)
+            ctx.fillStyle = "#FFFFFF"; // White background
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            // 2. Draw grid lines
+            ctx.strokeStyle = "#CCCCCC"; // Light grey for grid lines
+            ctx.lineWidth = 1;
+            for (let r = 0; r <= rows; r++) {
+                ctx.beginPath();
+                ctx.moveTo(0, r * this.cellSizePx);
+                ctx.lineTo(canvas.width, r * this.cellSizePx);
+                ctx.stroke();
+            }
+            for (let c = 0; c <= cols; c++) {
+                ctx.beginPath();
+                ctx.moveTo(c * this.cellSizePx, 0);
+                ctx.lineTo(c * this.cellSizePx, canvas.height);
+                ctx.stroke();
+            }
+            // 3. Draw the colored dots
+            const dotRadius = this.cellSizePx * 0.35; // 35% of cell size for dot radius
+            dots.forEach(dot => {
+                const centerX = dot.col * this.cellSizePx + this.cellSizePx / 2;
+                const centerY = dot.row * this.cellSizePx + this.cellSizePx / 2;
+                ctx.beginPath();
+                ctx.arc(centerX, centerY, dotRadius, 0, 2 * Math.PI, false);
+                ctx.fillStyle = dot.color;
+                ctx.fill();
+                // Optional: add a border to dots
+                // ctx.lineWidth = 1;
+                // ctx.strokeStyle = '#333333';
+                // ctx.stroke();
+            });
+            return canvas.toDataURL(format);
+        });
+    }
+    handleSaveAsImage() {
+        return __awaiter(this, void 0, void 0, function* () {
+            this.showMessage("Generating image...", "info", false);
+            const imageDataURL = yield this.getBoardAsImageDataURL();
+            if (!imageDataURL) {
+                this.showMessage("Failed to generate image data.", "error");
+                return;
+            }
+            // Prepare data for backend
+            const boardName = this.boardState.name || "Generated Grid Board";
+            const fileName = `${boardName.replace(/[^a-zA-Z0-9]/g, '_')}_${Date.now()}.png`;
+            const payload = {
+                name: boardName, // Name for the UserImage
+                image_data_url: imageDataURL,
+                filename: fileName // Suggested filename
+            };
+            try {
+                const response = yield fetch('/api/save_grid_as_image/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': this.csrfToken,
+                    },
+                    body: JSON.stringify(payload)
+                });
+                const result = yield response.json();
+                if (response.ok && result.status === 'success') {
+                    this.showMessage(`Board saved as image: ${result.image_name}. You can now use it for path editing.`, "success");
+                    // Optionally redirect or update UI
+                }
+                else {
+                    this.showMessage(result.message || "Failed to save board as image on server.", "error");
+                }
+            }
+            catch (error) {
+                console.error("Error saving board as image:", error);
+                this.showMessage("An error occurred while sending image to server.", "error");
+            }
+        });
+    }
+    showMessage(message, type, autoClear = true) {
+        this.messagesDiv.innerHTML = `<p class="${type}">${message}</p>`;
+        if (autoClear) {
+            setTimeout(() => {
+                this.messagesDiv.innerHTML = '';
+            }, 5000);
+        }
+    }
+}
+document.addEventListener('DOMContentLoaded', () => {
+    if (document.getElementById('grid-container')) {
+        new BoardEditor();
+    }
+});
+//# sourceMappingURL=grid.js.map
+
+===== JavaScript: functions.js =====
+"use strict";
+// functions.ts
+// --- Funkcje ---
+function initializePageElements() {
+    redrawLines();
+    document.querySelectorAll('.click-dot').forEach(initializeDot);
+    renumberDotsAndListItems();
+}
+function renumberDotsAndListItems() {
+    const dots = document.querySelectorAll('.click-dot');
+    dots.forEach((dot, index) => {
+        const dotNumberElement = dot.querySelector('.dot-number');
+        if (dotNumberElement) {
+            dotNumberElement.innerText = (index + 1).toString();
+        }
+    });
+    const listItems = document.querySelectorAll('#coordinates-list .coordinate-item');
+    listItems.forEach((item, index) => {
+        const pointDisplayNumber = item.querySelector('.point-display-number');
+        if (pointDisplayNumber) {
+            pointDisplayNumber.innerText = (index + 1).toString();
+        }
+    });
+    redrawLines();
+}
+function redrawLines() {
+    const svg = document.getElementById('connection-lines');
+    if (!svg)
+        return;
+    svg.innerHTML = '';
+    const dots = Array.from(document.querySelectorAll('.click-dot'));
+    if (dots.length < 2)
+        return;
+    for (let i = 0; i < dots.length - 1; i++) {
+        const dot1 = dots[i];
+        const dot2 = dots[i + 1];
+        const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+        const x1 = parseFloat(dot1.style.left || '0');
+        const y1 = parseFloat(dot1.style.top || '0');
+        const x2 = parseFloat(dot2.style.left || '0');
+        const y2 = parseFloat(dot2.style.top || '0');
+        line.setAttribute('x1', x1.toString());
+        line.setAttribute('y1', y1.toString());
+        line.setAttribute('x2', x2.toString());
+        line.setAttribute('y2', y2.toString());
+        line.setAttribute('stroke-width', '2');
+        line.setAttribute('stroke', '#ff0000');
+        svg.appendChild(line);
+    }
+}
+function createCoordinateListItem(clickId, x, y, isNew = false) {
+    const listItem = document.createElement('li');
+    listItem.classList.add('coordinate-item');
+    if (!isNew && clickId !== null) {
+        listItem.setAttribute('data-click-id', clickId.toString());
+    }
+    const pointNumberSpan = document.createElement('span');
+    pointNumberSpan.classList.add('point-display-number');
+    const inputX = document.createElement('input');
+    inputX.type = 'number';
+    inputX.classList.add('coord-x-input');
+    inputX.value = x.toFixed(2);
+    inputX.step = '0.01';
+    inputX.autocomplete = 'off';
+    const inputY = document.createElement('input');
+    inputY.type = 'number';
+    inputY.classList.add('coord-y-input');
+    inputY.value = y.toFixed(2);
+    inputY.step = '0.01';
+    inputY.autocomplete = 'off';
+    const updateButton = document.createElement('button');
+    updateButton.classList.add('update-coord-btn');
+    updateButton.textContent = isNew ? 'Save New' : 'Update';
+    if (isNew) {
+        updateButton.classList.add('save-new-coord-btn');
+    }
+    const deleteButton = document.createElement('button');
+    deleteButton.classList.add('delete-coord-btn');
+    deleteButton.textContent = 'Delete';
+    listItem.appendChild(document.createTextNode('Point '));
+    listItem.appendChild(pointNumberSpan);
+    listItem.appendChild(document.createTextNode(': X '));
+    listItem.appendChild(inputX);
+    listItem.appendChild(document.createTextNode(' Y '));
+    listItem.appendChild(inputY);
+    listItem.appendChild(updateButton);
+    listItem.appendChild(deleteButton);
+    const coordinatesList = document.getElementById('coordinates-list');
+    if (coordinatesList) {
+        coordinatesList.appendChild(listItem);
+    }
+    else {
+        console.error("Element with ID 'coordinates-list' not found.");
+    }
+    attachEventListenersToListItem(listItem, isNew);
+    return listItem;
+}
+function attachEventListenersToListItem(listItem, isNewInitially = false) {
+    const updateBtn = listItem.querySelector('.update-coord-btn');
+    const deleteBtn = listItem.querySelector('.delete-coord-btn');
+    const inputX = listItem.querySelector('.coord-x-input');
+    const inputY = listItem.querySelector('.coord-y-input');
+    let isStillNew = isNewInitially;
+    if (!updateBtn || !deleteBtn || !inputX || !inputY) {
+        console.error("Could not find all required elements within list item:", listItem);
+        return;
+    }
+    console.log(`[attachEventListenersToListItem] For item data-id=${listItem.dataset.clickId}, X_val=${inputX.value}, Y_val=${inputY.value}`);
+    updateBtn.addEventListener('click', function () {
+        const currentClickIdStr = listItem.dataset.clickId;
+        const currentClickId = currentClickIdStr ? parseInt(currentClickIdStr, 10) : null;
+        const newX = parseFloat(inputX.value);
+        const newY = parseFloat(inputY.value);
+        if (isNaN(newX) || isNaN(newY)) {
+            alert('Please enter valid numbers for X and Y.');
+            return;
+        }
+        const requestBody = {
+            item_id: selectedImageId,
+            item_type: 'user_image',
+            x: newX,
+            y: newY,
+            id: currentClickId
+        };
+        if (isStillNew || currentClickId === null) {
+            fetch('/add-click/', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'X-CSRFToken': csrfToken },
+                body: JSON.stringify({ image_id: requestBody.item_id, x: newX, y: newY })
+            })
+                .then(response => response.json())
+                .then(data => {
+                if (data.success && data.click_id !== undefined) {
+                    listItem.setAttribute('data-click-id', data.click_id.toString());
+                    updateBtn.textContent = 'Update';
+                    if (updateBtn.classList.contains('save-new-coord-btn')) {
+                        updateBtn.classList.remove('save-new-coord-btn');
+                    }
+                    isStillNew = false;
+                    createDotOnImage(data.click_id, newX, newY);
+                    renumberDotsAndListItems();
+                }
+                else {
+                    alert('Failed to save new point. ' + (data.error || ''));
+                }
+            }).catch(error => console.error('Error saving new point:', error));
+        }
+        else {
+            fetch('/update-click/', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'X-CSRFToken': csrfToken },
+                body: JSON.stringify({ id: currentClickId, x: newX, y: newY })
+            })
+                .then(response => response.json())
+                .then(data => {
+                if (data.status === 'success') {
+                    const dot = document.querySelector(`.click-dot[data-id="${currentClickId}"]`);
+                    if (dot) {
+                        dot.style.left = newX + 'px';
+                        dot.style.top = newY + 'px';
+                        redrawLines();
+                    }
+                }
+                else {
+                    alert('Failed to update point. ' + (data.message || ''));
+                }
+            }).catch(error => console.error('Error updating point:', error));
+        }
+    });
+    listItem.addEventListener('mouseenter', () => {
+        const clickId = listItem.dataset.clickId;
+        if (!clickId)
+            return;
+        listItem.classList.add('highlighted');
+        const dotElement = document.querySelector(`.click-dot[data-id="${clickId}"]`);
+        if (dotElement) {
+            dotElement.classList.add('highlighted');
+        }
+    });
+    listItem.addEventListener('mouseleave', () => {
+        const clickId = listItem.dataset.clickId;
+        if (!clickId)
+            return;
+        listItem.classList.remove('highlighted');
+        const dotElement = document.querySelector(`.click-dot[data-id="${clickId}"]`);
+        if (dotElement) {
+            dotElement.classList.remove('highlighted');
+        }
+    });
+    deleteBtn.addEventListener('click', function () {
+        const currentClickIdStr = listItem.dataset.clickId;
+        if (isStillNew || !currentClickIdStr) {
+            listItem.remove();
+            renumberDotsAndListItems();
+            return;
+        }
+        const currentClickId = parseInt(currentClickIdStr, 10);
+        fetch('/delete-click/', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'X-CSRFToken': csrfToken },
+            body: JSON.stringify({ id: currentClickId })
+        })
+            .then(response => response.json())
+            .then(data => {
+            if (data.status === 'deleted') {
+                listItem.remove();
+                const dot = document.querySelector(`.click-dot[data-id="${currentClickId}"]`);
+                if (dot)
+                    dot.remove();
+                renumberDotsAndListItems();
+            }
+            else {
+                alert('Failed to delete point.');
+            }
+        }).catch(error => console.error('Error deleting point:', error));
+    });
+    [inputX, inputY].forEach(inputField => {
+        inputField.addEventListener('input', function () {
+            const currentClickIdStr = listItem.dataset.clickId;
+            if (currentClickIdStr && !isStillNew) {
+                const currentClickId = parseInt(currentClickIdStr, 10);
+                const dot = document.querySelector(`.click-dot[data-id="${currentClickId}"]`);
+                if (dot) {
+                    const newXFromInput = parseFloat(inputX.value);
+                    const newYFromInput = parseFloat(inputY.value);
+                    if (!isNaN(newXFromInput) && !isNaN(newYFromInput)) {
+                        dot.style.left = newXFromInput + 'px';
+                        dot.style.top = newYFromInput + 'px';
+                        redrawLines();
+                    }
+                }
+            }
+        });
+    });
+}
+function initializeCoordinateListInteractions() {
+    document.querySelectorAll('#coordinates-list .coordinate-item').forEach(item => {
+        const clickId = item.dataset.clickId;
+        if (clickId) {
+            attachEventListenersToListItem(item, false);
+        }
+    });
+    const addPointToListBtn = document.getElementById('add-point-on-list-btn');
+    if (addPointToListBtn) {
+        addPointToListBtn.addEventListener('click', () => {
+            const mainImage = document.getElementById('main-image');
+            const defaultX = mainImage ? mainImage.width / 2 : 50;
+            const defaultY = mainImage ? mainImage.height / 2 : 50;
+            createCoordinateListItem(null, defaultX, defaultY, true);
+            renumberDotsAndListItems();
+        });
+    }
+}
+function initializeDot(dot) {
+    const image = document.getElementById("main-image");
+    dot.addEventListener("mousedown", (e) => {
+        if (e.button !== 0)
+            return;
+        draggedDot = dot;
+        e.preventDefault();
+        document.addEventListener('mouseup', handleDocumentMouseUp, { once: true });
+    });
+    const deleteBtn = dot.querySelector('.delete-dot-btn');
+    if (deleteBtn) {
+        deleteBtn.addEventListener('click', function (e) {
+            e.stopPropagation();
+            const clickIdStr = dot.dataset.id;
+            if (!clickIdStr) {
+                console.warn("Dot has no data-id for deletion:", dot);
+                return;
+            }
+            const clickId = parseInt(clickIdStr, 10);
+            fetch('/delete-click/', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'X-CSRFToken': csrfToken },
+                body: JSON.stringify({ id: clickId })
+            })
+                .then(response => response.json())
+                .then(data => {
+                if (data.status === 'deleted') {
+                    dot.remove();
+                    const listItem = document.querySelector(`#coordinates-list .coordinate-item[data-click-id="${clickId}"]`);
+                    if (listItem)
+                        listItem.remove();
+                    renumberDotsAndListItems();
+                }
+                else {
+                    alert('Failed to delete point.');
+                }
+            }).catch(error => console.error('Error deleting point:', error));
+        });
+    }
+    dot.addEventListener('mouseenter', () => {
+        const clickId = dot.dataset.id;
+        if (!clickId)
+            return;
+        dot.classList.add('highlighted');
+        const listItem = document.querySelector(`#coordinates-list .coordinate-item[data-click-id="${clickId}"]`);
+        if (listItem) {
+            listItem.classList.add('highlighted');
+        }
+    });
+    dot.addEventListener('mouseleave', () => {
+        const clickId = dot.dataset.id;
+        if (!clickId)
+            return;
+        dot.classList.remove('highlighted');
+        const listItem = document.querySelector(`#coordinates-list .coordinate-item[data-click-id="${clickId}"]`);
+        if (listItem) {
+            listItem.classList.remove('highlighted');
+        }
+    });
+}
+function handleDocumentMouseUp() {
+    if (!draggedDot)
+        return;
+    const finalX = parseFloat(draggedDot.style.left || '0');
+    const finalY = parseFloat(draggedDot.style.top || '0');
+    const clickIdStr = draggedDot.dataset.id;
+    if (!clickIdStr) {
+        console.error("Dragged dot has no data-id for update:", draggedDot);
+        draggedDot = null;
+        return;
+    }
+    const clickId = parseInt(clickIdStr, 10);
+    fetch('/update-click/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'X-CSRFToken': csrfToken },
+        body: JSON.stringify({ id: clickId, x: finalX, y: finalY })
+    })
+        .then(response => {
+        if (!response.ok) {
+            console.error('Position save failed after drag for dot ID:', clickId, response.statusText);
+        }
+        return response.json();
+    })
+        .then(data => {
+        if (data.status !== 'success') {
+            console.warn('Update click response status not success:', data);
+        }
+    })
+        .catch(error => console.error('Error updating position after drag:', error));
+    draggedDot = null;
+}
+function createDotOnImage(clickId, x, y) {
+    const container = document.getElementById('image-container');
+    if (!container) {
+        console.error("Element with ID 'image-container' not found.");
+        throw new Error("Image container not found, cannot create dot.");
+    }
+    const dot = document.createElement('div');
+    dot.className = 'click-dot';
+    dot.style.left = `${x}px`;
+    dot.style.top = `${y}px`;
+    dot.setAttribute('data-id', clickId.toString());
+    dot.innerHTML = `<span class="dot-number"></span>
+                    <button class="delete-dot-btn" title="Delete this point">✖</button>`;
+    container.appendChild(dot);
+    initializeDot(dot);
+    return dot;
+}
+//# sourceMappingURL=functions.js.map
 
 ===== base.html (if exists) =====

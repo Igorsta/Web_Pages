@@ -1,0 +1,92 @@
+{% extends "main/base.html" %}
+{% load static %}
+
+{% block title %}{% if board_instance %}Edit {{ board_instance.name }}{% else %}Create New Board{% endif %}{% endblock %}
+
+{% block head_extra %}
+<style>
+    #grid-container {
+        display: grid;
+        border: 1px solid #ccc;
+        margin-bottom: 20px;
+        user-select: none;
+    }
+    .grid-cell {
+        border: 1px solid #eee;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        transition: background-color 0.2s;
+    }
+    .grid-cell:hover {
+        background-color: #f0f0f0;
+    }
+    .grid-cell .dot-visual {
+        width: 70%;
+        height: 70%;
+        border-radius: 50%;
+        box-shadow: inset 0 0 3px rgba(0,0,0,0.3);
+    }
+    #color-palette { margin-bottom: 15px; }
+    .color-button {
+        width: 30px; height: 30px; border: 2px solid #fff;
+        margin-right: 5px; cursor: pointer; display: inline-block;
+        border-radius: 50%;
+    }
+    .color-button.selected {
+        border-color: #000;
+        box-shadow: 0 0 5px #000;
+    }
+    #messages { margin-top: 10px; }
+    .success { color: green; }
+    .error { color: red; }
+</style>
+{% endblock %}
+
+{% block content %}
+<h1>{% if board_instance %}Edit Board: <span id="board-title-display">{{ board_instance.name }}</span>{% else %}Create New Board{% endif %}</h1>
+
+{% csrf_token %}
+<input type="hidden" id="boardId" value="{{ board_instance.id | default:'' }}">
+<script id="initial-board-data" type="application/json">
+    {{ initial_board_data_json | safe }}
+</script>
+
+<div class="form-group">
+    <label for="boardName">Board Name:</label>
+    <input type="text" id="boardName" value="{{ board_instance.name | default:'My New Board' }}">
+</div>
+
+<div class="form-group">
+    <label for="numRows">Rows:</label>
+    <input type="number" id="numRows" value="{{ board_instance.rows | default:5 }}" min="2" max="50">
+</div>
+
+<div class="form-group">
+    <label for="numCols">Columns:</label>
+    <input type="number" id="numCols" value="{{ board_instance.cols | default:5 }}" min="2" max="50">
+</div>
+
+<button id="generateGridButton" class="button">Generate/Update Grid</button>
+<hr>
+
+<h3>Select Color & Place Dots:</h3>
+<div id="color-palette">
+</div>
+<p>Selected Color: <span id="selected-color-display">None</span></p>
+<p>Instructions: Select a color, then click two empty cells to place a pair of dots. Click an existing dot of the selected color to remove it.</p>
+
+<div id="grid-container">
+</div>
+
+
+<button id="saveBoardButton" class="button">Save Board</button>
+<button id="saveAsImageButton" class="button" >Save as Path Background</button>
+<div id="messages"></div>
+
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'main/ts/dist/grid.js' %}"></script>
+{% endblock %}
