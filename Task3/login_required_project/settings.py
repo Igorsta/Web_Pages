@@ -8,7 +8,7 @@ SECRET_KEY = os.getenv('SECRET_KEY', 'default-secret-key')
 
 DEBUG = False
 
-ALLOWED_HOSTS = ['twoja-domena-render.com', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = ["web-pages-x6aw.onrender.com", 'localhost', '127.0.0.1']
 
 INSTALLED_APPS = [
     'django.contrib.admin',
