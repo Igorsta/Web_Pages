@@ -1,0 +1,1 @@
+gunicorn login_required_project.wsgi:application

@@ -1,8 +1,5 @@
 ===== PROJECT STRUCTURE =====
 .
-├── backup
-│   ├── functions.js
-│   └── home.html
 ├── db.sqlite3
 ├── login_required_project
 │   ├── __init__.py
@@ -49,660 +46,8 @@
 ├── script.sh
 └── tsconfig.json
 
-8 directories, 40 files
+7 directories, 38 files
 
-
-===== File: ./backup/home.html =====
-{% extends "main/base.html" %}
-{% load static %}
-
-{% block title %}Home - Path Editor{% endblock title %}
-
-{% block content %}
-    <h2>Welcome, {{ user.username }}!</h2>
-
-    {# --- SEKCJA WYBORU OBRAZU --- #}
-    {% if not selected_image %}
-        <form method="get" action="{% url 'home' %}">
-            <label for="image-select">Personal paths:</label>
-            <select name="selected" id="image-select" onchange="this.form.submit()">
-                <option value="">-- choose a path --</option>
-                {% for img in user_images %}
-                    <option value="{{ img.name }}">
-                        {{ img.name }} (Yours)
-                    </option>
-                {% empty %}
-                    <option value="" disabled>You have no uploaded paths.</option>
-                {% endfor %}
-            </select>
-        </form>
-        <a href="{% url 'upload_image' %}">Upload a new personal path</a>
-
-        <hr>
-        <h3>Or Use a Common Path:</h3>
-        {% if common_images_list %}
-            <div class="common-images-grid" style="display: flex; flex-wrap: wrap; gap: 10px;">
-                {% for c_img in common_images_list %}
-                    <div class="common-image-item" style="border: 1px solid #ccc; padding: 5px; text-align: center;">
-                        <p>{{ c_img.name }}</p>
-                        {% if c_img.image %}
-                        <img src="{{ c_img.image.url }}" alt="{{ c_img.name }}" width="100" height="100" style="object-fit: cover;">
-                        <br>
-                        <a href="{% url 'use_common_image' c_img.id %}">Use this image</a>
-                        {% else %}
-                        <p>Path not available</p>
-                        {% endif %}
-                    </div>
-                {% endfor %}
-            </div>
-        {% else %}
-            <p>No common Paths available at the moment.</p>
-        {% endif %}
-
-    {% else %} {# Obraz JEST wybrany, pokaż edytor #}
-        
-        <p><a href="{% url 'home' %}">Select a different path</a></p> 
-        
-        <h3>Selected Path: {{ selected_image.name }}</h3>
-
-        <div id="message-container" style="text-align: center; font-size: 16px; color: blue; display: none;"></div>
-        
-        <div id="editor-layout"> {# Dodajmy style dla layoutu, jeśli potrzebne #}
-            <div id="image-option-containter">
-                <button id="add-point-on-image-btn">Add Point on Path</button>
-                <br>
-                <div id="image-container">
-                    <svg id="connection-lines" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none;"></svg>
-                    <img src="{{ selected_image.image.url }}" id="main-image" alt="{{ selected_image.name }}" />
-                    {# Kropki są renderowane przez Django przy pierwszym załadowaniu #}
-                    {% for click in selected_image.clicks.all %}
-                    <div class="click-dot"
-                        data-id="{{ click.id }}"
-                        style="left: {{ click.x }}px; top: {{ click.y }}px;"> {# Używamy x, y jako koordynaty WZGLĘDEM OBRAZU #}
-                        <span class="dot-number"></span>
-                        <button class="delete-dot-btn" title="Delete this point">✖</button>
-                    </div>
-                    {% endfor %}
-                </div>
-                <br>
-                <a href="{% url 'delete_image' selected_image.id %}" onclick="return confirm('Are you sure you want to delete this image and all its points?');">Delete image</a>
-            </div>
-
-            <div id="coordinates-list-container">
-                <button id="add-point-on-list-btn">Add New Point to List</button>
-                <h4>Coordinates of Points:</h4>
-                <ul id="coordinates-list">
-                    {# Lista koordynatów jest renderowana przez Django przy pierwszym załadowaniu #}
-                    {% for click in selected_image.clicks.all %}
-                        <li data-click-id="{{ click.id }}" class="coordinate-item">
-                            Point <span class="point-display-number">{{ forloop.counter }}</span>:
-                            X<input type="number" class="coord-x-input" value="{{ click.x|stringformat:".2f" }}" step="0.01" autocomplete="off"> {# Użyj stringformat dla kropki jako separatora #}
-                            Y<input type="number" class="coord-y-input" value="{{ click.y|stringformat:".2f" }}" step="0.01" autocomplete="off"> {# Użyj stringformat dla kropki jako separatora #}
-                            <button class="update-coord-btn">Update</button>
-                            <button class="delete-coord-btn">Delete</button>
-                        </li>
-                    {% endfor %}
-                </ul>
-            </div>
-        </div>
-        <br>
-    {% endif %} 
-    
-{% endblock content %}
-
-{% block extra_js %}
-    {# Stałe globalne dla JavaScriptu #}
-    <script>
-        const csrfToken = '{{ csrf_token }}';
-        const selectedImageId = {{ selected_image.id|default_if_none:"null" }};
-        let draggedDot = null;      // Referencja do aktualnie przeciąganej kropki
-        let addModeOnClick = false; // Czy aktywny jest tryb dodawania punktów przez klikanie na obrazie
-    </script>
-
-    {# Główny plik z logiką JavaScript #}
-    <script src="{% static 'main/js/functions.js' %}"></script>
-
-    {# Skrypt inicjalizacyjny i obsługa zdarzeń specyficznych dla tego szablonu #}
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            // Funkcja pomocnicza do inicjalizacji komponentów edytora
-            function initializeEditorComponents() {
-                // Upewnij się, że funkcje z functions.js są dostępne globalnie lub przez import/moduł
-                if (typeof initializePageElements === 'function') {
-                    initializePageElements(); // Powinno m.in. zainicjalizować kropki i listę
-                } else {
-                    console.error("Function 'initializePageElements' is not defined. Check functions.js.");
-                }
-                 // Dodatkowa synchronizacja po pełnej inicjalizacji, jeśli konieczne
-                if (typeof synchronizeListWithDots === 'function') {
-                    synchronizeListWithDots();
-                } else {
-                     console.warn("Function 'synchronizeListWithDots' is not defined (optional).");
-                }
-            }
-
-            // Główna logika inicjalizacji
-            if (selectedImageId) {
-                const mainImageElement = document.getElementById('main-image');
-                if (mainImageElement) {
-                    if (mainImageElement.complete && mainImageElement.naturalWidth > 0) { // Sprawdź też naturalWidth
-                        initializeEditorComponents();
-                    } else {
-                        mainImageElement.addEventListener('load', () => {
-                            initializeEditorComponents();
-                        });
-                        // Obsługa błędu ładowania obrazu
-                        mainImageElement.addEventListener('error', () => {
-                            console.error("Failed to load the main image.");
-                            // Można tu wyświetlić komunikat użytkownikowi
-                        });
-                    }
-                } else {
-                    console.warn("HTML: selectedImageId is set, but #main-image element was not found.");
-                }
-            } else {
-                // Jeśli żaden obraz nie jest wybrany, wyłącz przyciski edytora
-                const addBtnImg = document.getElementById('add-point-on-image-btn');
-                const addBtnList = document.getElementById('add-point-on-list-btn');
-                if (addBtnImg) addBtnImg.disabled = true;
-                if (addBtnList) addBtnList.disabled = true;
-            }
-            
-            // --- Obsługa przycisku "Add Point on Image" ---
-            const addPointOnImageBtn = document.getElementById('add-point-on-image-btn');
-            const messageContainer = document.getElementById('message-container'); // Upewnij się, że ten kontener istnieje
-            
-            if (addPointOnImageBtn) {
-                addPointOnImageBtn.addEventListener('click', () => {
-                    if (!selectedImageId) return; // Nie rób nic, jeśli nie ma obrazu
-                    addModeOnClick = !addModeOnClick;
-                    const mainImgElem = document.getElementById('main-image');
-                    if (addModeOnClick) {
-                        addPointOnImageBtn.textContent = "Stop Adding on Image";
-                        if(messageContainer) {
-                            messageContainer.innerText = "Click anywhere on the image to place a new point.";
-                            messageContainer.style.display = "block";
-                        }
-                        if(mainImgElem) mainImgElem.style.cursor = 'crosshair';
-                    } else {
-                        addPointOnImageBtn.textContent = "Add Point on Image";
-                        if(messageContainer) messageContainer.style.display = "none";
-                        if(mainImgElem) mainImgElem.style.cursor = 'default';
-                    }
-                });
-            }
-
-            // --- Obsługa kliknięcia na obrazie w celu dodania punktu ---
-            const mainImageEventTarget = document.getElementById('main-image');
-            if (mainImageEventTarget) {
-                mainImageEventTarget.addEventListener('click', function (e) {
-                    if (!addModeOnClick || !selectedImageId) return; // Tylko w trybie dodawania i gdy obraz jest wybrany
-                    
-                    const imageClicked = e.target; // To jest element <img>
-                    const rect = imageClicked.getBoundingClientRect(); // Pozycja obrazu względem viewportu
-
-                    // Koordynaty kliknięcia WZGLĘDEM OBRAZU (lewy górny róg obrazu to 0,0)
-                    const x_coord_on_image = parseFloat((e.clientX - rect.left).toFixed(2));
-                    const y_coord_on_image = parseFloat((e.clientY - rect.top).toFixed(2));
-
-                    // Sprawdzenie, czy kliknięcie jest w granicach obrazu (opcjonalne, ale dobre)
-                    if (x_coord_on_image < 0 || x_coord_on_image > imageClicked.width || y_coord_on_image < 0 || y_coord_on_image > imageClicked.height) {
-                        console.warn("Click outside image bounds ignored.");
-                        return;
-                    }
-                    
-                    fetch('/add-click/', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json', 'X-CSRFToken': csrfToken },
-                        // Wysyłamy koordynaty względem obrazu
-                        body: JSON.stringify({ image_id: selectedImageId, x: x_coord_on_image, y: y_coord_on_image }) 
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.success && typeof data.click_id !== 'undefined') {
-                            // Funkcje z functions.js powinny być dostępne globalnie
-                            if (typeof createDotOnImage === 'function' && 
-                                typeof createCoordinateListItem === 'function' &&
-                                typeof renumberDotsAndListItems === 'function') {
-                                
-                                // createDotOnImage oczekuje koordynatów, gdzie ma być umieszczona kropka
-                                // (które są takie same jak x_coord_on_image, y_coord_on_image)
-                                createDotOnImage(data.click_id, x_coord_on_image, y_coord_on_image);
-                                createCoordinateListItem(data.click_id, x_coord_on_image, y_coord_on_image, false); 
-                                renumberDotsAndListItems();
-                            } else {
-                                console.error("One or more required functions (createDotOnImage, createCoordinateListItem, renumberDotsAndListItems) are not defined.");
-                            }
-                        } else {
-                            console.error("Failed to add click:", data);
-                        }
-                    });
-                });
-            }
-            
-            // --- Globalna obsługa przesuwania myszy (dla przeciągania kropki) ---
-            // Ta logika jest dość skomplikowana i może być lepiej umieścić ją w functions.js,
-            // ale zostawiam ją tutaj dla kompletności, jeśli initializeDot ustawia draggedDot.
-            document.addEventListener("mousemove", (e) => {
-                if (!draggedDot || !selectedImageId) return; // Tylko jeśli przeciągamy kropkę i obraz jest wybrany
-                
-                const mainImageElement = document.getElementById('main-image');
-                const imageContainer = document.getElementById('image-container');
-                if (!mainImageElement || !imageContainer) return; 
-
-                const containerRect = imageContainer.getBoundingClientRect(); // Kontener, w którym są kropki
-
-                // Pozycja kursora względem kontenera obrazu
-                let cursorXInContainer = e.clientX - containerRect.left;
-                let cursorYInContainer = e.clientY - containerRect.top;
-
-                // Docelowa pozycja LEWEGO GÓRNEGO ROGU kropki (bo style.left/top to ustawiają)
-                // Zakładamy, że CSS .click-dot ma transform: translate(-50%, -50%) dla wyśrodkowania
-                let newDotLeft = cursorXInContainer;
-                let newDotTop = cursorYInContainer;
-
-                // Wymiary obrazu i jego offset w kontenerze (jeśli kontener jest większy niż obraz)
-                const imageOffsetX = mainImageElement.offsetLeft; // Pozycja obrazu wewnątrz image-container
-                const imageOffsetY = mainImageElement.offsetTop;
-                const imageWidth = mainImageElement.offsetWidth;   // Rzeczywista szerokość obrazu
-                const imageHeight = mainImageElement.offsetHeight; // Rzeczywista wysokość obrazu
-
-                // Ograniczenie pozycji LEWEGO GÓRNEGO ROGU kropki do granic OBRAZU
-                // Kropka nie może wyjść poza obraz. Lewy górny róg kropki musi być między
-                // imageOffsetX a imageOffsetX + imageWidth (minus szerokość kropki, jeśli środek ma być na krawędzi)
-                // Dla uproszczenia, jeśli środek kropki ma być na krawędzi:
-                newDotLeft = Math.max(imageOffsetX, Math.min(newDotLeft, imageOffsetX + imageWidth));
-                newDotTop = Math.max(imageOffsetY, Math.min(newDotTop, imageOffsetY + imageHeight));   
-
-                draggedDot.style.left = newDotLeft.toFixed(2) + "px";
-                draggedDot.style.top = newDotTop.toFixed(2) + "px";
-
-                if (typeof redrawLines === 'function') redrawLines();
-
-                // Aktualizacja wartości w liście koordynatów
-                // Wartości w liście powinny być WZGLĘDEM OBRAZU (0,0 obrazu)
-                const xRelativeToImage = newDotLeft - imageOffsetX;
-                const yRelativeToImage = newDotTop - imageOffsetY;
-
-                const clickId = draggedDot.dataset.id;
-                const listItem = document.querySelector(`#coordinates-list .coordinate-item[data-click-id="${clickId}"]`);
-                if (listItem) {
-                    const inputX = listItem.querySelector('.coord-x-input');
-                    const inputY = listItem.querySelector('.coord-y-input');
-                    if (inputX) inputX.value = xRelativeToImage.toFixed(2);
-                    if (inputY) inputY.value = yRelativeToImage.toFixed(2);
-                }
-            });
-
-            // --- Globalna obsługa puszczenia przycisku myszy (zakończenie przeciągania) ---
-            // Również może być w functions.js, jeśli initializeDot ustawia draggedDot globalnie
-            document.addEventListener('mouseup', () => {
-                if (!draggedDot || !selectedImageId) return;
-
-                const imageOffsetX = document.getElementById('main-image').offsetLeft;
-                const imageOffsetY = document.getElementById('main-image').offsetTop;
-
-                const finalX = parseFloat(draggedDot.style.left) - imageOffsetX; // Względem obrazu
-                const finalY = parseFloat(draggedDot.style.top) - imageOffsetY;  // Względem obrazu
-
-                fetch('/update-click/', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json', 'X-CSRFToken': csrfToken },
-                    body: JSON.stringify({ id: draggedDot.dataset.id, x: finalX, y: finalY })
-                }).then(response => {
-                    if (!response.ok) console.error('Position save failed after drag for dot ID:', draggedDot.dataset.id);
-                });
-                draggedDot = null; // Zakończ przeciąganie
-            });
-
-        }); // Koniec DOMContentLoaded
-    </script>
-{% endblock extra_js %}
-
-===== File: ./backup/functions.js =====
-function initializePageElements() {
-    redrawLines();
-    document.querySelectorAll('.click-dot').forEach(initializeDot);
-    renumberDotsAndListItems();
-}
-
-function renumberDotsAndListItems() {
-    const dots = document.querySelectorAll('.click-dot');
-    dots.forEach((dot, index) => {
-        const dotNumberElement = dot.querySelector('.dot-number');
-        if (dotNumberElement) dotNumberElement.innerText = index + 1;
-    });
-
-    const listItems = document.querySelectorAll('#coordinates-list .coordinate-item');
-    listItems.forEach((item, index) => {
-        const pointDisplayNumber = item.querySelector('.point-display-number');
-        if (pointDisplayNumber) pointDisplayNumber.innerText = index + 1;
-    });
-    redrawLines();
-}
-
-function redrawLines() {
-    const svg = document.getElementById('connection-lines');
-    if (!svg) return;
-    svg.innerHTML = '';
-
-    const dots = Array.from(document.querySelectorAll('.click-dot'));
-    if (dots.length < 2) return;
-
-    for(let i = 0; i < dots.length - 1; i++) {
-        const dot1 = dots[i];
-        const dot2 = dots[i + 1];
-        const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-        const x1 = parseFloat(dot1.style.left); // Kropka jest już wyśrodkowana przez transform
-        const y1 = parseFloat(dot1.style.top);
-        const x2 = parseFloat(dot2.style.left);
-        const y2 = parseFloat(dot2.style.top);
-
-        line.setAttribute('x1', x1);
-        line.setAttribute('y1', y1);
-        line.setAttribute('x2', x2);
-        line.setAttribute('y2', y2);
-        line.setAttribute('stroke-width', '2');
-        line.setAttribute('stroke', '#ff0000');
-        svg.appendChild(line);
-    }
-}
-
-function createCoordinateListItem(clickId, x, y, isNew = false) {
-    const listItem = document.createElement('li');
-    listItem.classList.add('coordinate-item');
-    if (!isNew && clickId) {
-        listItem.setAttribute('data-click-id', clickId);
-    }
-
-    const pointNumberSpan = document.createElement('span');
-    pointNumberSpan.classList.add('point-display-number');
-
-    const inputX = document.createElement('input');
-    inputX.type = 'number';
-    inputX.classList.add('coord-x-input');
-    inputX.value = parseFloat(x).toFixed(2);
-    inputX.step = '0.01';
-
-    const inputY = document.createElement('input');
-    inputY.type = 'number';
-    inputY.classList.add('coord-y-input');
-    inputY.value = parseFloat(y).toFixed(2);
-    inputY.step = '0.01';
-
-    const updateButton = document.createElement('button');
-    updateButton.classList.add('update-coord-btn');
-    updateButton.textContent = isNew ? 'Save New' : 'Update';
-    if (isNew) {
-        updateButton.classList.add('save-new-coord-btn');
-    }
-
-    const deleteButton = document.createElement('button');
-    deleteButton.classList.add('delete-coord-btn');
-    deleteButton.textContent = 'Delete';
-
-    listItem.appendChild(document.createTextNode('Point'));
-    listItem.appendChild(pointNumberSpan);
-    listItem.appendChild(document.createTextNode(': X'));
-    listItem.appendChild(inputX);
-    listItem.appendChild(document.createTextNode('Y'));
-    listItem.appendChild(inputY);
-    listItem.appendChild(updateButton);
-    listItem.appendChild(deleteButton);
-
-    document.getElementById('coordinates-list').appendChild(listItem);
-    attachEventListenersToListItem(listItem, isNew); // Przekazuj tylko isNew
-    return listItem;
-}
-
-function attachEventListenersToListItem(listItem, isNewInitially = false) {
-    const updateBtn = listItem.querySelector('.update-coord-btn');
-    const deleteBtn = listItem.querySelector('.delete-coord-btn');
-    const inputX = listItem.querySelector('.coord-x-input');
-    const inputY = listItem.querySelector('.coord-y-input');
-    let isStillNew = isNewInitially; // Flaga do śledzenia, czy element jest nowy
-
-    console.log(`[attachEventListenersToListItem] For item data-id=${listItem.dataset.clickId}, X_val=${inputX.value}, Y_val=${inputY.value}`);
-
-    updateBtn.addEventListener('click', function() {
-        const currentClickId = listItem.dataset.clickId;
-        const newX = parseFloat(inputX.value);
-        const newY = parseFloat(inputY.value);
-
-        if (isNaN(newX) || isNaN(newY)) {
-            alert('Please enter valid numbers for X and Y.');
-            return;
-        }
-
-        if (isStillNew || !currentClickId) { // Zapis nowego punktu
-            fetch('/add-click/', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json', 'X-CSRFToken': csrfToken },
-                body: JSON.stringify({ image_id: selectedImageId, x: newX, y: newY })
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    listItem.setAttribute('data-click-id', data.click_id);
-                    updateBtn.textContent = 'Update';
-                    updateBtn.classList.remove('save-new-coord-btn');
-                    isStillNew = false; // Już nie jest nowy
-                    createDotOnImage(data.click_id, newX, newY);
-                    renumberDotsAndListItems();
-                } else { alert('Failed to save new point.'); }
-            });
-        } else { // Aktualizacja istniejącego punktu
-            fetch('/update-click/', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json', 'X-CSRFToken': csrfToken },
-                body: JSON.stringify({ id: currentClickId, x: newX, y: newY })
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.status === 'success') {
-                    const dot = document.querySelector(`.click-dot[data-id="${currentClickId}"]`);
-                    if (dot) {
-                        dot.style.left = newX + 'px';
-                        dot.style.top = newY + 'px';
-                        redrawLines();
-                    }
-                } else { alert('Failed to update point.'); }
-            });
-        }
-
-    });
-
-    listItem.addEventListener('mouseenter', () => {
-        const clickId = listItem.dataset.clickId;
-        if (!clickId) return; // Nie podświetlaj, jeśli to nowy, niezapisany element
-
-        listItem.classList.add('highlighted'); // Podświetl sam element listy
-        const dotElement = document.querySelector(`.click-dot[data-id="${clickId}"]`);
-        if (dotElement) {
-            dotElement.classList.add('highlighted');
-        }
-    });
-
-    listItem.addEventListener('mouseleave', () => {
-        const clickId = listItem.dataset.clickId;
-        if (!clickId) return;
-
-        listItem.classList.remove('highlighted'); // Usuń podświetlenie z elementu listy
-        const dotElement = document.querySelector(`.click-dot[data-id="${clickId}"]`);
-        if (dotElement) {
-            dotElement.classList.remove('highlighted');
-        }
-    });
-
-    deleteBtn.addEventListener('click', function() {
-        const currentClickId = listItem.dataset.clickId;
-        if (isStillNew || !currentClickId) {
-            listItem.remove();
-            renumberDotsAndListItems();
-            return;
-        }
-
-        fetch('/delete-click/', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json', 'X-CSRFToken': csrfToken },
-            body: JSON.stringify({ id: currentClickId })
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.status === 'deleted') {
-                listItem.remove();
-                const dot = document.querySelector(`.click-dot[data-id="${currentClickId}"]`);
-                if (dot) dot.remove();
-                renumberDotsAndListItems();
-            } else { alert('Failed to delete point.'); }
-        });
-    });
-
-    [inputX, inputY].forEach(input => {
-        input.addEventListener('input', function() { // ZMIANA: 'input' zamiast 'change'
-            const currentClickId = listItem.dataset.clickId;
-            if (currentClickId && !isStillNew) { // Użyj flagi isStillNew
-                const dot = document.querySelector(`.click-dot[data-id="${currentClickId}"]`);
-                if (dot) {
-                    const newXFromInput = parseFloat(listItem.querySelector('.coord-x-input').value);
-                    const newYFromInput = parseFloat(listItem.querySelector('.coord-y-input').value);
-
-                    if (!isNaN(newXFromInput) && !isNaN(newYFromInput)) {
-                        dot.style.left = newXFromInput + 'px';
-                        dot.style.top = newYFromInput + 'px';
-                        redrawLines(); // Przesuń linie łączące punkty
-                    }
-                }
-            }
-        });
-    });
-}
-
-function initializeCoordinateListInteractions() {
-    document.querySelectorAll('#coordinates-list .coordinate-item').forEach(item => {
-        const clickId = item.dataset.clickId;
-        if (clickId) {
-                attachEventListenersToListItem(item, false);
-        }
-    });
-
-    const addPointToListBtn = document.getElementById('add-point-on-list-btn');
-    if (addPointToListBtn) {
-        addPointToListBtn.addEventListener('click', () => {
-            const mainImage = document.getElementById('main-image');
-            const defaultX = mainImage ? mainImage.width / 2 : 50;
-            const defaultY = mainImage ? mainImage.height / 2 : 50;
-            createCoordinateListItem(null, defaultX, defaultY, true);
-            renumberDotsAndListItems();
-        });
-    }
-}
-
-function initializeDot(dot) {
-    const image = document.getElementById("main-image");
-    if (!image) return;
-
-    let offsetX = 0, offsetY = 0;
-
-    dot.addEventListener("mousedown", (e) => {
-        if (e.button !== 0) return;
-        draggedDot = dot; // Ustaw aktualnie przeciąganą kropkę
-        const rect = dot.getBoundingClientRect();
-        offsetX = e.clientX - rect.left;
-        offsetY = e.clientY - rect.top;
-        
-        e.preventDefault();
-        document.addEventListener('mouseup', handleDocumentMouseUp, { once: true });
-    });
-
-    dot.querySelector('.delete-dot-btn').addEventListener('click', function (e) {
-        e.stopPropagation();
-        const clickId = dot.dataset.id;
-        if (confirm('Are you sure you want to delete this point?')) {
-            fetch('/delete-click/', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json', 'X-CSRFToken': csrfToken },
-                body: JSON.stringify({ id: clickId })
-            }).then(response => response.json()).then(data => {
-                if (data.status === 'deleted') {
-                    dot.remove();
-                    const listItem = document.querySelector(`#coordinates-list .coordinate-item[data-click-id="${clickId}"]`);
-                    if (listItem) listItem.remove();
-                    renumberDotsAndListItems();
-                }
-            });
-        }
-    });
-
-    dot.addEventListener('mouseenter', () => {
-        const clickId = dot.dataset.id;
-        if (!clickId) return;
-
-        dot.classList.add('highlighted'); // Podświetl samą kropkę
-        const listItem = document.querySelector(`#coordinates-list .coordinate-item[data-click-id="${clickId}"]`);
-        if (listItem) {
-            listItem.classList.add('highlighted');
-        }
-    });
-
-    dot.addEventListener('mouseleave', () => {
-        const clickId = dot.dataset.id;
-        if (!clickId) return;
-
-        dot.classList.remove('highlighted'); // Usuń podświetlenie z kropki
-        const listItem = document.querySelector(`#coordinates-list .coordinate-item[data-click-id="${clickId}"]`);
-        if (listItem) {
-            listItem.classList.remove('highlighted');
-        }
-    });
-}
-
-function handleDocumentMouseUp() {
-    if (!draggedDot) return;
-
-    const finalX = parseFloat(draggedDot.style.left);
-    const finalY = parseFloat(draggedDot.style.top);
-
-    fetch('/update-click/', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'X-CSRFToken': csrfToken },
-        body: JSON.stringify({ id: draggedDot.dataset.id, x: finalX, y: finalY })
-    }).then(response => {
-        if (!response.ok) console.error('Position save failed after drag for dot ID:', draggedDot.dataset.id);
-    });
-    draggedDot = null; // Zakończ przeciąganie
-}
-
-function createDotOnImage(clickId, x_imageRelative, y_imageRelative) {
-    const container = document.getElementById('image-container');
-    if (!container) {
-        return null;
-    }
-
-    const mainImage = document.getElementById('main-image');
-    if (!mainImage) {
-        return null;
-    }
-    
-    const dotLeftInContainer = x_imageRelative + mainImage.offsetLeft;
-    const dotTopInContainer = y_imageRelative + mainImage.offsetTop;
-
-    const dot = document.createElement('div');
-    dot.className = 'click-dot';
-    dot.style.left = `${dotLeftInContainer}px`;
-    dot.style.top = `${dotTopInContainer}px`;
-    dot.setAttribute('data-id', clickId);
-    dot.innerHTML = `<span class="dot-number"></span>
-                    <button class="delete-dot-btn" title="Delete this point">✖</button>`;
-
-    container.appendChild(dot);
-
-    if (typeof initializeDot === 'function') {
-        initializeDot(dot);
-    } else {
-    }
-    return dot;
-}
 
 ===== File: ./login_required_project/urls.py =====
 from django.contrib import admin
@@ -723,6 +68,8 @@ urlpatterns = [
     path('api-token-auth/', authtoken_views.obtain_auth_token, name='api_token_auth'),
     path('board/', include('main.urls_board')),
     path('api/save_grid_as_image/', main_views.save_grid_as_image_view, name='save_grid_as_image_api'), # NEW
+    path('sse/notifications/', main_views.sse_notifications_view, name='sse_global_notifications'), # ADD THIS LINE
+    path('api/add_reaction/', main_views.add_reaction_view, name='add_reaction_api'),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
@@ -748,7 +95,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'rest_framework.authtoken',
-    'main',
+    'main.apps.MainConfig',
 ]
 
 MIDDLEWARE = [
@@ -997,6 +344,46 @@ form select, form button, #add-point-on-image-btn, #add-point-on-list-btn {
     width: 100%;
     height: 100%;
     pointer-events: none;
+}
+
+#toast-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 9999; /* Aby były na wierzchu */
+    width: 300px; /* Możesz dostosować */
+}
+
+.toast-notification {
+    background-color: #333;
+    color: white;
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    opacity: 0;
+    transform: translateX(100%);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+    font-size: 0.9em;
+}
+
+.toast-notification.show {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.toast-notification .toast-close-btn {
+    float: right;
+    background: none;
+    border: none;
+    color: #aaa;
+    font-size: 1.2em;
+    line-height: 1;
+    cursor: pointer;
+    margin-left: 10px;
+}
+.toast-notification .toast-close-btn:hover {
+    color: white;
 }
 
 ===== File: ./static/main/js/functions.js =====
@@ -1344,6 +731,337 @@ function createDotOnImage(clickId, x, y) {
     return dot;
 }
 
+
+===== File: ./static/main/ts/src/sseNotifications.ts =====
+// static/main/ts/src/sseNotifications.ts
+
+// --- Interfejsy dla danych przychodzących z SSE ---
+interface BoardEventData {
+    board_id: number;
+    board_name: string;
+    creator_username: string;
+}
+
+interface PathEventData {
+    path_id: number | null;
+    board_id: number; // W tym kontekście to UserImage.id lub GameBoard.id
+    board_name: string;
+    user_username: string;
+    action?: "created" | "updated" | "point_added"; // Typy akcji dla ścieżek/obrazów
+}
+
+interface ReactionEventData {
+    reaction_id: number;
+    reaction_type: string; // np. 'heart', 'gasp', 'grin'
+    reaction_display: string; // np. '❤️', '😮', '😄'
+    user_username: string;
+    object_type: string; // 'gameboard' lub 'userimage'
+    object_id: number;
+    object_name: string;
+}
+
+class SSENotifications {
+    private eventSource: EventSource | null = null;
+    private toastContainer: HTMLElement | null = null;
+    private sseEndpointUrl: string;
+
+    constructor(endpointUrl: string = '/board/events/') { // UŻYJ URL swojego endpointu SSE
+        this.sseEndpointUrl = endpointUrl;
+        this.toastContainer = document.getElementById('toast-container');
+
+        if (this.toastContainer) {
+            console.log("Toast container found. Proceeding with SSE connection.");
+            this.connect();
+        } else {
+            console.warn("Toast container with ID 'toast-container' not found. SSE Notifications will not be visually displayed as toasts.");
+            // Mimo to można próbować się połączyć, jeśli powiadomienia mają inne efekty
+            // lub jeśli kontener jest dodawany dynamicznie później (choć to mniej typowe).
+            // this.connect(); // Odkomentuj, jeśli nadal chcesz się łączyć bez wizualnych toastów
+        }
+    }
+
+    private connect(): void {
+        if (this.eventSource && (this.eventSource.readyState === EventSource.OPEN || this.eventSource.readyState === EventSource.CONNECTING)) {
+            console.log("SSE connection already open or connecting.");
+            return;
+        }
+
+        console.log(`Attempting to connect to SSE endpoint: ${this.sseEndpointUrl}`);
+        try {
+            this.eventSource = new EventSource(this.sseEndpointUrl);
+        } catch (e) {
+            console.error("Error creating EventSource (e.g., invalid URL or security policy):", e);
+            this.showToast("Could not establish notification service. Check URL or network.", "error", 10000);
+            return;
+        }
+
+
+        this.eventSource.onopen = (event) => {
+            console.log("SSE Connection opened.", event);
+            // Możesz tu wyświetlić powiadomienie o połączeniu, jeśli chcesz
+            // this.showToast("Connected to real-time notifications.", "info");
+        };
+
+        this.eventSource.onerror = (errorEvent) => {
+            console.error("SSE Error Event:", errorEvent);
+            // EventSource automatycznie próbuje ponownie nawiązać połączenie.
+            // Możemy wyświetlić informację o problemie.
+            if (this.eventSource) {
+                if (this.eventSource.readyState === EventSource.CLOSED) {
+                    this.showToast("Notification service disconnected. Attempting to reconnect...", "error", 10000);
+                    // Można by spróbować this.connect() po jakimś czasie, ale EventSource robi to samo.
+                } else if (this.eventSource.readyState === EventSource.CONNECTING) {
+                    this.showToast("Notification service having trouble connecting...", "error", 10000);
+                }
+            }
+        };
+
+        this.eventSource.addEventListener('newBoard', (event) => {
+            console.log("SSE 'newBoard' event received:", event);
+            try {
+                const data = JSON.parse((event as MessageEvent).data) as BoardEventData;
+                const message = `User '${data.creator_username}' created a new board: "${data.board_name}".`;
+                const link = `/board/${data.board_id}/edit/`; // Dostosuj URL, jeśli jest inny
+                this.showToast(message, "success", 7000, link);
+            } catch (e) {
+                console.error("Error parsing newBoard data:", e, (event as MessageEvent).data);
+            }
+        });
+
+        this.eventSource.addEventListener('newPath', (event) => {
+            console.log("SSE 'newPath' event received:", event);
+            try {
+                const data = JSON.parse((event as MessageEvent).data) as PathEventData;
+                let messageBase = `User '${data.user_username}' `;
+                let objectName = data.board_name || "a board/image"; // Fallback
+
+                if (data.action === "created") {
+                    messageBase += `uploaded a new path background: "${objectName}".`;
+                } else if (data.action === "updated") {
+                    messageBase += `updated paths on: "${objectName}".`;
+                } else if (data.action === "point_added") {
+                    messageBase += `added a point to a path on: "${objectName}".`;
+                } else { // Domyślny komunikat, jeśli brak 'action' lub jest nieznane
+                    messageBase += `interacted with: "${objectName}".`;
+                }
+                
+                // Link do UserImage (który działa jako plansza dla ścieżek)
+                // Zakładamy, że board_id w tym zdarzeniu to UserImage.id
+                const link = `/?selected=${encodeURIComponent(objectName)}`;
+                this.showToast(messageBase, "info", 7000, link);
+            } catch (e) {
+                console.error("Error parsing newPath data:", e, (event as MessageEvent).data);
+            }
+        });
+
+        this.eventSource.addEventListener('newReaction', (event) => {
+            console.log("SSE 'newReaction' event received:", event);
+            try {
+                const data = JSON.parse((event as MessageEvent).data) as ReactionEventData;
+                const message = `User '${data.user_username}' reacted with ${data.reaction_display} to "${data.object_name}".`;
+                
+                this.showToast(message, "info", 5000); // Toasty dla reakcji mogą być krótsze i bez linku
+
+                // Aktualizacja UI dla reakcji
+                this.updateReactionsDisplay(
+                    data.object_type,
+                    data.object_id,
+                    data.reaction_type,
+                    data.user_username,
+                    data.reaction_display
+                );
+            } catch (e) {
+                console.error("Error parsing newReaction data:", e, (event as MessageEvent).data);
+            }
+        });
+
+        this.eventSource.onmessage = (event) => {
+            // To będzie przechwytywać wiadomości bez określonego "event: name"
+            // oraz komentarze, jeśli serwer je wysyła bez poprzedzającego dwukropka (co nie powinno mieć miejsca dla keep-alive)
+            if (event.data.startsWith(":")) { // Ignoruj komentarze keep-alive, jeśli tu dotrą
+                console.log("SSE keep-alive or comment received in onmessage:", event.data);
+                return;
+            }
+            console.log("SSE Generic message received:", event.data);
+            // Możesz chcieć wyświetlić to jako ogólne powiadomienie, jeśli serwer może wysyłać takie komunikaty
+            // this.showToast(`Notification: ${event.data}`, "info");
+        };
+    }
+
+    public showToast(
+        message: string, 
+        type: 'info' | 'success' | 'error' = 'info', 
+        duration: number = 5000, 
+        link?: string
+    ): void {
+        if (!this.toastContainer) {
+            console.warn("Toast container not found, cannot show toast for:", message);
+            return;
+        }
+
+        const toast = document.createElement('div');
+        toast.className = `toast-notification ${type}`; // np. "toast-notification success"
+        
+        let toastContentHTML = '';
+        // Sanitize message before putting into innerHTML if it comes directly from user input elsewhere.
+        // For now, assuming messages are safe or constructed server-side/client-side from known parts.
+        const escapedMessage = message.replace(/&/g, "&").replace(/</g, "<").replace(/>/g, ">").replace(/"/g, """).replace(/'/g, "'");
+
+        if (link) {
+            // Ensure link is also somewhat safe or from a trusted source
+            const safeLink = link.startsWith('/') ? link : '#'; // Basic check for relative links
+            toastContentHTML = `<a href="${safeLink}" style="color: white; text-decoration: underline;">${escapedMessage}</a>`;
+        } else {
+            toastContentHTML = escapedMessage;
+        }
+        
+        const messageSpan = document.createElement('span');
+        messageSpan.innerHTML = toastContentHTML; // Use innerHTML because link might be present
+        toast.appendChild(messageSpan);
+
+        const closeBtn = document.createElement('button');
+        closeBtn.className = 'toast-close-btn';
+        closeBtn.type = 'button'; // Good practice for buttons not submitting forms
+        closeBtn.innerHTML = '×'; // '×' character
+        closeBtn.setAttribute('aria-label', 'Close notification');
+        
+        let toastRemoved = false; // Flaga, aby uniknąć wielokrotnego usuwania
+
+        const removeToast = () => {
+            if (toastRemoved) return;
+            toastRemoved = true;
+            toast.classList.remove('show');
+            // Poczekaj na zakończenie animacji CSS przed usunięciem elementu z DOM
+            toast.addEventListener('transitionend', () => {
+                if (toast.parentNode === this.toastContainer) {
+                    this.toastContainer?.removeChild(toast);
+                }
+            }, { once: true }); // Listener zostanie automatycznie usunięty po pierwszym wywołaniu
+            // Fallback, gdyby transitionend się nie odpaliło (np. brak animacji)
+            setTimeout(() => {
+                 if (toast.parentNode === this.toastContainer) {
+                    this.toastContainer?.removeChild(toast);
+                }
+            }, 550); // nieco dłużej niż czas trwania animacji
+        };
+
+        closeBtn.onclick = removeToast;
+        toast.appendChild(closeBtn);
+
+        this.toastContainer.appendChild(toast);
+
+        // Wymuś reflow, aby animacja CSS zadziałała przy dodaniu klasy 'show'
+        void toast.offsetWidth; 
+        toast.classList.add('show');
+
+        // Automatyczne usunięcie toasta po określonym czasie
+        setTimeout(removeToast, duration);
+    }
+
+    // Szkielet metody do aktualizacji UI z reakcjami
+    public updateReactionsDisplay(
+        objectType: string, 
+        objectId: number, 
+        reactionTypeKey: string, // np. 'heart'
+        reactingUsername: string,
+        reactionDisplayIcon: string // np. '❤️'
+    ): void {
+        console.log(`UI Update Triggered: User '${reactingUsername}' reacted with ${reactionDisplayIcon} on ${objectType} ID ${objectId}`);
+        
+        const reactionContainer = document.querySelector(
+            `.reactions-container[data-object-type="${objectType}"][data-object-id="${objectId}"]`
+        );
+
+        if (!reactionContainer) {
+            // console.warn(`UI Update: Reaction container not found for ${objectType} ${objectId}`);
+            return;
+        }
+
+        // Znajdź lub utwórz element dla konkretnego typu reakcji
+        let reactionTypeDiv = reactionContainer.querySelector(`.reaction-type-display[data-reaction-type="${reactionTypeKey}"]`) as HTMLElement;
+        
+        if (!reactionTypeDiv) {
+            reactionTypeDiv = document.createElement('span');
+            reactionTypeDiv.className = 'reaction-type-display';
+            reactionTypeDiv.dataset.reactionType = reactionTypeKey;
+            
+            const emojiSpan = document.createElement('span');
+            emojiSpan.className = 'reaction-emoji';
+            emojiSpan.textContent = reactionDisplayIcon;
+            
+            const countSpan = document.createElement('span');
+            countSpan.className = 'reaction-count';
+            countSpan.textContent = '0'; // Inicjalizuj z 0, backend powinien być źródłem prawdy o liczbie
+
+            reactionTypeDiv.appendChild(emojiSpan);
+            reactionTypeDiv.appendChild(document.createTextNode(' ')); // Spacja
+            reactionTypeDiv.appendChild(countSpan);
+            
+            // TODO: Dodaj logikę do przechowywania listy użytkowników, np. w data-users tooltip
+            reactionTypeDiv.dataset.users = reactingUsername;
+
+            reactionContainer.appendChild(reactionTypeDiv);
+            // Dodaj trochę marginesu między typami reakcji
+            reactionTypeDiv.style.marginRight = "10px";
+
+        } else {
+            // Użytkownik już zareagował, lub inny użytkownik dodał ten sam typ reakcji
+            // TODO: Zaktualizuj listę użytkowników w data-users
+            const users = reactionTypeDiv.dataset.users ? reactionTypeDiv.dataset.users.split(',') : [];
+            if (!users.includes(reactingUsername)) { // Dodaj tylko jeśli jeszcze nie ma
+                users.push(reactingUsername);
+                reactionTypeDiv.dataset.users = users.join(',');
+            }
+        }
+        
+        // Aktualizuj licznik - UWAGA: Ta logika jest uproszczona.
+        // Idealnie, serwer powinien zwracać całkowitą liczbę reakcji danego typu,
+        // a frontend tylko ją wyświetlać, zamiast inkrementować.
+        // Poniższa logika zakłada, że każde zdarzenie 'newReaction' to nowa unikalna reakcja.
+        const countSpan = reactionTypeDiv.querySelector('.reaction-count') as HTMLSpanElement;
+        if (countSpan) {
+            let currentCount = parseInt(countSpan.textContent || "0", 10);
+            // To jest problematyczne: jeśli wielu użytkowników reaguje, ten licznik będzie rósł
+            // dla każdego klienta niezależnie przy każdym zdarzeniu.
+            // Lepiej, żeby SSE wysyłało aktualną łączną liczbę reakcji.
+            // Na razie, dla prostoty, załóżmy, że zdarzenie oznacza +1.
+            // W rzeczywistości, to SSE powinno wysłać {"total_hearts": 5, "total_gasps": 2} itd.
+            // Albo, `updateReactionsDisplay` powinno być bardziej idempotentne.
+            countSpan.textContent = (currentCount + 1).toString(); // UPROSZCZENIE - wymaga poprawy
+        }
+
+        // Ustawienie tooltipa z listą użytkowników
+        const usersWhoReacted = reactionTypeDiv.dataset.users || "";
+        reactionTypeDiv.title = usersWhoReacted ? `Reacted by: ${usersWhoReacted}` : "";
+
+    }
+
+    public closeConnection(): void {
+        if (this.eventSource) {
+            this.eventSource.close();
+            console.log("SSE Connection closed by client.");
+        }
+    }
+}
+
+// Inicjalizacja po załadowaniu DOM
+document.addEventListener('DOMContentLoaded', () => {
+    // Sprawdź, czy element #toast-container istnieje, zanim zainicjujesz SSENotifications
+    if (document.getElementById('toast-container')) {
+        console.log("Initializing SSE Notifications client...");
+        // Upewnij się, że URL jest poprawny dla Twojego projektu (np. z Django {% url ... %})
+        // Poniżej jest przykład, jak można by go przekazać z szablonu Django, jeśli jest dynamiczny
+        // const sseUrlElement = document.getElementById('sse-url-data');
+        // const sseUrl = sseUrlElement ? sseUrlElement.dataset.url : '/board/events/';
+        
+        const sseClient = new SSENotifications('/board/events/'); // ZASTĄP URL, JEŚLI POTRZEBA
+
+        // Opcjonalnie: udostępnij sseClient globalnie, jeśli potrzebujesz go wywoływać z innych miejsc
+        // (np. window.sseClient = sseClient; - używaj ostrożnie)
+    } else {
+        console.log("No #toast-container found, SSE notifications will not have a visual display area via this script.");
+    }
+});
 
 ===== File: ./static/main/ts/src/functions.ts =====
 // functions.ts
@@ -2280,6 +1998,159 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
+===== File: ./static/main/ts/dist/sseNotifications.js =====
+"use strict";
+// static/main/ts/src/sseNotifications.ts
+class SSENotifications {
+    constructor(endpointUrl = '/board/events/') {
+        this.eventSource = null;
+        this.toastContainer = null;
+        this.sseEndpointUrl = endpointUrl;
+        this.toastContainer = document.getElementById('toast-container');
+        // Inicjuj tylko jeśli kontener istnieje
+        if (this.toastContainer) {
+            this.connect();
+        }
+        else {
+            console.warn("Toast container not found. SSE Notifications will not be displayed visually.");
+            // Mimo to można próbować się połączyć, jeśli powiadomienia mają inne efekty
+            // this.connect(); 
+        }
+    }
+    connect() {
+        if (this.eventSource && (this.eventSource.readyState === EventSource.OPEN || this.eventSource.readyState === EventSource.CONNECTING)) {
+            console.log("SSE connection already open or connecting.");
+            return;
+        }
+        console.log(`Attempting to connect to SSE endpoint: ${this.sseEndpointUrl}`);
+        this.eventSource = new EventSource(this.sseEndpointUrl);
+        this.eventSource.onopen = (event) => {
+            console.log("SSE Connection opened.", event);
+            // Możesz tu wyświetlić powiadomienie o połączeniu, jeśli chcesz
+            // this.showToast("Connected to real-time notifications.", "info");
+        };
+        this.eventSource.onerror = (error) => {
+            console.error("SSE Error:", error);
+            // Możesz spróbować zamknąć i ponownie otworzyć połączenie po jakimś czasie,
+            // EventSource domyślnie próbuje się połączyć ponownie.
+            if (this.eventSource) {
+                this.showToast("Notification service error. Reconnecting...", "error", 10000);
+                // Domyślne ponowne połączenie EventSource powinno zadziałać.
+                // Jeśli readyState to EventSource.CLOSED, można by spróbować this.eventSource.close(); a potem this.connect();
+            }
+        };
+        // Listener dla konkretnego zdarzenia "newBoard"
+        this.eventSource.addEventListener('newBoard', (event) => {
+            console.log("SSE newBoard event received:", event);
+            try {
+                const data = JSON.parse(event.data);
+                const message = `User '${data.creator_username}' created a new board: "${data.board_name}".`;
+                // Opcjonalnie: link do planszy
+                const link = `/board/${data.board_id}/edit/`; // Dostosuj URL, jeśli jest inny
+                this.showToast(message, "success", 7000, link);
+            }
+            catch (e) {
+                console.error("Error parsing newBoard data:", e);
+            }
+        });
+        // Listener dla konkretnego zdarzenia "newPath"
+        this.eventSource.addEventListener('newPath', (event) => {
+            console.log("SSE newPath event received:", event);
+            try {
+                const data = JSON.parse(event.data);
+                let messageBase = `User '${data.user_username}' `;
+                if (data.action === "created") {
+                    messageBase += `uploaded a new path background: "${data.board_name}".`;
+                }
+                else if (data.action === "updated") {
+                    messageBase += `updated paths on board: "${data.board_name}".`;
+                }
+                else if (data.action === "point_added") {
+                    messageBase += `added a point to a path on board: "${data.board_name}".`;
+                }
+                else {
+                    messageBase += `saved a path on board: "${data.board_name}".`;
+                }
+                // Opcjonalnie: link do planszy (UserImage)
+                // Zakładając, że `home.html` przyjmuje `?selected=IMAGE_NAME`
+                const link = `/?selected=${encodeURIComponent(data.board_name)}`; // Dostosuj URL
+                this.showToast(messageBase, "info", 7000, link);
+            }
+            catch (e) {
+                console.error("Error parsing newPath data:", e);
+            }
+        });
+        // Ogólny listener onmessage (opcjonalnie, jeśli chcesz przechwytywać zdarzenia bez określonego typu 'event:')
+        // lub komentarze keep-alive (choć zwykle są ignorowane przez EventSource).
+        this.eventSource.onmessage = (event) => {
+            // Komentarze keep-alive (zaczynające się od ':') nie powinny tu trafiać.
+            // Jeśli serwer wysyła zdarzenia bez linii "event: name", trafią one tutaj.
+            console.log("SSE Generic message received:", event.data);
+        };
+    }
+    showToast(message, type = 'info', duration = 5000, link) {
+        if (!this.toastContainer)
+            return;
+        const toast = document.createElement('div');
+        toast.className = `toast-notification ${type}`;
+        let content = message;
+        if (link) {
+            content = `<a href="${link}" style="color: white; text-decoration: underline;">${message}</a>`;
+        }
+        toast.innerHTML = content; // Użyj innerHTML, jeśli masz link
+        const closeBtn = document.createElement('button');
+        closeBtn.className = 'toast-close-btn';
+        closeBtn.innerHTML = '×';
+        closeBtn.onclick = () => {
+            toast.classList.remove('show');
+            setTimeout(() => {
+                var _a;
+                if (toast.parentNode === this.toastContainer) { // Sprawdź, czy wciąż jest dzieckiem
+                    (_a = this.toastContainer) === null || _a === void 0 ? void 0 : _a.removeChild(toast);
+                }
+            }, 500); // Czas na animację wyjścia
+        };
+        toast.appendChild(closeBtn);
+        this.toastContainer.appendChild(toast);
+        // Wymuś reflow, aby animacja zadziałała przy dodaniu klasy 'show'
+        void toast.offsetWidth;
+        toast.classList.add('show');
+        setTimeout(() => {
+            toast.classList.remove('show');
+            setTimeout(() => {
+                var _a;
+                // Sprawdź, czy element wciąż istnieje i jest dzieckiem kontenera przed usunięciem
+                if (toast.parentNode === this.toastContainer) {
+                    (_a = this.toastContainer) === null || _a === void 0 ? void 0 : _a.removeChild(toast);
+                }
+            }, 500); // Czas na animację wyjścia
+        }, duration);
+    }
+    closeConnection() {
+        if (this.eventSource) {
+            this.eventSource.close();
+            console.log("SSE Connection closed by client.");
+        }
+    }
+}
+// Inicjalizacja po załadowaniu DOM
+// Możesz zdecydować, czy chcesz to inicjować na każdej stronie,
+// czy tylko na wybranych (np. sprawdzając istnienie pewnego elementu).
+document.addEventListener('DOMContentLoaded', () => {
+    // Sprawdź, czy użytkownik jest zalogowany, zanim nawiążesz połączenie SSE,
+    // jeśli endpoint SSE wymaga autoryzacji lub jeśli powiadomienia są tylko dla zalogowanych.
+    // Możesz to zrobić sprawdzając obecność np. elementu z nazwą użytkownika
+    // lub przekazując flagę z Django do szablonu.
+    // Prosty przykład: inicjuj zawsze, jeśli jest kontener na toasty
+    if (document.getElementById('toast-container')) {
+        console.log("Initializing SSE Notifications client...");
+        const sseClient = new SSENotifications('/board/events/'); // UŻYJ POPRAWNEGO URL ENDPOINTU SSE
+        // Aby móc zamknąć połączenie np. przy wylogowaniu:
+        // window.sseClient = sseClient; 
+    }
+});
+//# sourceMappingURL=sseNotifications.js.map
+
 ===== File: ./static/main/ts/dist/grid.js =====
 "use strict";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
@@ -2893,11 +2764,48 @@ function attachEventListenersToListItem(listItem, isNewInitially = false) {
                 const currentClickId = parseInt(currentClickIdStr, 10);
                 const dot = document.querySelector(`.click-dot[data-id="${currentClickId}"]`);
                 if (dot) {
-                    const newXFromInput = parseFloat(inputX.value);
-                    const newYFromInput = parseFloat(inputY.value);
+                    let newXFromInput = parseFloat(inputX.value);
+                    let newYFromInput = parseFloat(inputY.value);
                     if (!isNaN(newXFromInput) && !isNaN(newYFromInput)) {
-                        dot.style.left = newXFromInput + 'px';
-                        dot.style.top = newYFromInput + 'px';
+                        // --- BEGIN MODIFICATION: Clamp coordinates for live input update ---
+                        const mainImageElement = document.getElementById('main-image');
+                        let clampedX = newXFromInput;
+                        let clampedY = newYFromInput;
+                        if (mainImageElement) {
+                            const dotWidth = 10; // As per CSS .click-dot width
+                            const dotHeight = 10; // As per CSS .click-dot height
+                            // Clamp X
+                            if (mainImageElement.width < dotWidth) {
+                                clampedX = mainImageElement.width / 2;
+                            }
+                            else {
+                                const minXAllowed = dotWidth / 2;
+                                const maxXAllowed = mainImageElement.width - (dotWidth / 2);
+                                clampedX = Math.max(minXAllowed, Math.min(newXFromInput, maxXAllowed));
+                            }
+                            // Clamp Y
+                            if (mainImageElement.height < dotHeight) {
+                                clampedY = mainImageElement.height / 2;
+                            }
+                            else {
+                                const minYAllowed = dotHeight / 2;
+                                const maxYAllowed = mainImageElement.height - (dotHeight / 2);
+                                clampedY = Math.max(minYAllowed, Math.min(newYFromInput, maxYAllowed));
+                            }
+                            // Update input field if value was clamped, to give feedback
+                            if (clampedX.toFixed(2) !== newXFromInput.toFixed(2) && inputField === inputX) {
+                                inputX.value = clampedX.toFixed(2);
+                            }
+                            if (clampedY.toFixed(2) !== newYFromInput.toFixed(2) && inputField === inputY) {
+                                inputY.value = clampedY.toFixed(2);
+                            }
+                        }
+                        else {
+                            console.warn("Main image element not found, cannot apply boundary constraints for live input.");
+                        }
+                        // --- END MODIFICATION ---
+                        dot.style.left = clampedX + 'px';
+                        dot.style.top = clampedY + 'px';
                         redrawLines();
                     }
                 }
@@ -3069,50 +2977,208 @@ class DefineGridForm(forms.Form): # New form for grid definition
     rows = forms.IntegerField(min_value=1, max_value=50, initial=5, label="Rows (Horizontal Lines)")
 
 ===== File: ./main/admin.py =====
-# game_board/admin.py
+# main/admin.py
 from django.contrib import admin
-from .models import GameBoard
+from .models import UserImage, ImageClick, CommonImage, GameBoard, Reaction # Dodaj Reaction
+
+
+@admin.register(Reaction)
+class ReactionAdmin(admin.ModelAdmin):
+    list_display = ('user', 'reaction_type', 'content_object_display', 'timestamp')
+    list_filter = ('reaction_type', 'content_type', 'timestamp')
+    search_fields = ('user__username',)
+    readonly_fields = ('content_object_display',) # Aby uniknąć problemów z GenericForeignKey w edycji
+
+    def content_object_display(self, obj):
+        return str(obj.content_object)
+    content_object_display.short_description = 'Reacted To'
 
 @admin.register(GameBoard)
 class GameBoardAdmin(admin.ModelAdmin):
-    list_display = ('name', 'user', 'rows', 'cols', 'dots_count')
+    list_display = ('name', 'user', 'rows', 'cols', 'get_dots_count', 'get_paths_count')
     list_filter = ('user', 'rows', 'cols')
     search_fields = ('name', 'user__username')
-    # readonly_fields = ('dots_config',) # Make JSONField readonly if complex
+    readonly_fields = ('dots_config_pretty', 'paths_config_pretty') # If you have these methods
 
-    def dots_count(self, obj):
-        return len(obj.dots_config)
-    dots_count.short_description = 'Number of Dots'
+    fieldsets = (
+        (None, {
+            'fields': ('user', 'name', 'rows', 'cols')
+        }),
+        ('Configuration (Raw JSON - Edit with caution)', {
+            'classes': ('collapse',),
+            'fields': ('dots_config', 'paths_config'), # Ensure paths_config is here
+        }),
+        ('Configuration (Formatted View)', { # Assuming you have these helper methods
+            'fields': ('dots_config_pretty', 'paths_config_pretty'),
+        }),
+    )
+
+    def get_dots_count(self, obj):
+        if isinstance(obj.dots_config, list):
+            return len(obj.dots_config)
+        return 0
+    get_dots_count.short_description = 'Dots Count'
+
+    def get_paths_count(self, obj):
+        if isinstance(obj.paths_config, list): # Check the new paths_config field
+            return len(obj.paths_config)
+        return 0
+    get_paths_count.short_description = 'Paths Count'
+
+    def dots_config_pretty(self, obj):
+        import json
+        from django.utils.html import format_html
+        formatted_json = json.dumps(obj.dots_config, indent=4)
+        return format_html("<pre>{}</pre>", formatted_json)
+    dots_config_pretty.short_description = 'Dots Config (Formatted)'
+
+    def paths_config_pretty(self, obj):
+        import json
+        from django.utils.html import format_html
+        formatted_json = json.dumps(obj.paths_config, indent=4)
+        return format_html("<pre>{}</pre>", formatted_json)
+    paths_config_pretty.short_description = 'Paths Config (Formatted)'
+
+
+@admin.register(UserImage) # Use the decorator for cleaner registration
+class UserImageAdmin(admin.ModelAdmin):
+    list_display = ('name', 'user', 'image_thumbnail') # Added thumbnail for better display
+    list_filter = ('user',)
+    search_fields = ('name', 'user__username')
+    readonly_fields = ('image_preview',) # For a larger preview in the detail view
+
+    def image_thumbnail(self, obj):
+        from django.utils.html import format_html
+        if obj.image:
+            return format_html('<img src="{}" style="width: 45px; height:45px; object-fit:cover;" />', obj.image.url)
+        return "No Image"
+    image_thumbnail.short_description = 'Thumbnail'
+
+    def image_preview(self, obj):
+        from django.utils.html import format_html
+        if obj.image:
+            return format_html('<img src="{}" style="max-width: 200px; max-height:200px;" />', obj.image.url)
+        return "No Image"
+    image_preview.short_description = 'Image Preview'
+
+
+# --- ImageClick Admin (Optional: can be an inline in UserImageAdmin) ---
+@admin.register(ImageClick)
+class ImageClickAdmin(admin.ModelAdmin):
+    list_display = ('id', 'user', 'image_name', 'x', 'y')
+    list_filter = ('user', 'image')
+    search_fields = ('image__name', 'user__username')
+
+    def image_name(self, obj):
+        return obj.image.name
+    image_name.short_description = 'On Image'
+    image_name.admin_order_field = 'image__name'
+
+
+# --- CommonImage Admin ---
+@admin.register(CommonImage)
+class CommonImageAdmin(admin.ModelAdmin):
+    list_display = ('name', 'image_thumbnail', 'description')
+    search_fields = ('name', 'description')
+    readonly_fields = ('image_preview',)
+
+    def image_thumbnail(self, obj):
+        from django.utils.html import format_html
+        if obj.image:
+            return format_html('<img src="{}" style="width: 45px; height:45px; object-fit:cover;" />', obj.image.url)
+        return "No Image"
+    image_thumbnail.short_description = 'Thumbnail'
+
+    def image_preview(self, obj):
+        from django.utils.html import format_html
+        if obj.image:
+            return format_html('<img src="{}" style="max-width: 200px; max-height:200px;" />', obj.image.url)
+        return "No Image"
+    image_preview.short_description = 'Image Preview'
 
 ===== File: ./main/signals.py =====
 # main/signals.py
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-from django.contrib.auth.models import User
-from .models import GameBoard, UserImage # Upewnij się, że UserImage to model dla plansz ze ścieżkami
-
-from .event_queue import broadcast_event # Import z tej samej aplikacji 'main'
+from .models import GameBoard, UserImage, ImageClick
+from .event_queue import broadcast_event
 
 @receiver(post_save, sender=GameBoard)
 def game_board_saved_handler(sender, instance: GameBoard, created: bool, **kwargs):
+    print(f"SIGNAL [game_board_saved_handler]: Fired for GameBoard ID {instance.id}. CREATED: {created}")
     if created:
-        print(f"Signal: New GameBoard created - ID: {instance.id}, Name: {instance.name}")
+        try:
+            creator_username = instance.user.username
+        except AttributeError:
+            creator_username = "UnknownUser"
+            print(f"SIGNAL [game_board_saved_handler]: Warning - User or username not found for GameBoard ID {instance.id}")
+
+        print(f"SIGNAL [game_board_saved_handler]: New GameBoard - ID: {instance.id}, Name: {instance.name}")
         event_data = {
             "board_id": instance.id,
             "board_name": instance.name,
-            "creator_username": instance.user.username
+            "creator_username": creator_username
         }
         broadcast_event(event_type="newBoard", data=event_data)
+    else:
+        print(f"SIGNAL [game_board_saved_handler]: GameBoard ID {instance.id} updated, not new. No 'newBoard' SSE event.")
 
 @receiver(post_save, sender=UserImage)
-def user_image_path_updated_handler(sender, instance: UserImage, created: bool, **kwargs):
-    if not created: # Zakładamy, że aktualizacja UserImage oznacza aktualizację ścieżki
-        print(f"Signal: UserImage updated (potential path save) - ID: {instance.id}, Name: {instance.name}")
+def user_image_saved_handler(sender, instance: UserImage, created: bool, **kwargs): # Zmieniona nazwa handlera dla jasności
+    """
+    Wysyła zdarzenie 'newPath' GDY UserImage jest tworzony LUB aktualizowany.
+    Jeśli jest tworzony, to jest to nowy obrazek do rysowania ścieżek.
+    Jeśli jest aktualizowany, zakładamy, że konfiguracja ścieżek mogła się zmienić.
+    """
+    print(f"SIGNAL [user_image_saved_handler]: Fired for UserImage ID {instance.id}. CREATED: {created}")
+    
+    try:
+        user_username = instance.user.username
+    except AttributeError:
+        user_username = "UnknownUser"
+        print(f"SIGNAL [user_image_saved_handler]: Warning - User for UserImage ID {instance.id} not found.")
+
+    action_type = "created" if created else "updated"
+    print(f"SIGNAL [user_image_saved_handler]: UserImage {action_type} - ID: {instance.id}, Name: {instance.name}. Sending 'newPath' event.")
+    
+    event_data = {
+        "path_id": None,  # Dla ogólnego zdarzenia UserImage, nie mamy konkretnego ID ścieżki
+        "board_id": instance.id, # ID UserImage traktujemy jako ID planszy
+        "board_name": instance.name,
+        "user_username": user_username, # Użytkownik, który jest właścicielem/modyfikował
+        "action": action_type # Dodatkowa informacja dla frontendu, czy obraz został utworzony czy zaktualizowany
+    }
+    broadcast_event(event_type="newPath", data=event_data)
+
+
+@receiver(post_save, sender=ImageClick)
+def image_click_created_handler(sender, instance: ImageClick, created: bool, **kwargs):
+    """
+    Wysyła zdarzenie 'newPath' GDY tworzony jest NOWY ImageClick.
+    """
+    print(f"SIGNAL [image_click_created_handler]: Fired for ImageClick ID {instance.id}. CREATED: {created}")
+    if created: # Tylko przy tworzeniu nowego punktu
+        try:
+            user_username = instance.user.username
+        except AttributeError:
+            user_username = "UnknownUser"
+            print(f"SIGNAL [image_click_created_handler]: Warning - User for ImageClick ID {instance.id} not found.")
+        
+        try:
+            image_id = instance.image.id
+            image_name = instance.image.name
+        except AttributeError:
+            image_id = None
+            image_name = "UnknownImage"
+            print(f"SIGNAL [image_click_created_handler]: Warning - Image for ImageClick ID {instance.id} not found.")
+
+        print(f"SIGNAL [image_click_created_handler]: New ImageClick created - ID: {instance.id} on Image ID {image_id}. Sending 'newPath' event.")
         event_data = {
-            "path_info": f"Path updated on image {instance.name}",
-            "image_id": instance.id,
-            "image_name": instance.name,
-            "user_username": instance.user.username
+            "path_id": instance.id,
+            "board_id": image_id,
+            "board_name": image_name,
+            "user_username": user_username,
+            "action": "point_added" # Specyficzna akcja dla dodania punktu
         }
         broadcast_event(event_type="newPath", data=event_data)
 
@@ -3125,7 +3191,32 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from rest_framework.authtoken.models import Token
 from django.core.exceptions import ValidationError
+from django.contrib.auth.models import User
+from django.contrib.contenttypes.fields import GenericForeignKey
+from django.contrib.contenttypes.models import ContentType
 
+class Reaction(models.Model):
+    REACTION_CHOICES = [
+        ('heart', '❤️'),
+        ('gasp', '😮'),
+        ('grin', '😄'),
+    ]
+
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="reactions")
+    reaction_type = models.CharField(max_length=10, choices=REACTION_CHOICES)
+    timestamp = models.DateTimeField(auto_now_add=True)
+
+    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
+    object_id = models.PositiveIntegerField()
+    content_object = GenericForeignKey('content_type', 'object_id') # Obiekt, na który jest reakcja
+
+    class Meta:
+        ordering = ['-timestamp']
+        unique_together = ('user', 'content_type', 'object_id') # Użytkownik może mieć tylko jedną reakcję na dany obiekt
+
+    def __str__(self):
+        return f"{self.user.username} reacted with {self.get_reaction_type_display()} to {self.content_object}"
+    
 class UserImage(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='images')
     name = models.CharField(max_length=100, unique=True)
@@ -3606,6 +3697,7 @@ class GameBoard(models.Model):
     {% block head_extra %}{% endblock head_extra %}
 </head>
 <body>
+    <div id="toast-container"></div>
     <nav>
         <a href="{% url 'home' %}">Home</a>
         {% if user.is_authenticated %}
@@ -3627,7 +3719,11 @@ class GameBoard(models.Model):
         {% block content %}
         {% endblock content %}
     </main>
-    {% block extra_js %}{% endblock extra_js %}
+    {% block extra_js %}
+    {% endblock extra_js %}
+    {% if user.is_authenticated %} {# Inicjuj SSE tylko dla zalogowanych użytkowników #}
+        <script src="{% static 'main/ts/dist/sseNotifications.js' %}"></script> 
+    {% endif %}
 </body>
 </html>
 
@@ -4231,48 +4327,61 @@ urlpatterns = [
 # main/event_queue.py
 import queue
 import threading
-import json # Upewnij się, że ten import jest na górze
+import json
+import uuid
 
-client_queues_lock = threading.Lock()
-client_queues = [] # Lista indywidualnych kolejek dla każdego połączonego klienta
+_client_queues = {}  # Dictionary: {client_id: queue.Queue}
+_client_queues_lock = threading.Lock()
 
-def add_client_queue(q: queue.Queue):
-    with client_queues_lock:
-        client_queues.append(q)
-    print(f"SSE: Client queue added. Total queues: {len(client_queues)}")
+def add_client_queue():
+    client_id = str(uuid.uuid4())
+    q = queue.Queue(maxsize=100)
+    with _client_queues_lock:
+        _client_queues[client_id] = q
+    print(f"SSE [event_queue]: Client queue added (ID: {client_id}). Total queues: {len(_client_queues)}")
+    return client_id, q
 
-
-def remove_client_queue(q: queue.Queue):
-    with client_queues_lock:
-        if q in client_queues:
-            client_queues.remove(q)
-    print(f"SSE: Client queue removed. Total queues: {len(client_queues)}")
-
+def remove_client_queue(client_id: str):
+    with _client_queues_lock:
+        if client_id in _client_queues:
+            del _client_queues[client_id]
+            print(f"SSE [event_queue]: Client queue removed (ID: {client_id}). Total queues: {len(_client_queues)}")
+        else:
+            print(f"SSE [event_queue]: Attempted to remove non-existent client queue (ID: {client_id}).")
 
 def broadcast_event(event_type: str, data: dict):
-    """
-    Dodaje zdarzenie do kolejek wszystkich aktywnych klientów.
-    """
-    # Formatowanie wiadomości SSE. Upewnij się, że kończy się dwoma znakami nowej linii.
+    if not isinstance(event_type, str) or not isinstance(data, dict):
+        print(f"SSE [event_queue] ERROR: Invalid event_type or data for broadcast. Type: {event_type}, Data: {data}")
+        return
+
     sse_formatted_message = f"event: {event_type}\ndata: {json.dumps(data)}\n\n"
-    print(f"SSE: Broadcasting event - Type: {event_type}, Data: {json.dumps(data)}") # Logowanie
-    
-    with client_queues_lock:
-        # Iteruj po kopii listy, aby uniknąć problemów, jeśli remove_client_queue jest wywoływane współbieżnie
-        # Chociaż z Lock powinno być OK, to jest bezpieczniejsza praktyka.
-        queues_to_broadcast_to = list(client_queues) 
-    
-    for q in queues_to_broadcast_to:
-        try:
-            q.put_nowait(sse_formatted_message)
-        except queue.Full:
-            print(f"SSE Warning: Client queue full for event: {event_type}. Queue: {q}")
-            # W bardziej zaawansowanym systemie można by tu obsłużyć rozłączenie klienta
-            # lub usunąć kolejkę, jeśli jest stale pełna.
-            # Dla laboratorium po prostu ignorujemy i idziemy dalej.
-            pass
-        except Exception as e:
-            print(f"SSE Error: Failed to put message in queue {q}: {e}")
+    print(f"SSE [event_queue]: Broadcasting event - Type: {event_type}, Data: {json.dumps(data)}")
+
+    current_client_ids = []
+    with _client_queues_lock:
+        current_client_ids = list(_client_queues.keys())
+
+    if not current_client_ids:
+        print("SSE [event_queue]: No active client queues to broadcast to.")
+        return
+
+    print(f"SSE [event_queue]: Number of client queues to broadcast to: {len(current_client_ids)}")
+
+    for client_id in current_client_ids:
+        with _client_queues_lock:
+            q = _client_queues.get(client_id)
+        
+        if q:
+            try:
+                print(f"SSE [event_queue]: Attempting to put message in queue for client_id: {client_id}")
+                q.put_nowait(sse_formatted_message)
+                print(f"SSE [event_queue]: Message put in queue for client_id: {client_id} successfully")
+            except queue.Full:
+                print(f"SSE [event_queue] WARNING: Client queue full for event '{event_type}' (Client ID: {client_id}). Message dropped for this client.")
+            except Exception as e:
+                print(f"SSE [event_queue] ERROR: Failed to put message in queue for client_id {client_id}: {e}")
+        else:
+            print(f"SSE [event_queue] WARNING: Queue for client_id {client_id} not found during broadcast (race condition?).")
 
 ===== File: ./main/serializers.py =====
 from rest_framework import serializers
@@ -4309,68 +4418,159 @@ from django.views.decorators.csrf import csrf_exempt
 from django.core.files.base import ContentFile
 from django.db import transaction 
 from django.conf import settings
+from django.core.exceptions import ValidationError
+from django.core.files.base import ContentFile
+from django.contrib.contenttypes.models import ContentType
+from django.views.decorators.http import require_POST
+from django.http import StreamingHttpResponse
 from rest_framework import viewsets, serializers
 from rest_framework.permissions import IsAuthenticated
+from PIL import Image as PILImage, ImageDraw, ImageFont # Dodaj ImageFont, jeśli chcesz numery
+from .models import ImageClick, UserImage, CommonImage, Reaction, GameBoard, UserImage # Dodaj Reaction
 from .serializers import UserImageSerializer, ImageClickSerializer
 from .forms import UserImageForm, CommonImageUploadForm 
-from .models import ImageClick, UserImage, CommonImage # Make sure UserImage is imported
 from .permissions import IsOwner
+from .forms import DefineGridForm
+from .event_queue import add_client_queue, remove_client_queue
 import json
 import io
-from django.views.decorators.http import require_POST
-from .models import GameBoard
-from PIL import Image as PILImage, ImageDraw, ImageFont # Dodaj ImageFont, jeśli chcesz numery
-from django.core.exceptions import ValidationError
-from .forms import DefineGridForm
-from django.core.files.base import ContentFile
-from django.http import StreamingHttpResponse
 import base64
 import re
 import time
-import json # Już prawdopodobnie masz
-import queue # Dla queue.Empty i queue.Queue
-# from django.contrib.auth.decorators import login_required # Jeśli potrzebne
+import queue # For queue.Queue and queue.Empty
 
-# Importuj funkcje kolejki z event_queue.py w tej samej aplikacji
-from .event_queue import add_client_queue, remove_client_queue, client_queues # Dodaj client_queues do debugowania
+@login_required
+@require_POST # Reakcje to tworzenie danych
+def add_reaction_view(request):
+    try:
+        data = json.loads(request.body.decode('utf-8'))
+        object_type_str = data.get('object_type') # np. 'gameboard' lub 'userimage'
+        object_id = data.get('object_id')
+        reaction_type_key = data.get('reaction_type') # np. 'heart', 'gasp', 'grin'
+    except json.JSONDecodeError:
+        return JsonResponse({'status': 'error', 'message': 'Invalid JSON.'}, status=400)
+
+    if not all([object_type_str, object_id, reaction_type_key]):
+        return JsonResponse({'status': 'error', 'message': 'Missing required data.'}, status=400)
+
+    # Mapowanie stringu object_type na model Django
+    if object_type_str == 'gameboard':
+        model = GameBoard
+    elif object_type_str == 'userimage':
+        model = UserImage
+    # Dodaj inne modele, jeśli chcesz na nich reagować
+    else:
+        return JsonResponse({'status': 'error', 'message': 'Invalid object type.'}, status=400)
+
+    try:
+        content_object_instance = model.objects.get(pk=object_id)
+        content_type_instance = ContentType.objects.get_for_model(content_object_instance)
+    except model.DoesNotExist:
+        return JsonResponse({'status': 'error', 'message': 'Object not found.'}, status=404)
+    except Exception as e:
+        return JsonResponse({'status': 'error', 'message': f'Error fetching object: {str(e)}'}, status=500)
+
+    # Sprawdzenie, czy reaction_type jest prawidłowy
+    valid_reaction_types = [choice[0] for choice in Reaction.REACTION_CHOICES]
+    if reaction_type_key not in valid_reaction_types:
+        return JsonResponse({'status': 'error', 'message': 'Invalid reaction type.'}, status=400)
+
+    # Logika "jedna reakcja na obiekt od użytkownika"
+    # Jeśli chcesz pozwolić na zmianę reakcji, to:
+    # 1. Spróbuj pobrać istniejącą reakcję.
+    # 2. Jeśli istnieje i jest inna, zaktualizuj ją.
+    # 3. Jeśli istnieje i jest taka sama, możesz ją usunąć (toggle) lub nic nie robić.
+    # 4. Jeśli nie istnieje, utwórz nową.
+
+    # Uproszczona logika: usuń poprzednią reakcję użytkownika na ten obiekt (jeśli istnieje) i dodaj nową.
+    # To efektywnie pozwala zmienić reakcję.
+    Reaction.objects.filter(
+        user=request.user,
+        content_type=content_type_instance,
+        object_id=content_object_instance.pk
+    ).delete()
+
+    try:
+        reaction = Reaction.objects.create(
+            user=request.user,
+            reaction_type=reaction_type_key,
+            content_type=content_type_instance,
+            object_id=content_object_instance.pk
+        )
+        
+        # Po pomyślnym zapisaniu reakcji, wyślij zdarzenie SSE
+        # Potrzebujemy informacji o obiekcie, na który zareagowano
+        reacted_object_name = ""
+        if isinstance(content_object_instance, GameBoard):
+            reacted_object_name = content_object_instance.name
+        elif isinstance(content_object_instance, UserImage):
+            reacted_object_name = content_object_instance.name
+        
+        # Zdarzenie SSE o nowej reakcji
+        # (logika broadcast_event jest w main/event_queue.py)
+        from .event_queue import broadcast_event # Upewnij się, że ten import jest dostępny
+        broadcast_event(
+            event_type="newReaction",
+            data={
+                "reaction_id": reaction.id,
+                "reaction_type": reaction.reaction_type, # klucz np. 'heart'
+                "reaction_display": reaction.get_reaction_type_display(), # emotka np. '❤️'
+                "user_username": request.user.username,
+                "object_type": object_type_str,
+                "object_id": content_object_instance.pk,
+                "object_name": reacted_object_name
+            }
+        )
+
+        return JsonResponse({
+            'status': 'success',
+            'message': 'Reaction added.',
+            'reaction_id': reaction.id,
+            'reaction_type': reaction.reaction_type
+        })
+    except Exception as e: # Np. błąd unikalności, jeśli nie usuwasz starej reakcji
+        return JsonResponse({'status': 'error', 'message': f'Could not save reaction: {str(e)}'}, status=400)
 
 # @login_required # Odkomentuj, jeśli chcesz autoryzacji
 def sse_notifications_view(request):
-    client_specific_queue = queue.Queue(maxsize=100) # Max 100 zdarzeń w kolejce na klienta
-    add_client_queue(client_specific_queue)
-    # print(f"SSE: Client connected. Queue added. Current queues: {len(client_queues)}") # Użyj client_queues z importu
+    client_id, client_q = add_client_queue()
+    print(f"SSE VIEW: Client connected (ID: {client_id}) from {request.META.get('REMOTE_ADDR')}")
 
-    def event_stream_generator():
-        # print("SSE: Generator started for a client.") # Debug
+    def event_stream_generator(client_id_for_generator, queue_for_generator):
+        print(f"SSE VIEW [Generator]: Started for client ID: {client_id_for_generator}")
         try:
-            yield ": Connected to SSE stream. Waiting for events...\n\n"
-            last_keep_alive_time = time.time()
+            yield ":sse-connection-established client_id={}\n\n".format(client_id_for_generator)
+            last_keep_alive = time.time()
 
-            while True: # Pętla utrzymująca połączenie
-                if time.time() - last_keep_alive_time > 15: # Co 15 sekund
-                    yield ": keep-alive\n\n"
-                    last_keep_alive_time = time.time()
+            while True:
+                current_time = time.time()
+                if current_time - last_keep_alive > 15:
+                    yield ":keep-alive\n\n"
+                    last_keep_alive = current_time
 
                 try:
-                    message = client_specific_queue.get(timeout=1) 
-                    yield message # Wiadomość jest już sformatowana (event: type\ndata: json\n\n)
-                    client_specific_queue.task_done() # Oznacz wiadomość jako przetworzoną
+                    message = queue_for_generator.get(timeout=1) 
+                    yield message
+                    queue_for_generator.task_done()
                 except queue.Empty:
-                    pass
-                except Exception as e_inner:
-                    print(f"SSE Stream Error (inner loop - queue get): {e_inner}")
-                    break # Przerwij pętlę dla tego klienta
+                    continue
+                except Exception as e_inner_q:
+                    print(f"SSE VIEW [Generator] ERROR (queue get) for client ID {client_id_for_generator}: {e_inner_q}")
+                    break 
 
         except GeneratorExit:
-            print("SSE: Client disconnected (GeneratorExit).")
-        except Exception as e_outer:
-            print(f"SSE Stream Error (outer loop): {e_outer}")
+            print(f"SSE VIEW [Generator]: Client ID {client_id_for_generator} disconnected (GeneratorExit).")
+        except Exception as e_outer_gen:
+            print(f"SSE VIEW [Generator] ERROR (outer) for client ID {client_id_for_generator}: {e_outer_gen}")
         finally:
-            remove_client_queue(client_specific_queue)
+            print(f"SSE VIEW [Generator]: Cleaning up for client ID: {client_id_for_generator}.")
+            remove_client_queue(client_id_for_generator)
 
-    response = StreamingHttpResponse(event_stream_generator(), content_type='text/event-stream')
-    response['Cache-Control'] = 'no-cache'
-    response['X-Accel-Buffering'] = 'no' # Dla Nginx
+    response = StreamingHttpResponse(event_stream_generator(client_id, client_q), content_type='text/event-stream')
+    response['Cache-Control'] = 'no-cache, no-store, must-revalidate'
+    response['Pragma'] = 'no-cache'
+    response['Expires'] = '0'
+    response['X-Accel-Buffering'] = 'no'
     return response
 
 @login_required
@@ -4747,6 +4947,72 @@ def delete_image(request, image_id):
     image.delete()
     return redirect('user_panel')
 
+===== File: ./main/migrations/0001_initial.py =====
+# Generated by Django 4.2.20 on 2025-06-08 16:07
+
+from django.conf import settings
+from django.db import migrations, models
+import django.db.models.deletion
+
+
+class Migration(migrations.Migration):
+
+    initial = True
+
+    dependencies = [
+        migrations.swappable_dependency(settings.AUTH_USER_MODEL),
+    ]
+
+    operations = [
+        migrations.CreateModel(
+            name='CommonImage',
+            fields=[
+                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('name', models.CharField(help_text='Descriptive name for the common image.', max_length=100, unique=True)),
+                ('image', models.ImageField(help_text='The actual image file.', upload_to='common_images/%Y/%m/%d/')),
+                ('description', models.TextField(blank=True, help_text='Optional description.', null=True)),
+            ],
+            options={
+                'verbose_name': 'Common Image',
+                'ordering': ['name'],
+            },
+        ),
+        migrations.CreateModel(
+            name='UserImage',
+            fields=[
+                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('name', models.CharField(max_length=100, unique=True)),
+                ('image', models.ImageField(upload_to='uploads/%Y/%m/%d/')),
+                ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='images', to=settings.AUTH_USER_MODEL)),
+            ],
+        ),
+        migrations.CreateModel(
+            name='ImageClick',
+            fields=[
+                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('x', models.FloatField()),
+                ('y', models.FloatField()),
+                ('image', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='clicks', to='main.userimage')),
+                ('user', models.ForeignKey(default=1, on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
+            ],
+        ),
+        migrations.CreateModel(
+            name='GameBoard',
+            fields=[
+                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('name', models.CharField(default='Untitled Board', max_length=100)),
+                ('rows', models.PositiveIntegerField()),
+                ('cols', models.PositiveIntegerField()),
+                ('dots_config', models.JSONField(blank=True, default=list)),
+                ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='game_boards', to=settings.AUTH_USER_MODEL)),
+            ],
+        ),
+    ]
+
+
+===== File: ./main/migrations/__init__.py =====
+
+
 ===== File: ./main/__init__.py =====
 
 
@@ -4759,11 +5025,16 @@ class MainConfig(AppConfig):
 
     def ready(self):
         import main.models # Or 'import main.signals' if you put the signal handler there
-        import main.signals # Zaimportuj sygnały
+        print("MainConfig.ready() called - Attempting to import signals...")
+        try:
+            import main.signals
+            print("MainConfig.ready(): main.signals imported successfully.")
+        except ImportError as e:
+            print(f"MainConfig.ready() ERROR: Could not import main.signals - {e}")
 
-class GameBoardConfig(AppConfig):
-    default_auto_field = 'django.db.models.BigAutoField'
-    name = 'game_board'
+# class GameBoardConfig(AppConfig):
+#     default_auto_field = 'django.db.models.BigAutoField'
+#     name = 'game_board'
 
 
 ===== File: ./manage.py =====

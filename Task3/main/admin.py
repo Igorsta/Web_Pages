@@ -1,91 +1,79 @@
 # main/admin.py
 from django.contrib import admin
-from .models import UserImage, ImageClick, CommonImage, GameBoard # Ensure all are imported
+from .models import UserImage, ImageClick, CommonImage, GameBoard
+import json
+from django.utils.html import format_html
 
-# --- GameBoard Admin (looks good from your previous code) ---
 @admin.register(GameBoard)
 class GameBoardAdmin(admin.ModelAdmin):
     list_display = ('name', 'user', 'rows', 'cols', 'get_dots_count', 'get_paths_count')
     list_filter = ('user', 'rows', 'cols')
     search_fields = ('name', 'user__username')
-    readonly_fields = ('dots_config_pretty', 'paths_config_pretty') # If you have these methods
+    readonly_fields = ('dots_config_pretty', 'paths_config_pretty')
 
     fieldsets = (
-        (None, {
-            'fields': ('user', 'name', 'rows', 'cols')
-        }),
+        (None, {'fields': ('user', 'name', 'rows', 'cols')}),
         ('Configuration (Raw JSON - Edit with caution)', {
             'classes': ('collapse',),
-            'fields': ('dots_config', 'paths_config'), # Ensure paths_config is here
+            'fields': ('dots_config', 'paths_config'),
         }),
-        ('Configuration (Formatted View)', { # Assuming you have these helper methods
+        ('Configuration (Formatted View)', {
             'fields': ('dots_config_pretty', 'paths_config_pretty'),
         }),
     )
 
     def get_dots_count(self, obj):
-        if isinstance(obj.dots_config, list):
-            return len(obj.dots_config)
-        return 0
+        return len(obj.dots_config) if isinstance(obj.dots_config, list) else 0
     get_dots_count.short_description = 'Dots Count'
 
     def get_paths_count(self, obj):
-        if isinstance(obj.paths_config, list): # Check the new paths_config field
-            return len(obj.paths_config)
-        return 0
+        return len(obj.paths_config) if isinstance(obj.paths_config, list) else 0
     get_paths_count.short_description = 'Paths Count'
 
     def dots_config_pretty(self, obj):
-        import json
-        from django.utils.html import format_html
         formatted_json = json.dumps(obj.dots_config, indent=4)
         return format_html("<pre>{}</pre>", formatted_json)
     dots_config_pretty.short_description = 'Dots Config (Formatted)'
 
     def paths_config_pretty(self, obj):
-        import json
-        from django.utils.html import format_html
         formatted_json = json.dumps(obj.paths_config, indent=4)
         return format_html("<pre>{}</pre>", formatted_json)
     paths_config_pretty.short_description = 'Paths Config (Formatted)'
 
-
-@admin.register(UserImage) # Use the decorator for cleaner registration
+@admin.register(UserImage)
 class UserImageAdmin(admin.ModelAdmin):
-    list_display = ('name', 'user', 'image_thumbnail') # Added thumbnail for better display
+    list_display = ('name', 'user', 'image_thumbnail')
     list_filter = ('user',)
     search_fields = ('name', 'user__username')
-    readonly_fields = ('image_preview',) # For a larger preview in the detail view
+    readonly_fields = ('image_preview',)
 
     def image_thumbnail(self, obj):
-        from django.utils.html import format_html
         if obj.image:
             return format_html('<img src="{}" style="width: 45px; height:45px; object-fit:cover;" />', obj.image.url)
         return "No Image"
     image_thumbnail.short_description = 'Thumbnail'
 
     def image_preview(self, obj):
-        from django.utils.html import format_html
         if obj.image:
             return format_html('<img src="{}" style="max-width: 200px; max-height:200px;" />', obj.image.url)
         return "No Image"
     image_preview.short_description = 'Image Preview'
 
-
-# --- ImageClick Admin (Optional: can be an inline in UserImageAdmin) ---
 @admin.register(ImageClick)
 class ImageClickAdmin(admin.ModelAdmin):
-    list_display = ('id', 'user', 'image_name', 'x', 'y')
-    list_filter = ('user', 'image')
+    list_display = ('id', 'user', 'image_name_link', 'x', 'y')
+    list_filter = ('user', 'image__name')
     search_fields = ('image__name', 'user__username')
+    raw_id_fields = ('image', 'user') # Better for ForeignKey selection
 
-    def image_name(self, obj):
-        return obj.image.name
-    image_name.short_description = 'On Image'
-    image_name.admin_order_field = 'image__name'
+    def image_name_link(self, obj):
+        from django.urls import reverse
+        link = reverse("admin:main_userimage_change", args=[obj.image.id])
+        return format_html('<a href="{}">{}</a>', link, obj.image.name)
+    image_name_link.short_description = 'On Image'
+    image_name_link.admin_order_field = 'image__name'
 
 
-# --- CommonImage Admin ---
 @admin.register(CommonImage)
 class CommonImageAdmin(admin.ModelAdmin):
     list_display = ('name', 'image_thumbnail', 'description')
@@ -93,14 +81,12 @@ class CommonImageAdmin(admin.ModelAdmin):
     readonly_fields = ('image_preview',)
 
     def image_thumbnail(self, obj):
-        from django.utils.html import format_html
         if obj.image:
             return format_html('<img src="{}" style="width: 45px; height:45px; object-fit:cover;" />', obj.image.url)
         return "No Image"
     image_thumbnail.short_description = 'Thumbnail'
 
     def image_preview(self, obj):
-        from django.utils.html import format_html
         if obj.image:
             return format_html('<img src="{}" style="max-width: 200px; max-height:200px;" />', obj.image.url)
         return "No Image"
