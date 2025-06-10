@@ -13,10 +13,12 @@
 │   ├── __init__.py
 │   ├── admin.py
 │   ├── apps.py
+│   ├── event_queue.py
 │   ├── forms.py
 │   ├── models.py
 │   ├── permissions.py
 │   ├── serializers.py
+│   ├── signals.py
 │   ├── templates
 │   │   ├── game_board
 │   │   │   ├── base.html
@@ -41,163 +43,691 @@
 │   ├── urls_board.py
 │   └── views.py
 ├── manage.py
-├── node_modules
-│   └── typescript
-│       ├── LICENSE.txt
-│       ├── README.md
-│       ├── SECURITY.md
-│       ├── ThirdPartyNoticeText.txt
-│       ├── bin
-│       │   ├── tsc
-│       │   └── tsserver
-│       ├── lib
-│       │   ├── _tsc.js
-│       │   ├── _tsserver.js
-│       │   ├── _typingsInstaller.js
-│       │   ├── cs
-│       │   │   └── diagnosticMessages.generated.json
-│       │   ├── de
-│       │   │   └── diagnosticMessages.generated.json
-│       │   ├── es
-│       │   │   └── diagnosticMessages.generated.json
-│       │   ├── fr
-│       │   │   └── diagnosticMessages.generated.json
-│       │   ├── it
-│       │   │   └── diagnosticMessages.generated.json
-│       │   ├── ja
-│       │   │   └── diagnosticMessages.generated.json
-│       │   ├── ko
-│       │   │   └── diagnosticMessages.generated.json
-│       │   ├── lib.d.ts
-│       │   ├── lib.decorators.d.ts
-│       │   ├── lib.decorators.legacy.d.ts
-│       │   ├── lib.dom.asynciterable.d.ts
-│       │   ├── lib.dom.d.ts
-│       │   ├── lib.dom.iterable.d.ts
-│       │   ├── lib.es2015.collection.d.ts
-│       │   ├── lib.es2015.core.d.ts
-│       │   ├── lib.es2015.d.ts
-│       │   ├── lib.es2015.generator.d.ts
-│       │   ├── lib.es2015.iterable.d.ts
-│       │   ├── lib.es2015.promise.d.ts
-│       │   ├── lib.es2015.proxy.d.ts
-│       │   ├── lib.es2015.reflect.d.ts
-│       │   ├── lib.es2015.symbol.d.ts
-│       │   ├── lib.es2015.symbol.wellknown.d.ts
-│       │   ├── lib.es2016.array.include.d.ts
-│       │   ├── lib.es2016.d.ts
-│       │   ├── lib.es2016.full.d.ts
-│       │   ├── lib.es2016.intl.d.ts
-│       │   ├── lib.es2017.arraybuffer.d.ts
-│       │   ├── lib.es2017.d.ts
-│       │   ├── lib.es2017.date.d.ts
-│       │   ├── lib.es2017.full.d.ts
-│       │   ├── lib.es2017.intl.d.ts
-│       │   ├── lib.es2017.object.d.ts
-│       │   ├── lib.es2017.sharedmemory.d.ts
-│       │   ├── lib.es2017.string.d.ts
-│       │   ├── lib.es2017.typedarrays.d.ts
-│       │   ├── lib.es2018.asyncgenerator.d.ts
-│       │   ├── lib.es2018.asynciterable.d.ts
-│       │   ├── lib.es2018.d.ts
-│       │   ├── lib.es2018.full.d.ts
-│       │   ├── lib.es2018.intl.d.ts
-│       │   ├── lib.es2018.promise.d.ts
-│       │   ├── lib.es2018.regexp.d.ts
-│       │   ├── lib.es2019.array.d.ts
-│       │   ├── lib.es2019.d.ts
-│       │   ├── lib.es2019.full.d.ts
-│       │   ├── lib.es2019.intl.d.ts
-│       │   ├── lib.es2019.object.d.ts
-│       │   ├── lib.es2019.string.d.ts
-│       │   ├── lib.es2019.symbol.d.ts
-│       │   ├── lib.es2020.bigint.d.ts
-│       │   ├── lib.es2020.d.ts
-│       │   ├── lib.es2020.date.d.ts
-│       │   ├── lib.es2020.full.d.ts
-│       │   ├── lib.es2020.intl.d.ts
-│       │   ├── lib.es2020.number.d.ts
-│       │   ├── lib.es2020.promise.d.ts
-│       │   ├── lib.es2020.sharedmemory.d.ts
-│       │   ├── lib.es2020.string.d.ts
-│       │   ├── lib.es2020.symbol.wellknown.d.ts
-│       │   ├── lib.es2021.d.ts
-│       │   ├── lib.es2021.full.d.ts
-│       │   ├── lib.es2021.intl.d.ts
-│       │   ├── lib.es2021.promise.d.ts
-│       │   ├── lib.es2021.string.d.ts
-│       │   ├── lib.es2021.weakref.d.ts
-│       │   ├── lib.es2022.array.d.ts
-│       │   ├── lib.es2022.d.ts
-│       │   ├── lib.es2022.error.d.ts
-│       │   ├── lib.es2022.full.d.ts
-│       │   ├── lib.es2022.intl.d.ts
-│       │   ├── lib.es2022.object.d.ts
-│       │   ├── lib.es2022.regexp.d.ts
-│       │   ├── lib.es2022.string.d.ts
-│       │   ├── lib.es2023.array.d.ts
-│       │   ├── lib.es2023.collection.d.ts
-│       │   ├── lib.es2023.d.ts
-│       │   ├── lib.es2023.full.d.ts
-│       │   ├── lib.es2023.intl.d.ts
-│       │   ├── lib.es2024.arraybuffer.d.ts
-│       │   ├── lib.es2024.collection.d.ts
-│       │   ├── lib.es2024.d.ts
-│       │   ├── lib.es2024.full.d.ts
-│       │   ├── lib.es2024.object.d.ts
-│       │   ├── lib.es2024.promise.d.ts
-│       │   ├── lib.es2024.regexp.d.ts
-│       │   ├── lib.es2024.sharedmemory.d.ts
-│       │   ├── lib.es2024.string.d.ts
-│       │   ├── lib.es5.d.ts
-│       │   ├── lib.es6.d.ts
-│       │   ├── lib.esnext.array.d.ts
-│       │   ├── lib.esnext.collection.d.ts
-│       │   ├── lib.esnext.d.ts
-│       │   ├── lib.esnext.decorators.d.ts
-│       │   ├── lib.esnext.disposable.d.ts
-│       │   ├── lib.esnext.float16.d.ts
-│       │   ├── lib.esnext.full.d.ts
-│       │   ├── lib.esnext.intl.d.ts
-│       │   ├── lib.esnext.iterator.d.ts
-│       │   ├── lib.esnext.promise.d.ts
-│       │   ├── lib.scripthost.d.ts
-│       │   ├── lib.webworker.asynciterable.d.ts
-│       │   ├── lib.webworker.d.ts
-│       │   ├── lib.webworker.importscripts.d.ts
-│       │   ├── lib.webworker.iterable.d.ts
-│       │   ├── pl
-│       │   │   └── diagnosticMessages.generated.json
-│       │   ├── pt-br
-│       │   │   └── diagnosticMessages.generated.json
-│       │   ├── ru
-│       │   │   └── diagnosticMessages.generated.json
-│       │   ├── tr
-│       │   │   └── diagnosticMessages.generated.json
-│       │   ├── tsc.js
-│       │   ├── tsserver.js
-│       │   ├── tsserverlibrary.d.ts
-│       │   ├── tsserverlibrary.js
-│       │   ├── typesMap.json
-│       │   ├── typescript.d.ts
-│       │   ├── typescript.js
-│       │   ├── typingsInstaller.js
-│       │   ├── watchGuard.js
-│       │   ├── zh-cn
-│       │   │   └── diagnosticMessages.generated.json
-│       │   └── zh-tw
-│       │       └── diagnosticMessages.generated.json
-│       └── package.json
 ├── package-lock.json
 ├── package.json
 ├── project_dump.txt
 ├── script.sh
 └── tsconfig.json
 
-25 directories, 168 files
+8 directories, 40 files
 
 
-===== settings.py =====
+===== File: ./backup/home.html =====
+{% extends "main/base.html" %}
+{% load static %}
+
+{% block title %}Home - Path Editor{% endblock title %}
+
+{% block content %}
+    <h2>Welcome, {{ user.username }}!</h2>
+
+    {# --- SEKCJA WYBORU OBRAZU --- #}
+    {% if not selected_image %}
+        <form method="get" action="{% url 'home' %}">
+            <label for="image-select">Personal paths:</label>
+            <select name="selected" id="image-select" onchange="this.form.submit()">
+                <option value="">-- choose a path --</option>
+                {% for img in user_images %}
+                    <option value="{{ img.name }}">
+                        {{ img.name }} (Yours)
+                    </option>
+                {% empty %}
+                    <option value="" disabled>You have no uploaded paths.</option>
+                {% endfor %}
+            </select>
+        </form>
+        <a href="{% url 'upload_image' %}">Upload a new personal path</a>
+
+        <hr>
+        <h3>Or Use a Common Path:</h3>
+        {% if common_images_list %}
+            <div class="common-images-grid" style="display: flex; flex-wrap: wrap; gap: 10px;">
+                {% for c_img in common_images_list %}
+                    <div class="common-image-item" style="border: 1px solid #ccc; padding: 5px; text-align: center;">
+                        <p>{{ c_img.name }}</p>
+                        {% if c_img.image %}
+                        <img src="{{ c_img.image.url }}" alt="{{ c_img.name }}" width="100" height="100" style="object-fit: cover;">
+                        <br>
+                        <a href="{% url 'use_common_image' c_img.id %}">Use this image</a>
+                        {% else %}
+                        <p>Path not available</p>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p>No common Paths available at the moment.</p>
+        {% endif %}
+
+    {% else %} {# Obraz JEST wybrany, pokaż edytor #}
+        
+        <p><a href="{% url 'home' %}">Select a different path</a></p> 
+        
+        <h3>Selected Path: {{ selected_image.name }}</h3>
+
+        <div id="message-container" style="text-align: center; font-size: 16px; color: blue; display: none;"></div>
+        
+        <div id="editor-layout"> {# Dodajmy style dla layoutu, jeśli potrzebne #}
+            <div id="image-option-containter">
+                <button id="add-point-on-image-btn">Add Point on Path</button>
+                <br>
+                <div id="image-container">
+                    <svg id="connection-lines" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none;"></svg>
+                    <img src="{{ selected_image.image.url }}" id="main-image" alt="{{ selected_image.name }}" />
+                    {# Kropki są renderowane przez Django przy pierwszym załadowaniu #}
+                    {% for click in selected_image.clicks.all %}
+                    <div class="click-dot"
+                        data-id="{{ click.id }}"
+                        style="left: {{ click.x }}px; top: {{ click.y }}px;"> {# Używamy x, y jako koordynaty WZGLĘDEM OBRAZU #}
+                        <span class="dot-number"></span>
+                        <button class="delete-dot-btn" title="Delete this point">✖</button>
+                    </div>
+                    {% endfor %}
+                </div>
+                <br>
+                <a href="{% url 'delete_image' selected_image.id %}" onclick="return confirm('Are you sure you want to delete this image and all its points?');">Delete image</a>
+            </div>
+
+            <div id="coordinates-list-container">
+                <button id="add-point-on-list-btn">Add New Point to List</button>
+                <h4>Coordinates of Points:</h4>
+                <ul id="coordinates-list">
+                    {# Lista koordynatów jest renderowana przez Django przy pierwszym załadowaniu #}
+                    {% for click in selected_image.clicks.all %}
+                        <li data-click-id="{{ click.id }}" class="coordinate-item">
+                            Point <span class="point-display-number">{{ forloop.counter }}</span>:
+                            X<input type="number" class="coord-x-input" value="{{ click.x|stringformat:".2f" }}" step="0.01" autocomplete="off"> {# Użyj stringformat dla kropki jako separatora #}
+                            Y<input type="number" class="coord-y-input" value="{{ click.y|stringformat:".2f" }}" step="0.01" autocomplete="off"> {# Użyj stringformat dla kropki jako separatora #}
+                            <button class="update-coord-btn">Update</button>
+                            <button class="delete-coord-btn">Delete</button>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+        <br>
+    {% endif %} 
+    
+{% endblock content %}
+
+{% block extra_js %}
+    {# Stałe globalne dla JavaScriptu #}
+    <script>
+        const csrfToken = '{{ csrf_token }}';
+        const selectedImageId = {{ selected_image.id|default_if_none:"null" }};
+        let draggedDot = null;      // Referencja do aktualnie przeciąganej kropki
+        let addModeOnClick = false; // Czy aktywny jest tryb dodawania punktów przez klikanie na obrazie
+    </script>
+
+    {# Główny plik z logiką JavaScript #}
+    <script src="{% static 'main/js/functions.js' %}"></script>
+
+    {# Skrypt inicjalizacyjny i obsługa zdarzeń specyficznych dla tego szablonu #}
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Funkcja pomocnicza do inicjalizacji komponentów edytora
+            function initializeEditorComponents() {
+                // Upewnij się, że funkcje z functions.js są dostępne globalnie lub przez import/moduł
+                if (typeof initializePageElements === 'function') {
+                    initializePageElements(); // Powinno m.in. zainicjalizować kropki i listę
+                } else {
+                    console.error("Function 'initializePageElements' is not defined. Check functions.js.");
+                }
+                 // Dodatkowa synchronizacja po pełnej inicjalizacji, jeśli konieczne
+                if (typeof synchronizeListWithDots === 'function') {
+                    synchronizeListWithDots();
+                } else {
+                     console.warn("Function 'synchronizeListWithDots' is not defined (optional).");
+                }
+            }
+
+            // Główna logika inicjalizacji
+            if (selectedImageId) {
+                const mainImageElement = document.getElementById('main-image');
+                if (mainImageElement) {
+                    if (mainImageElement.complete && mainImageElement.naturalWidth > 0) { // Sprawdź też naturalWidth
+                        initializeEditorComponents();
+                    } else {
+                        mainImageElement.addEventListener('load', () => {
+                            initializeEditorComponents();
+                        });
+                        // Obsługa błędu ładowania obrazu
+                        mainImageElement.addEventListener('error', () => {
+                            console.error("Failed to load the main image.");
+                            // Można tu wyświetlić komunikat użytkownikowi
+                        });
+                    }
+                } else {
+                    console.warn("HTML: selectedImageId is set, but #main-image element was not found.");
+                }
+            } else {
+                // Jeśli żaden obraz nie jest wybrany, wyłącz przyciski edytora
+                const addBtnImg = document.getElementById('add-point-on-image-btn');
+                const addBtnList = document.getElementById('add-point-on-list-btn');
+                if (addBtnImg) addBtnImg.disabled = true;
+                if (addBtnList) addBtnList.disabled = true;
+            }
+            
+            // --- Obsługa przycisku "Add Point on Image" ---
+            const addPointOnImageBtn = document.getElementById('add-point-on-image-btn');
+            const messageContainer = document.getElementById('message-container'); // Upewnij się, że ten kontener istnieje
+            
+            if (addPointOnImageBtn) {
+                addPointOnImageBtn.addEventListener('click', () => {
+                    if (!selectedImageId) return; // Nie rób nic, jeśli nie ma obrazu
+                    addModeOnClick = !addModeOnClick;
+                    const mainImgElem = document.getElementById('main-image');
+                    if (addModeOnClick) {
+                        addPointOnImageBtn.textContent = "Stop Adding on Image";
+                        if(messageContainer) {
+                            messageContainer.innerText = "Click anywhere on the image to place a new point.";
+                            messageContainer.style.display = "block";
+                        }
+                        if(mainImgElem) mainImgElem.style.cursor = 'crosshair';
+                    } else {
+                        addPointOnImageBtn.textContent = "Add Point on Image";
+                        if(messageContainer) messageContainer.style.display = "none";
+                        if(mainImgElem) mainImgElem.style.cursor = 'default';
+                    }
+                });
+            }
+
+            // --- Obsługa kliknięcia na obrazie w celu dodania punktu ---
+            const mainImageEventTarget = document.getElementById('main-image');
+            if (mainImageEventTarget) {
+                mainImageEventTarget.addEventListener('click', function (e) {
+                    if (!addModeOnClick || !selectedImageId) return; // Tylko w trybie dodawania i gdy obraz jest wybrany
+                    
+                    const imageClicked = e.target; // To jest element <img>
+                    const rect = imageClicked.getBoundingClientRect(); // Pozycja obrazu względem viewportu
+
+                    // Koordynaty kliknięcia WZGLĘDEM OBRAZU (lewy górny róg obrazu to 0,0)
+                    const x_coord_on_image = parseFloat((e.clientX - rect.left).toFixed(2));
+                    const y_coord_on_image = parseFloat((e.clientY - rect.top).toFixed(2));
+
+                    // Sprawdzenie, czy kliknięcie jest w granicach obrazu (opcjonalne, ale dobre)
+                    if (x_coord_on_image < 0 || x_coord_on_image > imageClicked.width || y_coord_on_image < 0 || y_coord_on_image > imageClicked.height) {
+                        console.warn("Click outside image bounds ignored.");
+                        return;
+                    }
+                    
+                    fetch('/add-click/', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json', 'X-CSRFToken': csrfToken },
+                        // Wysyłamy koordynaty względem obrazu
+                        body: JSON.stringify({ image_id: selectedImageId, x: x_coord_on_image, y: y_coord_on_image }) 
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success && typeof data.click_id !== 'undefined') {
+                            // Funkcje z functions.js powinny być dostępne globalnie
+                            if (typeof createDotOnImage === 'function' && 
+                                typeof createCoordinateListItem === 'function' &&
+                                typeof renumberDotsAndListItems === 'function') {
+                                
+                                // createDotOnImage oczekuje koordynatów, gdzie ma być umieszczona kropka
+                                // (które są takie same jak x_coord_on_image, y_coord_on_image)
+                                createDotOnImage(data.click_id, x_coord_on_image, y_coord_on_image);
+                                createCoordinateListItem(data.click_id, x_coord_on_image, y_coord_on_image, false); 
+                                renumberDotsAndListItems();
+                            } else {
+                                console.error("One or more required functions (createDotOnImage, createCoordinateListItem, renumberDotsAndListItems) are not defined.");
+                            }
+                        } else {
+                            console.error("Failed to add click:", data);
+                        }
+                    });
+                });
+            }
+            
+            // --- Globalna obsługa przesuwania myszy (dla przeciągania kropki) ---
+            // Ta logika jest dość skomplikowana i może być lepiej umieścić ją w functions.js,
+            // ale zostawiam ją tutaj dla kompletności, jeśli initializeDot ustawia draggedDot.
+            document.addEventListener("mousemove", (e) => {
+                if (!draggedDot || !selectedImageId) return; // Tylko jeśli przeciągamy kropkę i obraz jest wybrany
+                
+                const mainImageElement = document.getElementById('main-image');
+                const imageContainer = document.getElementById('image-container');
+                if (!mainImageElement || !imageContainer) return; 
+
+                const containerRect = imageContainer.getBoundingClientRect(); // Kontener, w którym są kropki
+
+                // Pozycja kursora względem kontenera obrazu
+                let cursorXInContainer = e.clientX - containerRect.left;
+                let cursorYInContainer = e.clientY - containerRect.top;
+
+                // Docelowa pozycja LEWEGO GÓRNEGO ROGU kropki (bo style.left/top to ustawiają)
+                // Zakładamy, że CSS .click-dot ma transform: translate(-50%, -50%) dla wyśrodkowania
+                let newDotLeft = cursorXInContainer;
+                let newDotTop = cursorYInContainer;
+
+                // Wymiary obrazu i jego offset w kontenerze (jeśli kontener jest większy niż obraz)
+                const imageOffsetX = mainImageElement.offsetLeft; // Pozycja obrazu wewnątrz image-container
+                const imageOffsetY = mainImageElement.offsetTop;
+                const imageWidth = mainImageElement.offsetWidth;   // Rzeczywista szerokość obrazu
+                const imageHeight = mainImageElement.offsetHeight; // Rzeczywista wysokość obrazu
+
+                // Ograniczenie pozycji LEWEGO GÓRNEGO ROGU kropki do granic OBRAZU
+                // Kropka nie może wyjść poza obraz. Lewy górny róg kropki musi być między
+                // imageOffsetX a imageOffsetX + imageWidth (minus szerokość kropki, jeśli środek ma być na krawędzi)
+                // Dla uproszczenia, jeśli środek kropki ma być na krawędzi:
+                newDotLeft = Math.max(imageOffsetX, Math.min(newDotLeft, imageOffsetX + imageWidth));
+                newDotTop = Math.max(imageOffsetY, Math.min(newDotTop, imageOffsetY + imageHeight));   
+
+                draggedDot.style.left = newDotLeft.toFixed(2) + "px";
+                draggedDot.style.top = newDotTop.toFixed(2) + "px";
+
+                if (typeof redrawLines === 'function') redrawLines();
+
+                // Aktualizacja wartości w liście koordynatów
+                // Wartości w liście powinny być WZGLĘDEM OBRAZU (0,0 obrazu)
+                const xRelativeToImage = newDotLeft - imageOffsetX;
+                const yRelativeToImage = newDotTop - imageOffsetY;
+
+                const clickId = draggedDot.dataset.id;
+                const listItem = document.querySelector(`#coordinates-list .coordinate-item[data-click-id="${clickId}"]`);
+                if (listItem) {
+                    const inputX = listItem.querySelector('.coord-x-input');
+                    const inputY = listItem.querySelector('.coord-y-input');
+                    if (inputX) inputX.value = xRelativeToImage.toFixed(2);
+                    if (inputY) inputY.value = yRelativeToImage.toFixed(2);
+                }
+            });
+
+            // --- Globalna obsługa puszczenia przycisku myszy (zakończenie przeciągania) ---
+            // Również może być w functions.js, jeśli initializeDot ustawia draggedDot globalnie
+            document.addEventListener('mouseup', () => {
+                if (!draggedDot || !selectedImageId) return;
+
+                const imageOffsetX = document.getElementById('main-image').offsetLeft;
+                const imageOffsetY = document.getElementById('main-image').offsetTop;
+
+                const finalX = parseFloat(draggedDot.style.left) - imageOffsetX; // Względem obrazu
+                const finalY = parseFloat(draggedDot.style.top) - imageOffsetY;  // Względem obrazu
+
+                fetch('/update-click/', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'X-CSRFToken': csrfToken },
+                    body: JSON.stringify({ id: draggedDot.dataset.id, x: finalX, y: finalY })
+                }).then(response => {
+                    if (!response.ok) console.error('Position save failed after drag for dot ID:', draggedDot.dataset.id);
+                });
+                draggedDot = null; // Zakończ przeciąganie
+            });
+
+        }); // Koniec DOMContentLoaded
+    </script>
+{% endblock extra_js %}
+
+===== File: ./backup/functions.js =====
+function initializePageElements() {
+    redrawLines();
+    document.querySelectorAll('.click-dot').forEach(initializeDot);
+    renumberDotsAndListItems();
+}
+
+function renumberDotsAndListItems() {
+    const dots = document.querySelectorAll('.click-dot');
+    dots.forEach((dot, index) => {
+        const dotNumberElement = dot.querySelector('.dot-number');
+        if (dotNumberElement) dotNumberElement.innerText = index + 1;
+    });
+
+    const listItems = document.querySelectorAll('#coordinates-list .coordinate-item');
+    listItems.forEach((item, index) => {
+        const pointDisplayNumber = item.querySelector('.point-display-number');
+        if (pointDisplayNumber) pointDisplayNumber.innerText = index + 1;
+    });
+    redrawLines();
+}
+
+function redrawLines() {
+    const svg = document.getElementById('connection-lines');
+    if (!svg) return;
+    svg.innerHTML = '';
+
+    const dots = Array.from(document.querySelectorAll('.click-dot'));
+    if (dots.length < 2) return;
+
+    for(let i = 0; i < dots.length - 1; i++) {
+        const dot1 = dots[i];
+        const dot2 = dots[i + 1];
+        const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+        const x1 = parseFloat(dot1.style.left); // Kropka jest już wyśrodkowana przez transform
+        const y1 = parseFloat(dot1.style.top);
+        const x2 = parseFloat(dot2.style.left);
+        const y2 = parseFloat(dot2.style.top);
+
+        line.setAttribute('x1', x1);
+        line.setAttribute('y1', y1);
+        line.setAttribute('x2', x2);
+        line.setAttribute('y2', y2);
+        line.setAttribute('stroke-width', '2');
+        line.setAttribute('stroke', '#ff0000');
+        svg.appendChild(line);
+    }
+}
+
+function createCoordinateListItem(clickId, x, y, isNew = false) {
+    const listItem = document.createElement('li');
+    listItem.classList.add('coordinate-item');
+    if (!isNew && clickId) {
+        listItem.setAttribute('data-click-id', clickId);
+    }
+
+    const pointNumberSpan = document.createElement('span');
+    pointNumberSpan.classList.add('point-display-number');
+
+    const inputX = document.createElement('input');
+    inputX.type = 'number';
+    inputX.classList.add('coord-x-input');
+    inputX.value = parseFloat(x).toFixed(2);
+    inputX.step = '0.01';
+
+    const inputY = document.createElement('input');
+    inputY.type = 'number';
+    inputY.classList.add('coord-y-input');
+    inputY.value = parseFloat(y).toFixed(2);
+    inputY.step = '0.01';
+
+    const updateButton = document.createElement('button');
+    updateButton.classList.add('update-coord-btn');
+    updateButton.textContent = isNew ? 'Save New' : 'Update';
+    if (isNew) {
+        updateButton.classList.add('save-new-coord-btn');
+    }
+
+    const deleteButton = document.createElement('button');
+    deleteButton.classList.add('delete-coord-btn');
+    deleteButton.textContent = 'Delete';
+
+    listItem.appendChild(document.createTextNode('Point'));
+    listItem.appendChild(pointNumberSpan);
+    listItem.appendChild(document.createTextNode(': X'));
+    listItem.appendChild(inputX);
+    listItem.appendChild(document.createTextNode('Y'));
+    listItem.appendChild(inputY);
+    listItem.appendChild(updateButton);
+    listItem.appendChild(deleteButton);
+
+    document.getElementById('coordinates-list').appendChild(listItem);
+    attachEventListenersToListItem(listItem, isNew); // Przekazuj tylko isNew
+    return listItem;
+}
+
+function attachEventListenersToListItem(listItem, isNewInitially = false) {
+    const updateBtn = listItem.querySelector('.update-coord-btn');
+    const deleteBtn = listItem.querySelector('.delete-coord-btn');
+    const inputX = listItem.querySelector('.coord-x-input');
+    const inputY = listItem.querySelector('.coord-y-input');
+    let isStillNew = isNewInitially; // Flaga do śledzenia, czy element jest nowy
+
+    console.log(`[attachEventListenersToListItem] For item data-id=${listItem.dataset.clickId}, X_val=${inputX.value}, Y_val=${inputY.value}`);
+
+    updateBtn.addEventListener('click', function() {
+        const currentClickId = listItem.dataset.clickId;
+        const newX = parseFloat(inputX.value);
+        const newY = parseFloat(inputY.value);
+
+        if (isNaN(newX) || isNaN(newY)) {
+            alert('Please enter valid numbers for X and Y.');
+            return;
+        }
+
+        if (isStillNew || !currentClickId) { // Zapis nowego punktu
+            fetch('/add-click/', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'X-CSRFToken': csrfToken },
+                body: JSON.stringify({ image_id: selectedImageId, x: newX, y: newY })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    listItem.setAttribute('data-click-id', data.click_id);
+                    updateBtn.textContent = 'Update';
+                    updateBtn.classList.remove('save-new-coord-btn');
+                    isStillNew = false; // Już nie jest nowy
+                    createDotOnImage(data.click_id, newX, newY);
+                    renumberDotsAndListItems();
+                } else { alert('Failed to save new point.'); }
+            });
+        } else { // Aktualizacja istniejącego punktu
+            fetch('/update-click/', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'X-CSRFToken': csrfToken },
+                body: JSON.stringify({ id: currentClickId, x: newX, y: newY })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    const dot = document.querySelector(`.click-dot[data-id="${currentClickId}"]`);
+                    if (dot) {
+                        dot.style.left = newX + 'px';
+                        dot.style.top = newY + 'px';
+                        redrawLines();
+                    }
+                } else { alert('Failed to update point.'); }
+            });
+        }
+
+    });
+
+    listItem.addEventListener('mouseenter', () => {
+        const clickId = listItem.dataset.clickId;
+        if (!clickId) return; // Nie podświetlaj, jeśli to nowy, niezapisany element
+
+        listItem.classList.add('highlighted'); // Podświetl sam element listy
+        const dotElement = document.querySelector(`.click-dot[data-id="${clickId}"]`);
+        if (dotElement) {
+            dotElement.classList.add('highlighted');
+        }
+    });
+
+    listItem.addEventListener('mouseleave', () => {
+        const clickId = listItem.dataset.clickId;
+        if (!clickId) return;
+
+        listItem.classList.remove('highlighted'); // Usuń podświetlenie z elementu listy
+        const dotElement = document.querySelector(`.click-dot[data-id="${clickId}"]`);
+        if (dotElement) {
+            dotElement.classList.remove('highlighted');
+        }
+    });
+
+    deleteBtn.addEventListener('click', function() {
+        const currentClickId = listItem.dataset.clickId;
+        if (isStillNew || !currentClickId) {
+            listItem.remove();
+            renumberDotsAndListItems();
+            return;
+        }
+
+        fetch('/delete-click/', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'X-CSRFToken': csrfToken },
+            body: JSON.stringify({ id: currentClickId })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'deleted') {
+                listItem.remove();
+                const dot = document.querySelector(`.click-dot[data-id="${currentClickId}"]`);
+                if (dot) dot.remove();
+                renumberDotsAndListItems();
+            } else { alert('Failed to delete point.'); }
+        });
+    });
+
+    [inputX, inputY].forEach(input => {
+        input.addEventListener('input', function() { // ZMIANA: 'input' zamiast 'change'
+            const currentClickId = listItem.dataset.clickId;
+            if (currentClickId && !isStillNew) { // Użyj flagi isStillNew
+                const dot = document.querySelector(`.click-dot[data-id="${currentClickId}"]`);
+                if (dot) {
+                    const newXFromInput = parseFloat(listItem.querySelector('.coord-x-input').value);
+                    const newYFromInput = parseFloat(listItem.querySelector('.coord-y-input').value);
+
+                    if (!isNaN(newXFromInput) && !isNaN(newYFromInput)) {
+                        dot.style.left = newXFromInput + 'px';
+                        dot.style.top = newYFromInput + 'px';
+                        redrawLines(); // Przesuń linie łączące punkty
+                    }
+                }
+            }
+        });
+    });
+}
+
+function initializeCoordinateListInteractions() {
+    document.querySelectorAll('#coordinates-list .coordinate-item').forEach(item => {
+        const clickId = item.dataset.clickId;
+        if (clickId) {
+                attachEventListenersToListItem(item, false);
+        }
+    });
+
+    const addPointToListBtn = document.getElementById('add-point-on-list-btn');
+    if (addPointToListBtn) {
+        addPointToListBtn.addEventListener('click', () => {
+            const mainImage = document.getElementById('main-image');
+            const defaultX = mainImage ? mainImage.width / 2 : 50;
+            const defaultY = mainImage ? mainImage.height / 2 : 50;
+            createCoordinateListItem(null, defaultX, defaultY, true);
+            renumberDotsAndListItems();
+        });
+    }
+}
+
+function initializeDot(dot) {
+    const image = document.getElementById("main-image");
+    if (!image) return;
+
+    let offsetX = 0, offsetY = 0;
+
+    dot.addEventListener("mousedown", (e) => {
+        if (e.button !== 0) return;
+        draggedDot = dot; // Ustaw aktualnie przeciąganą kropkę
+        const rect = dot.getBoundingClientRect();
+        offsetX = e.clientX - rect.left;
+        offsetY = e.clientY - rect.top;
+        
+        e.preventDefault();
+        document.addEventListener('mouseup', handleDocumentMouseUp, { once: true });
+    });
+
+    dot.querySelector('.delete-dot-btn').addEventListener('click', function (e) {
+        e.stopPropagation();
+        const clickId = dot.dataset.id;
+        if (confirm('Are you sure you want to delete this point?')) {
+            fetch('/delete-click/', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'X-CSRFToken': csrfToken },
+                body: JSON.stringify({ id: clickId })
+            }).then(response => response.json()).then(data => {
+                if (data.status === 'deleted') {
+                    dot.remove();
+                    const listItem = document.querySelector(`#coordinates-list .coordinate-item[data-click-id="${clickId}"]`);
+                    if (listItem) listItem.remove();
+                    renumberDotsAndListItems();
+                }
+            });
+        }
+    });
+
+    dot.addEventListener('mouseenter', () => {
+        const clickId = dot.dataset.id;
+        if (!clickId) return;
+
+        dot.classList.add('highlighted'); // Podświetl samą kropkę
+        const listItem = document.querySelector(`#coordinates-list .coordinate-item[data-click-id="${clickId}"]`);
+        if (listItem) {
+            listItem.classList.add('highlighted');
+        }
+    });
+
+    dot.addEventListener('mouseleave', () => {
+        const clickId = dot.dataset.id;
+        if (!clickId) return;
+
+        dot.classList.remove('highlighted'); // Usuń podświetlenie z kropki
+        const listItem = document.querySelector(`#coordinates-list .coordinate-item[data-click-id="${clickId}"]`);
+        if (listItem) {
+            listItem.classList.remove('highlighted');
+        }
+    });
+}
+
+function handleDocumentMouseUp() {
+    if (!draggedDot) return;
+
+    const finalX = parseFloat(draggedDot.style.left);
+    const finalY = parseFloat(draggedDot.style.top);
+
+    fetch('/update-click/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'X-CSRFToken': csrfToken },
+        body: JSON.stringify({ id: draggedDot.dataset.id, x: finalX, y: finalY })
+    }).then(response => {
+        if (!response.ok) console.error('Position save failed after drag for dot ID:', draggedDot.dataset.id);
+    });
+    draggedDot = null; // Zakończ przeciąganie
+}
+
+function createDotOnImage(clickId, x_imageRelative, y_imageRelative) {
+    const container = document.getElementById('image-container');
+    if (!container) {
+        return null;
+    }
+
+    const mainImage = document.getElementById('main-image');
+    if (!mainImage) {
+        return null;
+    }
+    
+    const dotLeftInContainer = x_imageRelative + mainImage.offsetLeft;
+    const dotTopInContainer = y_imageRelative + mainImage.offsetTop;
+
+    const dot = document.createElement('div');
+    dot.className = 'click-dot';
+    dot.style.left = `${dotLeftInContainer}px`;
+    dot.style.top = `${dotTopInContainer}px`;
+    dot.setAttribute('data-id', clickId);
+    dot.innerHTML = `<span class="dot-number"></span>
+                    <button class="delete-dot-btn" title="Delete this point">✖</button>`;
+
+    container.appendChild(dot);
+
+    if (typeof initializeDot === 'function') {
+        initializeDot(dot);
+    } else {
+    }
+    return dot;
+}
+
+===== File: ./login_required_project/urls.py =====
+from django.contrib import admin
+from django.urls import path, include
+from django.contrib.auth import views as auth_views
+from django.conf import settings
+from django.conf.urls.static import static
+from rest_framework.authtoken import views as authtoken_views 
+from main import views as main_views
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('', include('main.urls')),
+    path('login/', auth_views.LoginView.as_view(template_name='main/login.html'), name='login'),
+    path('logout/', auth_views.LogoutView.as_view(), name='logout'),
+    path('api/', include('main.urls')),
+    path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+    path('api-token-auth/', authtoken_views.obtain_auth_token, name='api_token_auth'),
+    path('board/', include('main.urls_board')),
+    path('api/save_grid_as_image/', main_views.save_grid_as_image_view, name='save_grid_as_image_api'), # NEW
+]
+
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+===== File: ./login_required_project/settings.py =====
 from pathlib import Path
 import os
 
@@ -291,1009 +821,531 @@ REST_FRAMEWORK = {
     ],
 }
 
-===== project-level urls.py =====
-from django.contrib import admin
-from django.urls import path, include
-from django.contrib.auth import views as auth_views
-from django.conf import settings
-from django.conf.urls.static import static
-from rest_framework.authtoken import views as authtoken_views 
-from main import views as main_views
-
-urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('', include('main.urls')),
-    path('login/', auth_views.LoginView.as_view(template_name='main/login.html'), name='login'),
-    path('logout/', auth_views.LogoutView.as_view(), name='logout'),
-    path('api/', include('main.urls')),
-    path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
-    path('api-token-auth/', authtoken_views.obtain_auth_token, name='api_token_auth'),
-    path('board/', include('main.urls_board')),
-    path('api/save_grid_as_image/', main_views.save_grid_as_image_view, name='save_grid_as_image_api'), # NEW
-]
-
-urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-
-===== app-level urls.py =====
-# main/urls.py
-from django.urls import path, include
-# from django.conf import settings # Not needed here if MEDIA_URL is handled at project level
-# from django.conf.urls.static import static # Not needed here
-# from django.contrib.auth import views as auth_views # Auth views usually at project level
-from rest_framework.routers import DefaultRouter
-from . import views
-
-router = DefaultRouter()
-router.register(r'images', views.UserImageViewSet)
-router.register(r'clicks', views.ImageClickViewSet)
-
-# Keep app_name if you use it for these non-board URLs, or remove if not needed.
-# app_name = 'main' # Example, if you namespace these
-
-urlpatterns = [
-    path('', views.home, name='home'),
-    path('register/', views.register, name='register'),
-    path('add-click/', views.add_click, name='add_click'),
-    path('user-panel/', views.user_panel, name='user_panel'),
-    path('delete-click/', views.delete_click, name='delete_click'),
-    path('record-click/', views.record_click, name='record_click'),
-    path('update-click/', views.update_click, name='update_click'),
-    path('upload-image/', views.upload_image, name='upload_image'),
-    path('change-password/', views.change_password, name='change_password'),
-    path('delete/<int:image_id>/', views.delete_image, name='delete_image'),
-    path('use-common-image/<int:common_image_id>/', views.use_common_image, name='use_common_image'),
-    path('upload-common-image/', views.upload_common_image, name='upload_common_image'),
-    # path('define-grid/', views.define_grid, name='define_grid'), # Ensure this view exists if uncommented
-    path('', include(router.urls)), # For your DRF viewsets
-    # REMOVE THE FOLLOWING BOARD URLS FROM HERE:
-    # path('create/', views.board_editor_view, name='board_create'),
-    # path('<int:board_id>/edit/', views.board_editor_view, name='board_edit'),
-    # path('<int:board_id>/delete/', views.board_delete_view, name='board_delete'),
-    # path('api/save_board/', views.save_board_api_view, name='save_board_api'),
-    # path('api/board/<int:board_id>/', views.get_board_data_api_view, name='get_board_data_api'),
-]
-
-# urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) # Usually handled at project level
-
-===== models.py =====
-from django.db import models
-from django.contrib.auth.models import User
-import uuid
-from django.conf import settings
-from django.db.models.signals import post_save
-from django.dispatch import receiver
-from rest_framework.authtoken.models import Token
-from django.core.exceptions import ValidationError
-
-class UserImage(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='images')
-    name = models.CharField(max_length=100, unique=True)
-    image = models.ImageField(upload_to='uploads/%Y/%m/%d/')
-
-    def save(self, *args, **kwargs):
-        if not self.name:
-            self.name = f"{self.user.id}_{uuid.uuid4().hex}"
-
-        super().save(*args, **kwargs)
-
-    def __str__(self):
-        return self.name
-    
-class ImageClick(models.Model):
-    image = models.ForeignKey(UserImage, on_delete=models.CASCADE, related_name='clicks')
-    user = models.ForeignKey(User, on_delete=models.CASCADE, default=1)
-    x = models.FloatField()
-    y = models.FloatField()
-
-    def __str__(self):
-        return f"Click on {self.image.name} by {self.user} at ({self.x}, {self.y})"
-
-class CommonImage(models.Model):
-    name = models.CharField(max_length=100, unique=True, help_text="Descriptive name for the common image.")
-    image = models.ImageField(upload_to='common_images/%Y/%m/%d/', help_text="The actual image file.")
-    description = models.TextField(blank=True, null=True, help_text="Optional description.")
-    def __str__(self):
-        return self.name
-
-    class Meta:
-        ordering = ['name']
-        verbose_name = "Common Image"
-    
-
-@receiver(post_save, sender=settings.AUTH_USER_MODEL)
-def create_auth_token(sender, instance=None, created=False, **kwargs):
-    if created:
-        Token.objects.create(user=instance)
-
-class GameBoard(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='game_boards')
-    name = models.CharField(max_length=100, default="Untitled Board")
-    rows = models.PositiveIntegerField()
-    cols = models.PositiveIntegerField()
-    dots_config = models.JSONField(default=list, blank=True)
-
-    def __str__(self):
-        return f"{self.name} ({self.rows}x{self.cols}) by {self.user.username}"
-
-    def clean(self):
-        super().clean()
-        if not (1 < self.rows <= 50): # Example limits
-            raise ValidationError({'rows': 'Rows must be between 2 and 50.'})
-        if not (1 < self.cols <= 50): # Example limits
-            raise ValidationError({'cols': 'Columns must be between 2 and 50.'})
-
-        if self.dots_config:
-            if not isinstance(self.dots_config, list):
-                raise ValidationError({'dots_config': 'Dots configuration must be a list.'})
-
-            dot_colors_count = {}
-            occupied_cells = set()
-
-            for dot in self.dots_config:
-                if not all(k in dot for k in ['row', 'col', 'color']):
-                    raise ValidationError({'dots_config': 'Each dot must have row, col, and color.'})
-                if not (0 <= dot['row'] < self.rows and 0 <= dot['col'] < self.cols):
-                    raise ValidationError({'dots_config': f"Dot at ({dot['row']},{dot['col']}) is out of bounds."})
-
-                cell = (dot['row'], dot['col'])
-                if cell in occupied_cells:
-                    raise ValidationError({'dots_config': f"Cell ({dot['row']},{dot['col']}) is occupied by more than one dot."})
-                occupied_cells.add(cell)
-
-                dot_colors_count[dot['color']] = dot_colors_count.get(dot['color'], 0) + 1
-
-            for color, count in dot_colors_count.items():
-                if count != 2:
-                    raise ValidationError({'dots_config': f"Color {color} must be used for exactly two dots. Found {count}."})
-
-    def save(self, *args, **kwargs):
-        self.full_clean() # Call clean() before saving
-        super().save(*args, **kwargs)
+===== File: ./login_required_project/__init__.py =====
 
 
-===== views.py =====
-# main/views.py
-from django.contrib.auth.decorators import login_required
-from django.contrib.auth.forms import UserCreationForm, PasswordChangeForm
-from django.contrib.auth import login, logout, update_session_auth_hash
-from django.shortcuts import render, redirect, get_object_or_404
-from django.http import JsonResponse
-from django.views.decorators.csrf import csrf_exempt
-from django.core.files.base import ContentFile
-from django.db import transaction 
-from django.conf import settings
-from rest_framework import viewsets, serializers
-from rest_framework.permissions import IsAuthenticated
-from .serializers import UserImageSerializer, ImageClickSerializer
-from .forms import UserImageForm, CommonImageUploadForm 
-from .models import ImageClick, UserImage, CommonImage # Make sure UserImage is imported
-from .permissions import IsOwner
-import json
-import io
-from django.views.decorators.http import require_POST
-from .models import GameBoard
-from PIL import Image as PILImage, ImageDraw, ImageFont # Dodaj ImageFont, jeśli chcesz numery
-from django.core.exceptions import ValidationError
-from .forms import DefineGridForm
-from django.core.files.base import ContentFile
-import base64
-import re
+===== File: ./login_required_project/wsgi.py =====
+import os
+from django.core.wsgi import get_wsgi_application
 
-@login_required
-@require_POST # Ensure this view only accepts POST requests
-def save_grid_as_image_view(request):
-    try:
-        data = json.loads(request.body.decode('utf-8'))
-    except json.JSONDecodeError:
-        return JsonResponse({'status': 'error', 'message': 'Invalid JSON.'}, status=400)
-
-    image_data_url = data.get('image_data_url')
-    image_name = data.get('name', 'Generated Grid Image')
-    filename = data.get('filename', 'grid_image.png')
-
-    if not image_data_url:
-        return JsonResponse({'status': 'error', 'message': 'Missing image data URL.'}, status=400)
-
-    try:
-        # Decode the base64 data URL
-        # format: data:[<mime_type>][;base64],<data>
-        header, encoded_data = image_data_url.split(',', 1)
-        # mime_type = header.split(';')[0].split(':')[1] # e.g. image/png
-
-        # Basic validation for filename (you might want more robust sanitization)
-        safe_filename = re.sub(r'[^\w\.\-]', '_', filename)
-
-        image_data_binary = base64.b64decode(encoded_data)
-        image_content_file = ContentFile(image_data_binary, name=safe_filename)
-
-        # Create a UserImage instance (or your equivalent model for path editing backgrounds)
-        # Ensure unique name if your UserImage.name must be unique
-        unique_image_name = image_name
-        counter = 1
-        while UserImage.objects.filter(user=request.user, name=unique_image_name).exists():
-            unique_image_name = f"{image_name}_{counter}"
-            counter += 1
-        
-        user_image = UserImage(user=request.user, name=unique_image_name)
-        user_image.image.save(safe_filename, image_content_file, save=True) # save=True will commit to DB
-
-        return JsonResponse({
-            'status': 'success',
-            'message': 'Grid image saved successfully.',
-            'image_id': user_image.id,
-            'image_name': user_image.name,
-            'image_url': user_image.image.url
-        })
-
-    except (TypeError, ValueError) as e: # Catch base64 decoding errors
-        return JsonResponse({'status': 'error', 'message': f'Invalid image data format: {str(e)}'}, status=400)
-    except Exception as e:
-        # Log the exception e
-        return JsonResponse({'status': 'error', 'message': f'An unexpected error occurred: {str(e)}'}, status=500)
-
-@login_required
-def board_list_view(request):
-    boards = GameBoard.objects.filter(user=request.user).order_by('-id')
-    return render(request, 'game_board/board_list.html', {'boards': boards})
-
-@login_required
-def board_editor_view(request, board_id=None):
-    board_instance = None
-    initial_board_data_json = "null" # Default for new board
-
-    if board_id:
-        board_instance = get_object_or_404(GameBoard, pk=board_id, user=request.user)
-        initial_board_data = {
-            "id": board_instance.id,
-            "name": board_instance.name,
-            "rows": board_instance.rows,
-            "cols": board_instance.cols,
-            "dots_config": board_instance.dots_config
-        }
-        initial_board_data_json = json.dumps(initial_board_data)
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'login_required_project.settings')
+application = get_wsgi_application()
 
 
-    # This view primarily serves the HTML structure.
-    # The actual board creation/editing logic happens via API calls from TypeScript.
-    # However, you might pre-populate some form fields if editing.
-    context = {
-        'board_instance': board_instance,
-        'initial_board_data_json': initial_board_data_json,
+===== File: ./static/main/css/style.css =====
+body {
+    font-family: sans-serif;
+    margin: 20px;
+}
+a {
+    margin-right: 10px;
+}
+h2, h3 {
+    color: #333;
+}
+form select, form button, #add-point-on-image-btn, #add-point-on-list-btn {
+    padding: 8px;
+    margin: 5px 0;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+}
+#image-container {
+    position: relative;
+    display: inline-block;
+    border: 1px solid #ddd;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+.click-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: red;
+    position: absolute;
+    cursor: move;
+    /* Dla lepszego pozycjonowania względem kursora */
+    transform: translate(-50%, -50%); 
+}
+.dot-number {
+    position: absolute;
+    top: -15px; /* nieco wyżej */
+    left: 50%;
+    transform: translateX(-50%);
+    color: blue; /* zmieniony kolor dla odróżnienia */
+    font-weight: bold;
+    font-size: 12px;
+    text-shadow: 0 0 2px white; /* dla lepszej czytelności na obrazie */
+    pointer-events: none;
+    user-select: none;
+}
+.delete-dot-btn {
+    position: absolute;
+    top: -8px; /* dostosuj pozycję */
+    right: -18px; /* dostosuj pozycję */
+    background: rgba(255, 255, 255, 0.7);
+    border: 1px solid #aaa;
+    color: red;
+    font-size: 12px; /* mniejszy */
+    width: 16px; /* mniejszy */
+    height: 16px; /* mniejszy */
+    line-height: 14px; /* wyśrodkowanie X */
+    text-align: center;
+    border-radius: 50%;
+    cursor: pointer;
+    padding: 0;
+}
+#connection-lines line {
+    stroke-dasharray: 3,3; /* Kreskowane linie */
+    stroke-linecap: round;
+}
+#coordinates-list-container {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    max-width: 400px; /* Ograniczenie szerokości */
+}
+#coordinates-list {
+    list-style-type: none;
+    padding-left: 0;
+}
+#coordinates-list li {
+    padding: 8px 0;
+    border-bottom: 1px dashed #eee;
+    display: flex; /* Dla lepszego ułożenia elementów */
+    align-items: center; /* Wyśrodkowanie w pionie */
+}
+#coordinates-list li:last-child {
+    border-bottom: none;
+}
+.coordinate-item input[type="number"] {
+    margin: 0 5px;
+    padding: 4px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    width: 70px; /* nieco szersze */
+}
+.coordinate-item button {
+    margin-left: 8px;
+    padding: 4px 8px;
+    font-size: 12px;
+    border-radius: 3px;
+    cursor: pointer;
+}
+.update-coord-btn {
+    background-color: #e0e0e0;
+    border: 1px solid #aaa;
+}
+.delete-coord-btn {
+    background-color: #fdd;
+    border: 1px solid #d99;
+    color: #900;
+}
+#message-container {
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 4px;
+    background-color: #e7f3fe;
+    border: 1px solid #d0e3f0;
+}
+#editor-layout {
+    display: flex; /* Enables flexbox layout */
+    align-items: flex-start; /* Aligns items to the top of the container */
+    gap: 20px; /* Optional: adds space between the image and the list */
+    margin-top: 10px; /* Optional: space above the layout */
+    margin-bottom: 10px; /* Optional: space below the layout */
+}
+.click-dot.highlighted,
+.click-dot:hover { /* Dodatkowe podświetlenie dla samej kropki */
+    background-color: yellow; /* Lub inny kolor wyróżnienia */
+    box-shadow: 0 0 5px 2px orange; /* Opcjonalny cień */
+    z-index: 10; /* Aby była nad innymi elementami, jeśli się nakładają */
+}
+
+#coordinates-list .coordinate-item.highlighted,
+#coordinates-list .coordinate-item:hover { /* Dodatkowe podświetlenie dla samego elementu listy */
+    background-color: #e6f7ff; /* Jasnoniebieskie tło */
+    font-weight: bold; /* Pogrubienie tekstu */
+}
+
+#image-container {
+    position: relative;
+    display: inline-block; /* Or 'block' if you want it to take full available width before shrinking */
+    border: 1px solid #ddd;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    /* REMOVE fixed width and height from here */
+    /* width: 400px; */
+    /* height: 400px; */
+    /* Add this to make the container shrink-to-fit the image */
+    line-height: 0; /* Fixes potential extra space below inline-block images */
+}
+
+#main-image {
+    display: block; /* Or inline-block */
+    max-width: 400px;   /* Image will not exceed 400px width */
+    max-height: 400px;  /* Image will not exceed 400px height */      /* Allow height to adjust based on width and aspect ratio */
+    width: auto;
+    height: auto;
+    /* These (width: auto; height: auto;) are often default for <img> but good to be explicit */
+}
+
+#image-container #connection-lines { /* Be more specific if #connection-lines is used elsewhere */
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+===== File: ./static/main/js/functions.js =====
+function initializePageElements() {
+    redrawLines();
+    document.querySelectorAll('.click-dot').forEach(initializeDot);
+    renumberDotsAndListItems();
+}
+
+function renumberDotsAndListItems() {
+    const dots = document.querySelectorAll('.click-dot');
+    dots.forEach((dot, index) => {
+        const dotNumberElement = dot.querySelector('.dot-number');
+        if (dotNumberElement) dotNumberElement.innerText = index + 1;
+    });
+
+    const listItems = document.querySelectorAll('#coordinates-list .coordinate-item');
+    listItems.forEach((item, index) => {
+        const pointDisplayNumber = item.querySelector('.point-display-number');
+        if (pointDisplayNumber) pointDisplayNumber.innerText = index + 1;
+    });
+    redrawLines();
+}
+
+function redrawLines() {
+    const svg = document.getElementById('connection-lines');
+    if (!svg) return;
+    svg.innerHTML = '';
+
+    const dots = Array.from(document.querySelectorAll('.click-dot'));
+    if (dots.length < 2) return;
+
+    for(let i = 0; i < dots.length - 1; i++) {
+        const dot1 = dots[i];
+        const dot2 = dots[i + 1];
+        const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+        const x1 = parseFloat(dot1.style.left); // Kropka jest już wyśrodkowana przez transform
+        const y1 = parseFloat(dot1.style.top);
+        const x2 = parseFloat(dot2.style.left);
+        const y2 = parseFloat(dot2.style.top);
+
+        line.setAttribute('x1', x1);
+        line.setAttribute('y1', y1);
+        line.setAttribute('x2', x2);
+        line.setAttribute('y2', y2);
+        line.setAttribute('stroke-width', '2');
+        line.setAttribute('stroke', '#ff0000');
+        svg.appendChild(line);
     }
-    return render(request, 'game_board/board_editor.html', context)
+}
 
-
-@login_required
-@require_POST # Ensures this view only accepts POST requests
-def save_board_api_view(request):
-    try:
-        data = json.loads(request.body.decode('utf-8'))
-    except json.JSONDecodeError:
-        return JsonResponse({'status': 'error', 'message': 'Invalid JSON'}, status=400)
-
-    board_id = data.get('id')
-    name = data.get('name', 'Untitled Board')
-    rows = data.get('rows')
-    cols = data.get('cols')
-    dots_config = data.get('dots_config', [])
-
-    if not all([name, isinstance(rows, int), isinstance(cols, int), isinstance(dots_config, list)]):
-        return JsonResponse({'status': 'error', 'message': 'Missing or invalid data fields.'}, status=400)
-
-    try:
-        if board_id:
-            # Update existing board
-            board = get_object_or_404(GameBoard, pk=board_id, user=request.user)
-            board.name = name
-            board.rows = rows
-            board.cols = cols
-            board.dots_config = dots_config
-            board.save() # This will call full_clean()
-            return JsonResponse({'status': 'success', 'message': 'Board updated successfully.', 'board_id': board.id})
-        else:
-            # Create new board
-            board = GameBoard(user=request.user, name=name, rows=rows, cols=cols, dots_config=dots_config)
-            board.save() # This will call full_clean()
-            return JsonResponse({'status': 'success', 'message': 'Board created successfully.', 'board_id': board.id}, status=201)
-    except ValidationError as e:
-        return JsonResponse({'status': 'error', 'message': 'Validation Error', 'errors': e.message_dict}, status=400)
-    except Exception as e:
-        # Log the exception e
-        return JsonResponse({'status': 'error', 'message': f'An unexpected error occurred: {str(e)}'}, status=500)
-
-
-@login_required
-def get_board_data_api_view(request, board_id):
-    board = get_object_or_404(GameBoard, pk=board_id, user=request.user)
-    data = {
-        "id": board.id,
-        "name": board.name,
-        "rows": board.rows,
-        "cols": board.cols,
-        "dots_config": board.dots_config
+function createCoordinateListItem(clickId, x, y, isNew = false) {
+    const listItem = document.createElement('li');
+    listItem.classList.add('coordinate-item');
+    if (!isNew && clickId) {
+        listItem.setAttribute('data-click-id', clickId);
     }
-    return JsonResponse(data)
 
+    const pointNumberSpan = document.createElement('span');
+    pointNumberSpan.classList.add('point-display-number');
 
-@login_required
-@require_POST # Use POST for destructive actions
-def board_delete_view(request, board_id):
-    board = get_object_or_404(GameBoard, pk=board_id, user=request.user)
-    board.delete()
-    # If called via AJAX, return JSON. If via form, redirect.
-    if request.headers.get('x-requested-with') == 'XMLHttpRequest':
-        return JsonResponse({'status': 'success', 'message': 'Board deleted successfully.'})
-    return redirect('game_board:board_list')
+    const inputX = document.createElement('input');
+    inputX.type = 'number';
+    inputX.classList.add('coord-x-input');
+    inputX.value = parseFloat(x).toFixed(2);
+    inputX.step = '0.01';
 
-class UserImageViewSet(viewsets.ModelViewSet):
-    queryset = UserImage.objects.all()  # Add this back
-    serializer_class = UserImageSerializer
-    permission_classes = [IsAuthenticated, IsOwner]
+    const inputY = document.createElement('input');
+    inputY.type = 'number';
+    inputY.classList.add('coord-y-input');
+    inputY.value = parseFloat(y).toFixed(2);
+    inputY.step = '0.01';
 
-    def get_queryset(self):
-        user = self.request.user
-        if user.is_authenticated:
-            return UserImage.objects.filter(user=user)
-        return UserImage.objects.none() 
-    
-    def perform_create(self, serializer):
-        serializer.save(user=self.request.user)
+    const updateButton = document.createElement('button');
+    updateButton.classList.add('update-coord-btn');
+    updateButton.textContent = isNew ? 'Save New' : 'Update';
+    if (isNew) {
+        updateButton.classList.add('save-new-coord-btn');
+    }
 
-class ImageClickViewSet(viewsets.ModelViewSet):
-    queryset = ImageClick.objects.all()  # Add this back
-    serializer_class = ImageClickSerializer
-    permission_classes = [IsAuthenticated, IsOwner]
+    const deleteButton = document.createElement('button');
+    deleteButton.classList.add('delete-coord-btn');
+    deleteButton.textContent = 'Delete';
 
-    def get_queryset(self):
-        user = self.request.user
-        if user.is_authenticated:
-            return ImageClick.objects.filter(user=user)
-        return ImageClick.objects.none() # Or handle unauthenticated access
+    listItem.appendChild(document.createTextNode('Point'));
+    listItem.appendChild(pointNumberSpan);
+    listItem.appendChild(document.createTextNode(': X'));
+    listItem.appendChild(inputX);
+    listItem.appendChild(document.createTextNode('Y'));
+    listItem.appendChild(inputY);
+    listItem.appendChild(updateButton);
+    listItem.appendChild(deleteButton);
 
-    def perform_create(self, serializer):
-        image_instance = serializer.validated_data.get('image')
-        if image_instance.user != self.request.user:
-            raise serializers.ValidationError("You can only add clicks to your own images.")
-        serializer.save(user=self.request.user, image=image_instance)
+    document.getElementById('coordinates-list').appendChild(listItem);
+    attachEventListenersToListItem(listItem, isNew); // Przekazuj tylko isNew
+    return listItem;
+}
 
-    def perform_update(self, serializer):
-        if 'image' in serializer.validated_data:
-            image_instance = serializer.validated_data.get('image')
-            if image_instance.user != self.request.user:
-                raise serializers.ValidationError("You can only associate clicks with your own images.")
-        serializer.save()
+function attachEventListenersToListItem(listItem, isNewInitially = false) {
+    const updateBtn = listItem.querySelector('.update-coord-btn');
+    const deleteBtn = listItem.querySelector('.delete-coord-btn');
+    const inputX = listItem.querySelector('.coord-x-input');
+    const inputY = listItem.querySelector('.coord-y-input');
+    let isStillNew = isNewInitially; // Flaga do śledzenia, czy element jest nowy
 
+    console.log(`[attachEventListenersToListItem] For item data-id=${listItem.dataset.clickId}, X_val=${inputX.value}, Y_val=${inputY.value}`);
 
-@csrf_exempt
-@login_required
-def add_click(request):
-    if request.method == "POST":
-        data = json.loads(request.body)
-        image_id = data['image_id']
-        x = float(data['x'])
-        y = float(data['y'])
+    updateBtn.addEventListener('click', function() {
+        const currentClickId = listItem.dataset.clickId;
+        const newX = parseFloat(inputX.value);
+        const newY = parseFloat(inputY.value);
 
-        image = get_object_or_404(UserImage, id=image_id, user=request.user)
-        click = ImageClick.objects.create(image=image, user=request.user, x=x, y=y)
+        if (isNaN(newX) || isNaN(newY)) {
+            alert('Please enter valid numbers for X and Y.');
+            return;
+        }
 
-        return JsonResponse({
-            'success': True,
-            'click_id': click.id
+        if (isStillNew || !currentClickId) { // Zapis nowego punktu
+            fetch('/add-click/', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'X-CSRFToken': csrfToken },
+                body: JSON.stringify({ image_id: selectedImageId, x: newX, y: newY })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    listItem.setAttribute('data-click-id', data.click_id);
+                    updateBtn.textContent = 'Update';
+                    updateBtn.classList.remove('save-new-coord-btn');
+                    isStillNew = false; // Już nie jest nowy
+                    createDotOnImage(data.click_id, newX, newY);
+                    renumberDotsAndListItems();
+                } else { alert('Failed to save new point.'); }
+            });
+        } else { // Aktualizacja istniejącego punktu
+            fetch('/update-click/', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'X-CSRFToken': csrfToken },
+                body: JSON.stringify({ id: currentClickId, x: newX, y: newY })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    const dot = document.querySelector(`.click-dot[data-id="${currentClickId}"]`);
+                    if (dot) {
+                        dot.style.left = newX + 'px';
+                        dot.style.top = newY + 'px';
+                        redrawLines();
+                    }
+                } else { alert('Failed to update point.'); }
+            });
+        }
+
+    });
+
+    listItem.addEventListener('mouseenter', () => {
+        const clickId = listItem.dataset.clickId;
+        if (!clickId) return; // Nie podświetlaj, jeśli to nowy, niezapisany element
+
+        listItem.classList.add('highlighted'); // Podświetl sam element listy
+        const dotElement = document.querySelector(`.click-dot[data-id="${clickId}"]`);
+        if (dotElement) {
+            dotElement.classList.add('highlighted');
+        }
+    });
+
+    listItem.addEventListener('mouseleave', () => {
+        const clickId = listItem.dataset.clickId;
+        if (!clickId) return;
+
+        listItem.classList.remove('highlighted'); // Usuń podświetlenie z elementu listy
+        const dotElement = document.querySelector(`.click-dot[data-id="${clickId}"]`);
+        if (dotElement) {
+            dotElement.classList.remove('highlighted');
+        }
+    });
+
+    deleteBtn.addEventListener('click', function() {
+        const currentClickId = listItem.dataset.clickId;
+        if (isStillNew || !currentClickId) {
+            listItem.remove();
+            renumberDotsAndListItems();
+            return;
+        }
+
+        fetch('/delete-click/', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'X-CSRFToken': csrfToken },
+            body: JSON.stringify({ id: currentClickId })
         })
-    return JsonResponse({'success': False})
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'deleted') {
+                listItem.remove();
+                const dot = document.querySelector(`.click-dot[data-id="${currentClickId}"]`);
+                if (dot) dot.remove();
+                renumberDotsAndListItems();
+            } else { alert('Failed to delete point.'); }
+        });
+    });
 
-@csrf_exempt
-@login_required
-def delete_click(request):
-    if request.method == 'POST':
-        data = json.loads(request.body)
-        try:
-            click = ImageClick.objects.get(id=data['id'], user=request.user)
-            click.delete()
-            return JsonResponse({'status': 'deleted'})
-        except ImageClick.DoesNotExist:
-            return JsonResponse({'status': 'not found'}, status=404)
+    [inputX, inputY].forEach(input => {
+        input.addEventListener('input', function() { // ZMIANA: 'input' zamiast 'change'
+            const currentClickId = listItem.dataset.clickId;
+            if (currentClickId && !isStillNew) { // Użyj flagi isStillNew
+                const dot = document.querySelector(`.click-dot[data-id="${currentClickId}"]`);
+                if (dot) {
+                    let newXFromInput = parseFloat(inputX.value); // Use inputX from outer scope
+                    let newYFromInput = parseFloat(inputY.value);
+                    const mainImageForMove = document.getElementById('main-image');
+                    if (!mainImageForMove) return; 
+                    
+                    const imageRect = mainImageForMove.getBoundingClientRect();
 
-@csrf_exempt
-@login_required
-def update_click(request):
-    if request.method == 'POST':
-        try:
-            data = json.loads(request.body)
-            click = ImageClick.objects.get(id=data['id'], user=request.user) # Check ownership
-            
-            click.x = data['x']
-            click.y = data['y']
-            click.save()
-            return JsonResponse({'status': 'success'})
-        except ImageClick.DoesNotExist:
-            return JsonResponse({'status': 'not found or forbidden'}, status=404)
-        except Exception as e:
-            return JsonResponse({'status': 'error', 'message': str(e)})
-    return JsonResponse({'status': 'invalid request'}, status=400)
+                    const boundaryMaxLeft = mainImageForMove.width;
+                    const boundaryMinLeft = 0;
+                    const boundaryMaxTop = mainImageForMove.height;
+                    const boundaryMinTop = 0;
+                    
+                    // Keep entire dot within image boundaries
+                    newXFromInput = Math.max(boundaryMinLeft, Math.min(newXFromInput, boundaryMaxLeft));
+                    newYFromInput = Math.max(boundaryMinTop, Math.min(newYFromInput, boundaryMaxTop));   
 
-@login_required
-def record_click(request):
-    if request.method == "POST":
-        image_id = request.POST.get('image_id')
-        x = request.POST.get('x')
-        y = request.POST.get('y')
+                    newXFromInput = Math.max(0, newXFromInput);
+                    newYFromInput = Math.max(0, newYFromInput)
 
-        image = get_object_or_404(UserImage, id=image_id, user=request.user)
-        click = ImageClick.objects.create(image=image, user=request.user, x=x, y=y) # Assign current user
-        return JsonResponse({'status': 'ok'})
-
-    return JsonResponse({'status': 'error'}, status=400)
-
-@login_required
-@transaction.atomic # Ensures that if any part fails, the whole operation is rolled back
-def use_common_image(request, common_image_id):
-    common_image = get_object_or_404(CommonImage, id=common_image_id)
-    
-    new_image_name_base = common_image.name
-    new_image_name = new_image_name_base
-    counter = 1
-    while UserImage.objects.filter(user=request.user, name=new_image_name).exists():
-        new_image_name = f"{new_image_name_base}_{counter}"
-        counter += 1
-
-    user_image = UserImage(
-        user=request.user,
-        name=new_image_name
-    )
-
-    try:
-        with open(common_image.image.path, 'rb') as f:
-            image_content = ContentFile(f.read(), name=common_image.image.name.split('/')[-1]) # Get original filename
-            user_image.image.save(image_content.name, image_content, save=True) # Save the file to UserImage
-        
-        return redirect(f"{settings.LOGIN_REDIRECT_URL}?selected={user_image.name}")
-    except IOError as e:
-        print(f"Error copying common image file: {e}") # Log this properly
-        return redirect('home') # Or wherever appropriate
-
-@login_required
-def home(request):
-    user_images_list = UserImage.objects.filter(user=request.user) # Ensure this is the variable name
-    common_images_list = CommonImage.objects.all()
-    selected = request.GET.get('selected')
-    selected_image = user_images_list.filter(name=selected).first() if selected else None
-    return render(request, 'main/home.html', {
-        'user_images': user_images_list,
-        'common_images_list': common_images_list,   
-        'selected_image': selected_image,
-    })
-
-def register(request):
-    if request.method == 'POST':
-        form = UserCreationForm(request.POST)
-        if form.is_valid():
-            user = form.save()
-            login(request, user)
-            return redirect('/')
-    else:
-        form = UserCreationForm()
-    return render(request, 'main/register.html', {'form': form})
-
-@login_required
-def upload_image(request):
-    if request.method == 'POST':
-        form = UserImageForm(request.POST, request.FILES)
-        if form.is_valid():
-            user_image = form.save(commit=False)
-            user_image.user = request.user
-            user_image.save()
-            return redirect('home')
-    else:
-        form = UserImageForm()
-    return render(request, 'main/upload_image.html', {'form': form})
-
-@login_required
-def upload_common_image(request):
-    if request.method == 'POST':
-        form = CommonImageUploadForm(request.POST, request.FILES)
-        if form.is_valid():
-            common_image = form.save(commit=False)
-            common_image.save()
-            return redirect('home') # Or to a page showing common images
-    else:
-        form = CommonImageUploadForm()
-    return render(request, 'main/upload_common_image.html', {'form': form})
-
-@login_required
-def user_panel(request):
-    images = UserImage.objects.filter(user=request.user)
-    if request.method == 'POST':
-        image_id_to_update = request.POST.get('image_id_for_rename') # Assuming a distinct field name for clarity
-        if image_id_to_update:
-            image_instance = get_object_or_404(UserImage, id=image_id_to_update, user=request.user)
-            form = UserImageForm(request.POST, request.FILES, instance=image_instance)
-        else:
-            form = UserImageForm(request.POST, request.FILES)
-        
-        if form.is_valid():
-            image = form.save(commit=False)
-            image.user = request.user
-            image.save()
-            return redirect('user_panel')
-    else:
-        form = UserImageForm() # Form for uploading a new image / or empty form for rename if not POST
-
-    password_form = PasswordChangeForm(user=request.user)
-    
-    return render(request, 'main/user_panel.html', {
-        'images': images,
-        'upload_form': form, # Renamed for clarity in template if needed
-        'password_form': password_form,
-    })
-
-@login_required
-def change_password(request):
-    if request.method == 'POST':
-        password_form = PasswordChangeForm(user=request.user, data=request.POST)
-        if password_form.is_valid():
-            password_form.save()
-            update_session_auth_hash(request, password_form.user)
-            return redirect('user_panel')
-    else:
-        password_form = PasswordChangeForm(user=request.user)
-    
-    images = UserImage.objects.filter(user=request.user)
-    upload_form = UserImageForm() # Or maintain state if it was a multi-purpose page
-    return render(request, 'main/user_panel.html', {
-        'images': images,
-        'upload_form': upload_form,
-        'password_form': password_form, # This will have errors
-    })
-
-@login_required
-def delete_image(request, image_id):
-    image = get_object_or_404(UserImage, id=image_id, user=request.user)
-    image.image.delete()
-    image.delete()
-    return redirect('user_panel')
-
-===== forms.py =====
-from django import forms
-from .models import UserImage, CommonImage
-
-class UserImageForm(forms.ModelForm):
-    class Meta:
-        model = UserImage
-        fields = ['name', 'image']
-
-class CommonImageUploadForm(forms.ModelForm): # New form
-    class Meta:
-        model = CommonImage
-        fields = ['name', 'image', 'description']
-        widgets = {
-            'description': forms.Textarea(attrs={'rows': 3}),
-        }
-        help_texts = {
-            'name': 'A unique name for this shared image.',
-            'image': 'Select the image file.',
-            'description': 'Optional: Briefly describe the image.'
-        }
-
-class DefineGridForm(forms.Form): # New form for grid definition
-    name = forms.CharField(max_length=100, label="Grid Name", help_text="Name for this grid image.")
-    columns = forms.IntegerField(min_value=1, max_value=50, initial=5, label="Columns (Vertical Lines)")
-    rows = forms.IntegerField(min_value=1, max_value=50, initial=5, label="Rows (Horizontal Lines)")
-
-===== Template: base.html =====
-{% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Path Editor{% endblock title %}</title>
-    <link rel="stylesheet" href="{% static 'main/css/style.css' %}"> {# Assuming your main CSS is here #}
-    {% block extra_css %}{% endblock extra_css %}
-    {% block head_extra %}{% endblock head_extra %}
-</head>
-<body>
-    <nav>
-        <a href="{% url 'home' %}">Home</a>
-        {% if user.is_authenticated %}
-            <a href="{% url 'user_panel' %}">My Panel (Image Paths)</a>
-            <a href="{% url 'upload_image' %}">Upload Personal Path</a>
-            <a href="{% url 'upload_common_image' %}">Upload Common Path</a>
-            <a href="{% url 'game_board:board_list' %}">My Boards</a>
-            <a href="{% url 'game_board:board_create' %}">Create New Board</a>
-            <a href="{% url 'logout' %}" style="float:right;">Logout ({{ user.username }})</a>
-        {% else %}
-            <a href="{% url 'login' %}">Login</a>
-            {% if not on_register_page %} {# Assuming you have a context variable 'on_register_page' #}
-                <a href="{% url 'register' %}">Register</a>
-            {% endif %}
-        {% endif %}
-    </nav>
-    <hr>
-    <main>
-        {% block content %}
-        {% endblock content %}
-    </main>
-    {% block extra_js %}{% endblock extra_js %}
-</body>
-</html>
-
-===== Template: define_grid.html =====
-{% extends "main/base.html" %}
-{% load static %}
-
-{% block title %}Define New Grid Image{% endblock title %}
-
-{% block content %}
-    <h2>Define Your Grid Image</h2>
-    <p>Specify the dimensions for your grid. An image representing this grid will be generated and added to your personal images.</p>
-    <form method="post" action="{% url 'define_grid' %}">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Create Grid Image</button>
-    </form>
-    <br>
-    <a href="{% url 'home' %}">Back to Home</a>
-{% endblock content %}
-
-===== Template: home.html =====
-{% extends "main/base.html" %}
-{% load static %}
-
-{% block title %}Home - Image Path Editor{% endblock title %}
-
-{% block content %}
-    <h2>Welcome, {{ user.username }}!</h2>
-
-    {# --- IMAGE SELECTION SECTION --- #}
-    {% if not selected_image %}
-        <form method="get" action="{% url 'home' %}">
-            <label for="image-select">Personal paths:</label>
-            <select name="selected" id="image-select" onchange="this.form.submit()">
-                <option value="">-- choose an image --</option>
-                {% for img in user_images %}
-                    <option value="{{ img.name }}">
-                        {{ img.name }} (Yours)
-                    </option>
-                {% endfor %}
-            </select>
-        </form>
-        <a href="{% url 'upload_image' %}">Upload a new personal image</a>
-
-        <hr>
-        <h3>Or Use a Common Image:</h3>
-        {% if common_images_list %}
-            <div class="common-images-grid" style="display: flex; flex-wrap: wrap; gap: 10px;">
-                {% for c_img in common_images_list %}
-                    <div class="common-image-item" style="border: 1px solid #ccc; padding: 5px; text-align: center;">
-                        <p>{{ c_img.name }}</p>
-                        {% if c_img.image %}
-                        <img src="{{ c_img.image.url }}" alt="{{ c_img.name }}" width="100" height="100" style="object-fit: cover;">
-                        <br>
-                        <a href="{% url 'use_common_image' c_img.id %}">Use this image</a>
-                        {% else %}
-                        <p>Image not available</p>
-                        {% endif %}
-                    </div>
-                {% endfor %}
-            </div>
-        {% else %}
-            <p>No common images available at the moment.</p>
-        {% endif %}
-        <hr>
-
-    {% else %} {# An image IS selected, show the editor #}
-        
-        <p><a href="{% url 'home' %}">Select a different image</a></p> 
-        
-        <h3>Selected Path: {{ selected_image.name }}</h3>
-
-        <div id="message-container" style="text-align: center; font-size: 16px; color: blue; display: none;"></div>
-        
-        <div id="editor-layout">
-            <div id="image-option-containter">
-                <button id="add-point-on-image-btn">Add Point on Image</button>
-                <br>
-                <div id="image-container">
-                    <svg id="connection-lines" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none;"></svg>
-                    <img src="{{ selected_image.image.url }}" id="main-image" alt="{{ selected_image.name }}" />
-                    {% for click in selected_image.clicks.all %}
-                    <div class="click-dot"
-                        data-id="{{ click.id }}"
-                        style="left: {{ click.x }}px; top: {{ click.y }}px;">
-                        <span class="dot-number"></span>
-                        <button class="delete-dot-btn" title="Delete this point">✖</button>
-                    </div>
-                    {% endfor %}
-                </div>
-                <br>
-                <a href="{% url 'delete_image' selected_image.id %}" onclick="return confirm('Are you sure you want to delete this image and all its points?');">Delete image</a>
-            </div>
-
-            <div id="coordinates-list-container">
-                <button id="add-point-on-list-btn">Add New Point to List</button>
-                <h4>Coordinates of Points:</h4>
-                <ul id="coordinates-list">
-                    {% for click in selected_image.clicks.all %}
-                        <li data-click-id="{{ click.id }}" class="coordinate-item">
-                            Point <span class="point-display-number">{{ forloop.counter }}</span>:
-                            X<input type="number" class="coord-x-input" value="{{ click.x|floatformat:2 }}" step="1.00" autocomplete="off">
-                            Y<input type="number" class="coord-y-input" value="{{ click.y|floatformat:2 }}" step="1.00" autocomplete="off">
-                            <button class="update-coord-btn">Update</button>
-                            <button class="delete-coord-btn">Delete</button>
-                        </li>
-                    {% endfor %}
-                </ul>
-            </div>
-        </div>
-        <br>
-    {% endif %} {# End of 'if selected_image' / 'if not selected_image' logic #}
-
-{% endblock content %}
-
-{% block extra_js %}
-    <script>
-        const csrfToken = '{{ csrf_token }}';
-        const selectedImageId = {{ selected_image.id|default_if_none:"null" }};
-        // console.log("[HTML Init Script] selectedImageId:", selectedImageId); // For debugging
-
-        let draggedDot = null;
-        let addModeOnClick = false;
-    </script>
-    <script src="{% static 'main/js/functions.js' %}"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            // console.log("[HTML DOMContentLoaded] Event fired. selectedImageId:", selectedImageId); // For debugging
-
-            function initializeEditorComponents() {
-                // console.log("[HTML initializeEditorComponents] Called."); // For debugging
-                // This function assumes elements like #main-image are present.
-                if (typeof initializePageElements === 'function') {
-                    initializePageElements();
-                } else {
-                    console.error("initializePageElements is not defined. Check functions.js");
-                }
-                if (typeof initializeCoordinateListInteractions === 'function') {
-                    initializeCoordinateListInteractions();
-                } else {
-                    console.error("initializeCoordinateListInteractions is not defined. Check functions.js");
-                }
-            }
-
-            if (selectedImageId) { // If an image is selected, its HTML (including #main-image) should be rendered
-                const mainImageElement = document.getElementById('main-image');
-                if (mainImageElement) {
-                    // console.log("[HTML DOMContentLoaded] main-image found."); // For debugging
-                    if (mainImageElement.complete) {
-                        // console.log("[HTML DOMContentLoaded] main-image already complete. Initializing editor."); // For debugging
-                        initializeEditorComponents();
-                    } else {
-                        // console.log("[HTML DOMContentLoaded] main-image not complete. Adding load listener."); // For debugging
-                        mainImageElement.addEventListener('load', () => {
-                            // console.log("[HTML DOMContentLoaded] main-image LOAD event. Initializing editor."); // For debugging
-                            initializeEditorComponents();
-                        });
+                    if (!isNaN(newXFromInput) && !isNaN(newYFromInput)) {
+                        dot.style.left = newXFromInput + 'px';
+                        dot.style.top = newYFromInput + 'px';
+                        inputX.value = newXFromInput;
+                        inputY.value = newYFromInput;
+                        redrawLines(); // Przesuń linie łączące punkty
                     }
-                } else {
-                    // This case should ideally not happen if selectedImageId is true,
-                    // as it implies the editor block in HTML wasn't rendered.
-                    console.warn("[HTML DOMContentLoaded] selectedImageId is set, but #main-image not found.");
                 }
-            } else { // No image selected, editor part is not rendered
-                // console.log("[HTML DOMContentLoaded] No selectedImageId. Editor components not initialized."); // For debugging
-                const addPointOnImageBtn = document.getElementById('add-point-on-image-btn');
-                const addPointToListBtn = document.getElementById('add-point-on-list-btn');
-                if(addPointOnImageBtn) addPointOnImageBtn.disabled = true;
-                if(addPointToListBtn) addPointToListBtn.disabled = true;
             }
-            
-            // Event listeners that should be active regardless of initial image selection,
-            // but their internal logic might depend on editor elements existing.
-            
-            const addPointOnImageBtn = document.getElementById('add-point-on-image-btn');
-            const messageContainer = document.getElementById('message-container');
-            if (addPointOnImageBtn) {
-                addPointOnImageBtn.addEventListener('click', () => {
-                    addModeOnClick = !addModeOnClick;
-                    const mainImgElem = document.getElementById('main-image'); // Needs to exist
-                    if (addModeOnClick) {
-                        addPointOnImageBtn.textContent = "Stop Adding on Image";
-                        if(messageContainer) {
-                            messageContainer.innerText = "Click anywhere on the image to place a new point.";
-                            messageContainer.style.display = "block";
-                        }
-                        if(mainImgElem) mainImgElem.style.cursor = 'crosshair';
-                    } else {
-                        addPointOnImageBtn.textContent = "Add Point on Image";
-                        if(messageContainer) messageContainer.style.display = "none";
-                        if(mainImgElem) mainImgElem.style.cursor = 'default';
-                    }
-                });
-            }
+        });
+    });
+}
 
-            const mainImageEventTarget = document.getElementById('main-image'); // Get target for click
-            if (mainImageEventTarget) {
-                mainImageEventTarget.addEventListener('click', function (e) {
-                    if (!addModeOnClick || !selectedImageId) return;
-                    const rect = e.target.getBoundingClientRect();
-                    const x = parseFloat((e.clientX - rect.left).toFixed(2));
-                    const y = parseFloat((e.clientY - rect.top).toFixed(2));
-                    fetch('/add-click/', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json', 'X-CSRFToken': csrfToken },
-                        body: JSON.stringify({ image_id: selectedImageId, x: x, y: y })
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.success) {
-                            if (typeof createDotOnImage === 'function' && 
-                                typeof createCoordinateListItem === 'function' &&
-                                typeof renumberDotsAndListItems === 'function') {
-                                createDotOnImage(data.click_id, x, y);
-                                createCoordinateListItem(data.click_id, x, y, false);
-                                renumberDotsAndListItems();
-                            } else {
-                                console.error("One or more functions (createDotOnImage, createCoordinateListItem, renumberDotsAndListItems) are not defined.");
-                            }
-                        } else {
-                            console.error("Failed to add click via image click", data);
-                        }
-                    });
-                });
-            }
-            
-            document.addEventListener("mousemove", (e) => {
-                if (!draggedDot) return;
-                const mainImageForMove = document.getElementById('main-image');
-                if (!mainImageForMove) return; 
-                
-                const imageRect = mainImageForMove.getBoundingClientRect();
-                let newLeft = e.clientX - imageRect.left;
-                let newTop = e.clientY - imageRect.top;
+function initializeCoordinateListInteractions() {
+    document.querySelectorAll('#coordinates-list .coordinate-item').forEach(item => {
+        const clickId = item.dataset.clickId;
+        if (clickId) {
+                attachEventListenersToListItem(item, false);
+        }
+    });
 
-                const boundaryMaxLeft = mainImageForMove.width;
-                const boundaryMinLeft = 0;
-                const boundaryMaxTop = mainImageForMove.height;
-                const boundaryMinTop = 0;
-                
-                // Keep entire dot within image boundaries
-                newLeft = Math.max(boundaryMinLeft, Math.min(newLeft, boundaryMaxLeft));
-                newTop = Math.max(boundaryMinTop, Math.min(newTop, boundaryMaxTop));   
+    const addPointToListBtn = document.getElementById('add-point-on-list-btn');
+    if (addPointToListBtn) {
+        addPointToListBtn.addEventListener('click', () => {
+            const mainImage = document.getElementById('main-image');
+            const defaultX = mainImage ? mainImage.width / 2 : 50;
+            const defaultY = mainImage ? mainImage.height / 2 : 50;
+            createCoordinateListItem(null, defaultX, defaultY, true);
+            renumberDotsAndListItems();
+        });
+    }
+}
 
-                draggedDot.style.left = newLeft + "px";
-                draggedDot.style.top = newTop + "px";
+function initializeDot(dot) {
+    const image = document.getElementById("main-image");
+    if (!image) return;
 
-                if (typeof redrawLines === 'function') {
-                    redrawLines();
-                } else {
-                    console.error("redrawLines is not defined.");
-                }
+    let offsetX = 0, offsetY = 0;
 
-                const clickId = draggedDot.dataset.id;
-                const listItem = document.querySelector(`#coordinates-list .coordinate-item[data-click-id="${clickId}"]`);
-                if (listItem) {
-                    listItem.querySelector('.coord-x-input').value = parseFloat(newLeft).toFixed(2);
-                    listItem.querySelector('.coord-y-input').value = parseFloat(newTop).toFixed(2);
+    dot.addEventListener("mousedown", (e) => {
+        if (e.button !== 0) return;
+        draggedDot = dot; // Ustaw aktualnie przeciąganą kropkę
+        const rect = dot.getBoundingClientRect();
+        offsetX = e.clientX - rect.left;
+        offsetY = e.clientY - rect.top;
+        
+        e.preventDefault();
+        document.addEventListener('mouseup', handleDocumentMouseUp, { once: true });
+    });
+
+    dot.querySelector('.delete-dot-btn').addEventListener('click', function (e) {
+        const clickId = dot.dataset.id;
+        if (confirm('Are you sure you want to delete this point?')) {
+            fetch('/delete-click/', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'X-CSRFToken': csrfToken },
+                body: JSON.stringify({ id: clickId })
+            }).then(response => response.json()).then(data => {
+                if (data.status === 'deleted') {
+                    dot.remove();
+                    const listItem = document.querySelector(`#coordinates-list .coordinate-item[data-click-id="${clickId}"]`);
+                    if (listItem) listItem.remove();
+                    renumberDotsAndListItems();
                 }
             });
+        }
+    });
 
-        }); // End of DOMContentLoaded
-    </script>
-{% endblock extra_js %}
+    dot.addEventListener('mouseenter', () => {
+        const clickId = dot.dataset.id;
+        if (!clickId) return;
 
-===== Template: login.html =====
-{% extends "main/base.html" %}
-{% load static %}
+        dot.classList.add('highlighted'); // Podświetl samą kropkę
+        const listItem = document.querySelector(`#coordinates-list .coordinate-item[data-click-id="${clickId}"]`);
+        if (listItem) {
+            listItem.classList.add('highlighted');
+        }
+    });
 
-{% block title %}Login{% endblock title %}
+    dot.addEventListener('mouseleave', () => {
+        const clickId = dot.dataset.id;
+        if (!clickId) return;
 
-{% block content %}
-    <h2>Login</h2>
-    <form method="post" action="{% url 'login' %}">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Login</button>
-    </form>
-    <p>Don't have an account? <a href="{% url 'register' %}">Register here</a></p>
-{% endblock content %}
+        dot.classList.remove('highlighted'); // Usuń podświetlenie z kropki
+        const listItem = document.querySelector(`#coordinates-list .coordinate-item[data-click-id="${clickId}"]`);
+        if (listItem) {
+            listItem.classList.remove('highlighted');
+        }
+    });
+}
 
-===== Template: register.html =====
-{% extends "main/base.html" %}
-{% load static %}
+function handleDocumentMouseUp() {
+    if (!draggedDot) return;
 
-{% block title %}Register{% endblock title %}
+    const finalX = parseFloat(draggedDot.style.left);
+    const finalY = parseFloat(draggedDot.style.top);
 
-{% block content %}
-    <h2>Register</h2>
-    <form method="post" action="{% url 'register' %}">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Register</button>
-    </form>
-    <p>Already have an account? <a href="{% url 'login' %}">Login here</a></p>
-{% endblock content %}
+    fetch('/update-click/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'X-CSRFToken': csrfToken },
+        body: JSON.stringify({ id: draggedDot.dataset.id, x: finalX, y: finalY })
+    }).then(response => {
+        if (!response.ok) console.error('Position save failed after drag for dot ID:', draggedDot.dataset.id);
+    });
+    draggedDot = null; // Zakończ przeciąganie
+}
 
-===== Template: upload_common_image.html =====
-{% extends "main/base.html" %}
-{% load static %}
+function createDotOnImage(clickId, x, y) {
+    const container = document.getElementById('image-container');
+    const dot = document.createElement('div');
+    dot.className = 'click-dot';
+    dot.style.left = `${x}px`;
+    dot.style.top = `${y}px`;
+    dot.setAttribute('data-id', clickId);
+    dot.innerHTML = `<span class="dot-number"></span>
+                    <button class="delete-dot-btn" title="Delete this point">✖</button>`;
+    container.appendChild(dot);
+    initializeDot(dot);
+    return dot;
+}
 
-{% block title %}Upload a Common Path{% endblock title %}
 
-{% block content %}
-    <h2>Upload an Path to the Common Library</h2>
-    <p>This path will be available for other users to use.</p>
-    <form method="POST" enctype="multipart/form-data" action="{% url 'upload_common_image' %}">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Upload Common Image</button>
-    </form>
-    <br>
-    <a href="{% url 'home' %}">Back to Home</a>
-{% endblock content %}
-
-===== Template: upload_image.html =====
-{% extends "main/base.html" %}
-{% load static %}
-
-{% block title %}Upload Path{% endblock title %}
-
-{% block content %}
-    <h2>Upload a new path</h2>
-    <form method="POST" enctype="multipart/form-data" action="{% url 'upload_image' %}">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Upload</button>
-    </form>
-{% endblock content %}
-
-===== Template: user_panel.html =====
-{% extends "main/base.html" %}
-{% load static %}
-
-{% block title %}User Panel - {{ user.username }}{% endblock title %}
-
-{% block content %}
-    <h2>Welcome, {{ user.username }}!</h2>
-
-    <h3>Your Personal Paths</h3>
-    {% if images %}
-    <ul>
-        {% for image_obj in images %}
-        <li>
-            <p>{{ image_obj.name }}</p>
-            <img src="{{ image_obj.image.url }}" alt="{{ image_obj.name }}" width="100" height="100">
-            <form action="{% url 'user_panel' %}" method="post" style="display: inline-block; margin-right: 10px;">
-                {% csrf_token %}
-                <input type="hidden" name="image_id_for_rename" value="{{ image_obj.id }}">
-                <input type="text" name="name" value="{{ image_obj.name }}" placeholder="New name" required>
-                <button type="submit" name="action" value="rename_image">Rename</button>
-            </form>
-            <a href="{% url 'delete_image' image_obj.id %}" onclick="return confirm('Are you sure you want to delete this image and its points?');" style="display: inline-block;">Delete</a>
-        </li>
-        {% endfor %}
-    </ul>
-    {% else %}
-    <p>You have not uploaded any paths yet. <a href="{% url 'upload_image' %}">Upload one now.</a></p>
-    {% endif %}
-
-    <hr>
-    <h3>Upload New Path from Panel</h3>
-    <form method="POST" enctype="multipart/form-data" action="{% url 'user_panel' %}">
-        {% csrf_token %}
-        {{ upload_form.as_p }} {# Assuming you pass 'upload_form' from the view for new uploads #}
-        <button type="submit" name="action" value="upload_new_image">Upload New Path</button>
-    </form>
-    <hr>
-
-    <h3>Change Your Password</h3>
-    <form method="post" action="{% url 'change_password' %}">
-        {% csrf_token %}
-        {{ password_form.as_p }}
-        <button type="submit">Change Password</button>
-    </form>
-{% endblock content %}
-
-===== TypeScript: functions.ts =====
+===== File: ./static/main/ts/src/functions.ts =====
 // functions.ts
 
 // Deklaracje typów dla zmiennych globalnych (zakładamy, że są zdefiniowane gdzie indziej)
@@ -1575,13 +1627,53 @@ function attachEventListenersToListItem(listItem: HTMLLIElement, isNewInitially:
             if (currentClickIdStr && !isStillNew) {
                 const currentClickId = parseInt(currentClickIdStr, 10);
                 const dot = document.querySelector<HTMLElement>(`.click-dot[data-id="${currentClickId}"]`);
+                
                 if (dot) {
-                    const newXFromInput = parseFloat(inputX.value);
-                    const newYFromInput = parseFloat(inputY.value);
+                    let newXFromInput = parseFloat(inputX.value);
+                    let newYFromInput = parseFloat(inputY.value);
 
                     if (!isNaN(newXFromInput) && !isNaN(newYFromInput)) {
-                        dot.style.left = newXFromInput + 'px';
-                        dot.style.top = newYFromInput + 'px';
+                        // --- BEGIN MODIFICATION: Clamp coordinates for live input update ---
+                        const mainImageElement = document.getElementById('main-image') as HTMLImageElement | null;
+                        let clampedX = newXFromInput;
+                        let clampedY = newYFromInput;
+
+                        if (mainImageElement) {
+                            const dotWidth = 10; // As per CSS .click-dot width
+                            const dotHeight = 10; // As per CSS .click-dot height
+
+                            // Clamp X
+                            if (mainImageElement.width < dotWidth) {
+                                clampedX = mainImageElement.width / 2;
+                            } else {
+                                const minXAllowed = dotWidth / 2;
+                                const maxXAllowed = mainImageElement.width - (dotWidth / 2);
+                                clampedX = Math.max(minXAllowed, Math.min(newXFromInput, maxXAllowed));
+                            }
+
+                            // Clamp Y
+                            if (mainImageElement.height < dotHeight) {
+                                clampedY = mainImageElement.height / 2;
+                            } else {
+                                const minYAllowed = dotHeight / 2;
+                                const maxYAllowed = mainImageElement.height - (dotHeight / 2);
+                                clampedY = Math.max(minYAllowed, Math.min(newYFromInput, maxYAllowed));
+                            }
+                            
+                            // Update input field if value was clamped, to give feedback
+                            if (clampedX.toFixed(2) !== newXFromInput.toFixed(2) && inputField === inputX) {
+                                inputX.value = clampedX.toFixed(2);
+                            }
+                            if (clampedY.toFixed(2) !== newYFromInput.toFixed(2) && inputField === inputY) {
+                                inputY.value = clampedY.toFixed(2);
+                            }
+                        } else {
+                             console.warn("Main image element not found, cannot apply boundary constraints for live input.");
+                        }
+                        // --- END MODIFICATION ---
+
+                        dot.style.left = clampedX + 'px';
+                        dot.style.top = clampedY + 'px';
                         redrawLines();
                     }
                 }
@@ -1739,7 +1831,7 @@ function createDotOnImage(clickId: number, x: number, y: number): HTMLElement {
     return dot;
 }
 
-===== TypeScript: grid.ts =====
+===== File: ./static/main/ts/src/grid.ts =====
 interface Dot {
     row: number;
     col: number;
@@ -2188,502 +2280,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-===== CSS: style.css =====
-body {
-    font-family: sans-serif;
-    margin: 20px;
-}
-a {
-    margin-right: 10px;
-}
-h2, h3 {
-    color: #333;
-}
-form select, form button, #add-point-on-image-btn, #add-point-on-list-btn {
-    padding: 8px;
-    margin: 5px 0;
-    border-radius: 4px;
-    border: 1px solid #ccc;
-}
-#image-container {
-    position: relative;
-    display: inline-block;
-    border: 1px solid #ddd;
-    margin-top: 10px;
-    margin-bottom: 10px;
-}
-.click-dot {
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    background-color: red;
-    position: absolute;
-    cursor: move;
-    /* Dla lepszego pozycjonowania względem kursora */
-    transform: translate(-50%, -50%); 
-}
-.dot-number {
-    position: absolute;
-    top: -15px; /* nieco wyżej */
-    left: 50%;
-    transform: translateX(-50%);
-    color: blue; /* zmieniony kolor dla odróżnienia */
-    font-weight: bold;
-    font-size: 12px;
-    text-shadow: 0 0 2px white; /* dla lepszej czytelności na obrazie */
-    pointer-events: none;
-    user-select: none;
-}
-.delete-dot-btn {
-    position: absolute;
-    top: -8px; /* dostosuj pozycję */
-    right: -18px; /* dostosuj pozycję */
-    background: rgba(255, 255, 255, 0.7);
-    border: 1px solid #aaa;
-    color: red;
-    font-size: 12px; /* mniejszy */
-    width: 16px; /* mniejszy */
-    height: 16px; /* mniejszy */
-    line-height: 14px; /* wyśrodkowanie X */
-    text-align: center;
-    border-radius: 50%;
-    cursor: pointer;
-    padding: 0;
-}
-#connection-lines line {
-    stroke-dasharray: 3,3; /* Kreskowane linie */
-    stroke-linecap: round;
-}
-#coordinates-list-container {
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    background-color: #f9f9f9;
-    max-width: 400px; /* Ograniczenie szerokości */
-}
-#coordinates-list {
-    list-style-type: none;
-    padding-left: 0;
-}
-#coordinates-list li {
-    padding: 8px 0;
-    border-bottom: 1px dashed #eee;
-    display: flex; /* Dla lepszego ułożenia elementów */
-    align-items: center; /* Wyśrodkowanie w pionie */
-}
-#coordinates-list li:last-child {
-    border-bottom: none;
-}
-.coordinate-item input[type="number"] {
-    margin: 0 5px;
-    padding: 4px;
-    border: 1px solid #ccc;
-    border-radius: 3px;
-    width: 70px; /* nieco szersze */
-}
-.coordinate-item button {
-    margin-left: 8px;
-    padding: 4px 8px;
-    font-size: 12px;
-    border-radius: 3px;
-    cursor: pointer;
-}
-.update-coord-btn {
-    background-color: #e0e0e0;
-    border: 1px solid #aaa;
-}
-.delete-coord-btn {
-    background-color: #fdd;
-    border: 1px solid #d99;
-    color: #900;
-}
-#message-container {
-    padding: 10px;
-    margin-bottom: 10px;
-    border-radius: 4px;
-    background-color: #e7f3fe;
-    border: 1px solid #d0e3f0;
-}
-#editor-layout {
-    display: flex; /* Enables flexbox layout */
-    align-items: flex-start; /* Aligns items to the top of the container */
-    gap: 20px; /* Optional: adds space between the image and the list */
-    margin-top: 10px; /* Optional: space above the layout */
-    margin-bottom: 10px; /* Optional: space below the layout */
-}
-.click-dot.highlighted,
-.click-dot:hover { /* Dodatkowe podświetlenie dla samej kropki */
-    background-color: yellow; /* Lub inny kolor wyróżnienia */
-    box-shadow: 0 0 5px 2px orange; /* Opcjonalny cień */
-    z-index: 10; /* Aby była nad innymi elementami, jeśli się nakładają */
-}
-
-#coordinates-list .coordinate-item.highlighted,
-#coordinates-list .coordinate-item:hover { /* Dodatkowe podświetlenie dla samego elementu listy */
-    background-color: #e6f7ff; /* Jasnoniebieskie tło */
-    font-weight: bold; /* Pogrubienie tekstu */
-}
-
-#image-container {
-    position: relative;
-    display: inline-block; /* Or 'block' if you want it to take full available width before shrinking */
-    border: 1px solid #ddd;
-    margin-top: 10px;
-    margin-bottom: 10px;
-    /* REMOVE fixed width and height from here */
-    /* width: 400px; */
-    /* height: 400px; */
-    /* Add this to make the container shrink-to-fit the image */
-    line-height: 0; /* Fixes potential extra space below inline-block images */
-}
-
-#main-image {
-    display: block; /* Or inline-block */
-    max-width: 400px;   /* Image will not exceed 400px width */
-    max-height: 400px;  /* Image will not exceed 400px height */      /* Allow height to adjust based on width and aspect ratio */
-    width: auto;
-    height: auto;
-    /* These (width: auto; height: auto;) are often default for <img> but good to be explicit */
-}
-
-#image-container #connection-lines { /* Be more specific if #connection-lines is used elsewhere */
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-}
-
-===== JavaScript: functions.js =====
-function initializePageElements() {
-    redrawLines();
-    document.querySelectorAll('.click-dot').forEach(initializeDot);
-    renumberDotsAndListItems();
-}
-
-function renumberDotsAndListItems() {
-    const dots = document.querySelectorAll('.click-dot');
-    dots.forEach((dot, index) => {
-        const dotNumberElement = dot.querySelector('.dot-number');
-        if (dotNumberElement) dotNumberElement.innerText = index + 1;
-    });
-
-    const listItems = document.querySelectorAll('#coordinates-list .coordinate-item');
-    listItems.forEach((item, index) => {
-        const pointDisplayNumber = item.querySelector('.point-display-number');
-        if (pointDisplayNumber) pointDisplayNumber.innerText = index + 1;
-    });
-    redrawLines();
-}
-
-function redrawLines() {
-    const svg = document.getElementById('connection-lines');
-    if (!svg) return;
-    svg.innerHTML = '';
-
-    const dots = Array.from(document.querySelectorAll('.click-dot'));
-    if (dots.length < 2) return;
-
-    for(let i = 0; i < dots.length - 1; i++) {
-        const dot1 = dots[i];
-        const dot2 = dots[i + 1];
-        const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-        const x1 = parseFloat(dot1.style.left); // Kropka jest już wyśrodkowana przez transform
-        const y1 = parseFloat(dot1.style.top);
-        const x2 = parseFloat(dot2.style.left);
-        const y2 = parseFloat(dot2.style.top);
-
-        line.setAttribute('x1', x1);
-        line.setAttribute('y1', y1);
-        line.setAttribute('x2', x2);
-        line.setAttribute('y2', y2);
-        line.setAttribute('stroke-width', '2');
-        line.setAttribute('stroke', '#ff0000');
-        svg.appendChild(line);
-    }
-}
-
-function createCoordinateListItem(clickId, x, y, isNew = false) {
-    const listItem = document.createElement('li');
-    listItem.classList.add('coordinate-item');
-    if (!isNew && clickId) {
-        listItem.setAttribute('data-click-id', clickId);
-    }
-
-    const pointNumberSpan = document.createElement('span');
-    pointNumberSpan.classList.add('point-display-number');
-
-    const inputX = document.createElement('input');
-    inputX.type = 'number';
-    inputX.classList.add('coord-x-input');
-    inputX.value = parseFloat(x).toFixed(2);
-    inputX.step = '0.01';
-
-    const inputY = document.createElement('input');
-    inputY.type = 'number';
-    inputY.classList.add('coord-y-input');
-    inputY.value = parseFloat(y).toFixed(2);
-    inputY.step = '0.01';
-
-    const updateButton = document.createElement('button');
-    updateButton.classList.add('update-coord-btn');
-    updateButton.textContent = isNew ? 'Save New' : 'Update';
-    if (isNew) {
-        updateButton.classList.add('save-new-coord-btn');
-    }
-
-    const deleteButton = document.createElement('button');
-    deleteButton.classList.add('delete-coord-btn');
-    deleteButton.textContent = 'Delete';
-
-    listItem.appendChild(document.createTextNode('Point'));
-    listItem.appendChild(pointNumberSpan);
-    listItem.appendChild(document.createTextNode(': X'));
-    listItem.appendChild(inputX);
-    listItem.appendChild(document.createTextNode('Y'));
-    listItem.appendChild(inputY);
-    listItem.appendChild(updateButton);
-    listItem.appendChild(deleteButton);
-
-    document.getElementById('coordinates-list').appendChild(listItem);
-    attachEventListenersToListItem(listItem, isNew); // Przekazuj tylko isNew
-    return listItem;
-}
-
-function attachEventListenersToListItem(listItem, isNewInitially = false) {
-    const updateBtn = listItem.querySelector('.update-coord-btn');
-    const deleteBtn = listItem.querySelector('.delete-coord-btn');
-    const inputX = listItem.querySelector('.coord-x-input');
-    const inputY = listItem.querySelector('.coord-y-input');
-    let isStillNew = isNewInitially; // Flaga do śledzenia, czy element jest nowy
-
-    console.log(`[attachEventListenersToListItem] For item data-id=${listItem.dataset.clickId}, X_val=${inputX.value}, Y_val=${inputY.value}`);
-
-    updateBtn.addEventListener('click', function() {
-        const currentClickId = listItem.dataset.clickId;
-        const newX = parseFloat(inputX.value);
-        const newY = parseFloat(inputY.value);
-
-        if (isNaN(newX) || isNaN(newY)) {
-            alert('Please enter valid numbers for X and Y.');
-            return;
-        }
-
-        if (isStillNew || !currentClickId) { // Zapis nowego punktu
-            fetch('/add-click/', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json', 'X-CSRFToken': csrfToken },
-                body: JSON.stringify({ image_id: selectedImageId, x: newX, y: newY })
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    listItem.setAttribute('data-click-id', data.click_id);
-                    updateBtn.textContent = 'Update';
-                    updateBtn.classList.remove('save-new-coord-btn');
-                    isStillNew = false; // Już nie jest nowy
-                    createDotOnImage(data.click_id, newX, newY);
-                    renumberDotsAndListItems();
-                } else { alert('Failed to save new point.'); }
-            });
-        } else { // Aktualizacja istniejącego punktu
-            fetch('/update-click/', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json', 'X-CSRFToken': csrfToken },
-                body: JSON.stringify({ id: currentClickId, x: newX, y: newY })
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.status === 'success') {
-                    const dot = document.querySelector(`.click-dot[data-id="${currentClickId}"]`);
-                    if (dot) {
-                        dot.style.left = newX + 'px';
-                        dot.style.top = newY + 'px';
-                        redrawLines();
-                    }
-                } else { alert('Failed to update point.'); }
-            });
-        }
-
-    });
-
-    listItem.addEventListener('mouseenter', () => {
-        const clickId = listItem.dataset.clickId;
-        if (!clickId) return; // Nie podświetlaj, jeśli to nowy, niezapisany element
-
-        listItem.classList.add('highlighted'); // Podświetl sam element listy
-        const dotElement = document.querySelector(`.click-dot[data-id="${clickId}"]`);
-        if (dotElement) {
-            dotElement.classList.add('highlighted');
-        }
-    });
-
-    listItem.addEventListener('mouseleave', () => {
-        const clickId = listItem.dataset.clickId;
-        if (!clickId) return;
-
-        listItem.classList.remove('highlighted'); // Usuń podświetlenie z elementu listy
-        const dotElement = document.querySelector(`.click-dot[data-id="${clickId}"]`);
-        if (dotElement) {
-            dotElement.classList.remove('highlighted');
-        }
-    });
-
-    deleteBtn.addEventListener('click', function() {
-        const currentClickId = listItem.dataset.clickId;
-        if (isStillNew || !currentClickId) {
-            listItem.remove();
-            renumberDotsAndListItems();
-            return;
-        }
-
-        fetch('/delete-click/', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json', 'X-CSRFToken': csrfToken },
-            body: JSON.stringify({ id: currentClickId })
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.status === 'deleted') {
-                listItem.remove();
-                const dot = document.querySelector(`.click-dot[data-id="${currentClickId}"]`);
-                if (dot) dot.remove();
-                renumberDotsAndListItems();
-            } else { alert('Failed to delete point.'); }
-        });
-    });
-
-    [inputX, inputY].forEach(input => {
-        input.addEventListener('input', function() { // ZMIANA: 'input' zamiast 'change'
-            const currentClickId = listItem.dataset.clickId;
-            if (currentClickId && !isStillNew) { // Użyj flagi isStillNew
-                const dot = document.querySelector(`.click-dot[data-id="${currentClickId}"]`);
-                if (dot) {
-                    const newXFromInput = parseFloat(listItem.querySelector('.coord-x-input').value);
-                    const newYFromInput = parseFloat(listItem.querySelector('.coord-y-input').value);
-
-                    if (!isNaN(newXFromInput) && !isNaN(newYFromInput)) {
-                        dot.style.left = newXFromInput + 'px';
-                        dot.style.top = newYFromInput + 'px';
-                        redrawLines(); // Przesuń linie łączące punkty
-                    }
-                }
-            }
-        });
-    });
-}
-
-function initializeCoordinateListInteractions() {
-    document.querySelectorAll('#coordinates-list .coordinate-item').forEach(item => {
-        const clickId = item.dataset.clickId;
-        if (clickId) {
-                attachEventListenersToListItem(item, false);
-        }
-    });
-
-    const addPointToListBtn = document.getElementById('add-point-on-list-btn');
-    if (addPointToListBtn) {
-        addPointToListBtn.addEventListener('click', () => {
-            const mainImage = document.getElementById('main-image');
-            const defaultX = mainImage ? mainImage.width / 2 : 50;
-            const defaultY = mainImage ? mainImage.height / 2 : 50;
-            createCoordinateListItem(null, defaultX, defaultY, true);
-            renumberDotsAndListItems();
-        });
-    }
-}
-
-function initializeDot(dot) {
-    const image = document.getElementById("main-image");
-    if (!image) return;
-
-    let offsetX = 0, offsetY = 0;
-
-    dot.addEventListener("mousedown", (e) => {
-        if (e.button !== 0) return;
-        draggedDot = dot; // Ustaw aktualnie przeciąganą kropkę
-        const rect = dot.getBoundingClientRect();
-        offsetX = e.clientX - rect.left;
-        offsetY = e.clientY - rect.top;
-        
-        e.preventDefault();
-        document.addEventListener('mouseup', handleDocumentMouseUp, { once: true });
-    });
-
-    dot.querySelector('.delete-dot-btn').addEventListener('click', function (e) {
-        const clickId = dot.dataset.id;
-        if (confirm('Are you sure you want to delete this point?')) {
-            fetch('/delete-click/', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json', 'X-CSRFToken': csrfToken },
-                body: JSON.stringify({ id: clickId })
-            }).then(response => response.json()).then(data => {
-                if (data.status === 'deleted') {
-                    dot.remove();
-                    const listItem = document.querySelector(`#coordinates-list .coordinate-item[data-click-id="${clickId}"]`);
-                    if (listItem) listItem.remove();
-                    renumberDotsAndListItems();
-                }
-            });
-        }
-    });
-
-    dot.addEventListener('mouseenter', () => {
-        const clickId = dot.dataset.id;
-        if (!clickId) return;
-
-        dot.classList.add('highlighted'); // Podświetl samą kropkę
-        const listItem = document.querySelector(`#coordinates-list .coordinate-item[data-click-id="${clickId}"]`);
-        if (listItem) {
-            listItem.classList.add('highlighted');
-        }
-    });
-
-    dot.addEventListener('mouseleave', () => {
-        const clickId = dot.dataset.id;
-        if (!clickId) return;
-
-        dot.classList.remove('highlighted'); // Usuń podświetlenie z kropki
-        const listItem = document.querySelector(`#coordinates-list .coordinate-item[data-click-id="${clickId}"]`);
-        if (listItem) {
-            listItem.classList.remove('highlighted');
-        }
-    });
-}
-
-function handleDocumentMouseUp() {
-    if (!draggedDot) return;
-
-    const finalX = parseFloat(draggedDot.style.left);
-    const finalY = parseFloat(draggedDot.style.top);
-
-    fetch('/update-click/', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'X-CSRFToken': csrfToken },
-        body: JSON.stringify({ id: draggedDot.dataset.id, x: finalX, y: finalY })
-    }).then(response => {
-        if (!response.ok) console.error('Position save failed after drag for dot ID:', draggedDot.dataset.id);
-    });
-    draggedDot = null; // Zakończ przeciąganie
-}
-
-function createDotOnImage(clickId, x, y) {
-    const container = document.getElementById('image-container');
-    const dot = document.createElement('div');
-    dot.className = 'click-dot';
-    dot.style.left = `${x}px`;
-    dot.style.top = `${y}px`;
-    dot.setAttribute('data-id', clickId);
-    dot.innerHTML = `<span class="dot-number"></span>
-                    <button class="delete-dot-btn" title="Delete this point">✖</button>`;
-    container.appendChild(dot);
-    initializeDot(dot);
-    return dot;
-}
-
-
-===== JavaScript: grid.js =====
+===== File: ./static/main/ts/dist/grid.js =====
 "use strict";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
@@ -3072,7 +2669,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 //# sourceMappingURL=grid.js.map
 
-===== JavaScript: functions.js =====
+===== File: ./static/main/ts/dist/functions.js =====
 "use strict";
 // functions.ts
 // --- Funkcje ---
@@ -3436,4 +3033,1748 @@ function createDotOnImage(clickId, x, y) {
 }
 //# sourceMappingURL=functions.js.map
 
-===== base.html (if exists) =====
+===== File: ./main/permissions.py =====
+# permissions.py
+from rest_framework import permissions
+
+class IsOwner(permissions.BasePermission):
+    def has_object_permission(self, request, view, obj):
+        return obj.user == request.user 
+
+===== File: ./main/forms.py =====
+from django import forms
+from .models import UserImage, CommonImage
+
+class UserImageForm(forms.ModelForm):
+    class Meta:
+        model = UserImage
+        fields = ['name', 'image']
+
+class CommonImageUploadForm(forms.ModelForm): # New form
+    class Meta:
+        model = CommonImage
+        fields = ['name', 'image', 'description']
+        widgets = {
+            'description': forms.Textarea(attrs={'rows': 3}),
+        }
+        help_texts = {
+            'name': 'A unique name for this shared image.',
+            'image': 'Select the image file.',
+            'description': 'Optional: Briefly describe the image.'
+        }
+
+class DefineGridForm(forms.Form): # New form for grid definition
+    name = forms.CharField(max_length=100, label="Grid Name", help_text="Name for this grid image.")
+    columns = forms.IntegerField(min_value=1, max_value=50, initial=5, label="Columns (Vertical Lines)")
+    rows = forms.IntegerField(min_value=1, max_value=50, initial=5, label="Rows (Horizontal Lines)")
+
+===== File: ./main/admin.py =====
+# game_board/admin.py
+from django.contrib import admin
+from .models import GameBoard
+
+@admin.register(GameBoard)
+class GameBoardAdmin(admin.ModelAdmin):
+    list_display = ('name', 'user', 'rows', 'cols', 'dots_count')
+    list_filter = ('user', 'rows', 'cols')
+    search_fields = ('name', 'user__username')
+    # readonly_fields = ('dots_config',) # Make JSONField readonly if complex
+
+    def dots_count(self, obj):
+        return len(obj.dots_config)
+    dots_count.short_description = 'Number of Dots'
+
+===== File: ./main/signals.py =====
+# main/signals.py
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+from django.contrib.auth.models import User
+from .models import GameBoard, UserImage # Upewnij się, że UserImage to model dla plansz ze ścieżkami
+
+from .event_queue import broadcast_event # Import z tej samej aplikacji 'main'
+
+@receiver(post_save, sender=GameBoard)
+def game_board_saved_handler(sender, instance: GameBoard, created: bool, **kwargs):
+    if created:
+        print(f"Signal: New GameBoard created - ID: {instance.id}, Name: {instance.name}")
+        event_data = {
+            "board_id": instance.id,
+            "board_name": instance.name,
+            "creator_username": instance.user.username
+        }
+        broadcast_event(event_type="newBoard", data=event_data)
+
+@receiver(post_save, sender=UserImage)
+def user_image_path_updated_handler(sender, instance: UserImage, created: bool, **kwargs):
+    if not created: # Zakładamy, że aktualizacja UserImage oznacza aktualizację ścieżki
+        print(f"Signal: UserImage updated (potential path save) - ID: {instance.id}, Name: {instance.name}")
+        event_data = {
+            "path_info": f"Path updated on image {instance.name}",
+            "image_id": instance.id,
+            "image_name": instance.name,
+            "user_username": instance.user.username
+        }
+        broadcast_event(event_type="newPath", data=event_data)
+
+===== File: ./main/models.py =====
+from django.db import models
+from django.contrib.auth.models import User
+import uuid
+from django.conf import settings
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+from rest_framework.authtoken.models import Token
+from django.core.exceptions import ValidationError
+
+class UserImage(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='images')
+    name = models.CharField(max_length=100, unique=True)
+    image = models.ImageField(upload_to='uploads/%Y/%m/%d/')
+
+    def save(self, *args, **kwargs):
+        if not self.name:
+            self.name = f"{self.user.id}_{uuid.uuid4().hex}"
+
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return self.name
+    
+class ImageClick(models.Model):
+    image = models.ForeignKey(UserImage, on_delete=models.CASCADE, related_name='clicks')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, default=1)
+    x = models.FloatField()
+    y = models.FloatField()
+
+    def __str__(self):
+        return f"Click on {self.image.name} by {self.user} at ({self.x}, {self.y})"
+
+class CommonImage(models.Model):
+    name = models.CharField(max_length=100, unique=True, help_text="Descriptive name for the common image.")
+    image = models.ImageField(upload_to='common_images/%Y/%m/%d/', help_text="The actual image file.")
+    description = models.TextField(blank=True, null=True, help_text="Optional description.")
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        ordering = ['name']
+        verbose_name = "Common Image"
+    
+
+@receiver(post_save, sender=settings.AUTH_USER_MODEL)
+def create_auth_token(sender, instance=None, created=False, **kwargs):
+    if created:
+        Token.objects.create(user=instance)
+
+class GameBoard(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='game_boards')
+    name = models.CharField(max_length=100, default="Untitled Board")
+    rows = models.PositiveIntegerField()
+    cols = models.PositiveIntegerField()
+    dots_config = models.JSONField(default=list, blank=True)
+
+    def __str__(self):
+        return f"{self.name} ({self.rows}x{self.cols}) by {self.user.username}"
+
+    def clean(self):
+        super().clean()
+        if not (1 < self.rows <= 50): # Example limits
+            raise ValidationError({'rows': 'Rows must be between 2 and 50.'})
+        if not (1 < self.cols <= 50): # Example limits
+            raise ValidationError({'cols': 'Columns must be between 2 and 50.'})
+
+        if self.dots_config:
+            if not isinstance(self.dots_config, list):
+                raise ValidationError({'dots_config': 'Dots configuration must be a list.'})
+
+            dot_colors_count = {}
+            occupied_cells = set()
+
+            for dot in self.dots_config:
+                if not all(k in dot for k in ['row', 'col', 'color']):
+                    raise ValidationError({'dots_config': 'Each dot must have row, col, and color.'})
+                if not (0 <= dot['row'] < self.rows and 0 <= dot['col'] < self.cols):
+                    raise ValidationError({'dots_config': f"Dot at ({dot['row']},{dot['col']}) is out of bounds."})
+
+                cell = (dot['row'], dot['col'])
+                if cell in occupied_cells:
+                    raise ValidationError({'dots_config': f"Cell ({dot['row']},{dot['col']}) is occupied by more than one dot."})
+                occupied_cells.add(cell)
+
+                dot_colors_count[dot['color']] = dot_colors_count.get(dot['color'], 0) + 1
+
+            for color, count in dot_colors_count.items():
+                if count != 2:
+                    raise ValidationError({'dots_config': f"Color {color} must be used for exactly two dots. Found {count}."})
+
+    def save(self, *args, **kwargs):
+        self.full_clean() # Call clean() before saving
+        super().save(*args, **kwargs)
+
+
+===== File: ./main/templates/rest_framework/api.html =====
+{% extends "rest_framework/base.html" %}  {# extend DRF’s base layout #}
+{% load i18n %}                            {# for translating strings #}
+
+{# Optionally override the Bootstrap theme – you can point this to your own CSS if you like #}
+{% block bootstrap_theme %}
+  <link
+    rel="stylesheet"
+    href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
+    integrity="sha384-7nHVqZgEfT1Z2YKzy+YBmfmhgcKs4JXQgnauVpD6vSBOVTY7TsIseQ3C6E+
+    Ai5oX" crossorigin="anonymous"
+  >
+{% endblock %}
+
+{# You can override other blocks here (e.g. navbar, branding) if you need to customize the header #}
+
+{# Finally, render the standard browsable API content #}
+{% block content %}
+  {{ block.super }}
+{% endblock %}
+
+
+===== File: ./main/templates/registration/login.html =====
+{% extends "game_board/base.html" %}
+
+{% block title %}Login{% endblock %}
+
+{% block content %}
+  <h2>Login</h2>
+  {% if form.errors %}
+    <p style="color: red;">Your username and password didn't match. Please try again.</p>
+  {% endif %}
+
+  {% if next %}
+    {% if user.is_authenticated %}
+      <p>Your account doesn't have access to this page. To proceed,
+      please login with an account that has access.</p>
+    {% else %}
+      <p>Please login to see this page.</p>
+    {% endif %}
+  {% endif %}
+
+  <form method="post" action="{% url 'login' %}">
+    {% csrf_token %}
+    <table>
+      <tr>
+        <td>{{ form.username.label_tag }}</td>
+        <td>{{ form.username }}</td>
+      </tr>
+      <tr>
+        <td>{{ form.password.label_tag }}</td>
+        <td>{{ form.password }}</td>
+      </tr>
+    </table>
+    <input type="submit" value="Login" class="button">
+    <input type="hidden" name="next" value="{{ next }}">
+  </form>
+
+  <p>Don't have an account? <a href="{% url 'register' %}">Sign up here</a>.</p> {# <-- ADD THIS LINE #}
+
+{% endblock %}
+
+===== File: ./main/templates/registration/register.html =====
+{% extends "game_board/base.html" %} {# Or your project's main base template #}
+
+{% block title %}Sign Up{% endblock %}
+
+{% block content %}
+  <h2>Sign Up</h2>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }} {# This will render the form fields as paragraphs #}
+    <button type="submit" class="button">Sign Up</button>
+  </form>
+  <p>Already have an account? <a href="{% url 'login' %}">Login here</a>.</p>
+{% endblock %}
+
+===== File: ./main/templates/game_board/board_list.html =====
+{% extends "main/base.html" %}
+{% load static %} {# Good practice to include if you might add static files to this template later #}
+
+{% block title %}My Connect-Dots Boards{% endblock %}
+
+{% block head_extra %}
+ 
+{% endblock %}
+
+{% block content %}
+    <h2>My Connect-Dots Boards</h2>
+    <a href="{% url 'game_board:board_create' %}">Create New Board</a>
+    <hr style="margin-bottom: 20px;">
+
+    {% if boards %}
+        <ul class="board-list">
+            {% for board in boards %}
+            <li class="board-item">
+                <h3>{{ board.name }}</h3>
+                <p>Dimensions: {{ board.rows }} rows × {{ board.cols }} columns</p>
+                <p>Dot Pairs: ({{ board.dots_config|length }} dots total)</p>
+                {# You could add a small visual preview of the board here if desired #}
+                <a href="{% url 'game_board:board_edit' board.id %}">View</a>
+                <form action="{% url 'game_board:board_delete' board.id %}" method="post" style="display: inline;" onsubmit="return confirm('Are you sure you want to delete the board \'{{ board.name|escapejs }}\'?');">
+                    {% csrf_token %}
+                    <button type="submit">Delete</button>
+                </form>
+            </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p class="no-boards-message">You haven't created any Connect-Dots boards yet. <a href="{% url 'game_board:board_create' %}">Create one now!</a></p>
+    {% endif %}
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'main/ts/dist/grid.js' %}"></script>
+{% endblock %}
+
+
+
+===== File: ./main/templates/game_board/board_editor.html =====
+{% extends "main/base.html" %}
+{% load static %}
+
+{% block title %}{% if board_instance %}Edit {{ board_instance.name }}{% else %}Create New Board{% endif %}{% endblock %}
+
+{% block head_extra %}
+<style>
+    #grid-container {
+        display: grid;
+        border: 1px solid #ccc;
+        margin-bottom: 20px;
+        user-select: none;
+    }
+    .grid-cell {
+        border: 1px solid #eee;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        transition: background-color 0.2s;
+    }
+    .grid-cell:hover {
+        background-color: #f0f0f0;
+    }
+    .grid-cell .dot-visual {
+        width: 70%;
+        height: 70%;
+        border-radius: 50%;
+        box-shadow: inset 0 0 3px rgba(0,0,0,0.3);
+    }
+    #color-palette { margin-bottom: 15px; }
+    .color-button {
+        width: 30px; height: 30px; border: 2px solid #fff;
+        margin-right: 5px; cursor: pointer; display: inline-block;
+        border-radius: 50%;
+    }
+    .color-button.selected {
+        border-color: #000;
+        box-shadow: 0 0 5px #000;
+    }
+    #messages { margin-top: 10px; }
+    .success { color: green; }
+    .error { color: red; }
+</style>
+{% endblock %}
+
+{% block content %}
+<h1>{% if board_instance %}Edit Board: <span id="board-title-display">{{ board_instance.name }}</span>{% else %}Create New Board{% endif %}</h1>
+
+{% csrf_token %}
+<input type="hidden" id="boardId" value="{{ board_instance.id | default:'' }}">
+<script id="initial-board-data" type="application/json">
+    {{ initial_board_data_json | safe }}
+</script>
+
+<div class="form-group">
+    <label for="boardName">Board Name:</label>
+    <input type="text" id="boardName" value="{{ board_instance.name | default:'My New Board' }}">
+</div>
+
+<div class="form-group">
+    <label for="numRows">Rows:</label>
+    <input type="number" id="numRows" value="{{ board_instance.rows | default:5 }}" min="2" max="50">
+</div>
+
+<div class="form-group">
+    <label for="numCols">Columns:</label>
+    <input type="number" id="numCols" value="{{ board_instance.cols | default:5 }}" min="2" max="50">
+</div>
+
+<button id="generateGridButton" class="button">Generate/Update Grid</button>
+<hr>
+
+<h3>Select Color & Place Dots:</h3>
+<div id="color-palette">
+</div>
+<p>Selected Color: <span id="selected-color-display">None</span></p>
+<p>Instructions: Select a color, then click two empty cells to place a pair of dots. Click an existing dot of the selected color to remove it.</p>
+
+<div id="grid-container">
+</div>
+
+
+<button id="saveBoardButton" class="button">Save Board</button>
+<button id="saveAsImageButton" class="button" >Save as Path Background</button>
+<div id="messages"></div>
+
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'main/ts/dist/grid.js' %}"></script>
+{% endblock %}
+
+===== File: ./main/templates/game_board/base.html =====
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Connect The Dots Board Editor{% endblock %}</title>
+    <!-- Simple styling, replace with Bootstrap or your preferred CSS framework -->
+    <style>
+        body { font-family: sans-serif; margin: 20px; background-color: #f4f4f4; }
+        nav { margin-bottom: 20px; background-color: #333; padding: 10px; border-radius: 5px; }
+        nav a { color: white; margin-right: 15px; text-decoration: none; }
+        nav a:hover { text-decoration: underline; }
+        .container { background-color: white; padding: 20px; border-radius: 5px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+        h1, h2 { color: #333; }
+        table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #f0f0f0; }
+        .button, button {
+            background-color: #007bff; color: white; padding: 10px 15px;
+            border: none; border-radius: 4px; cursor: pointer; text-decoration: none;
+            font-size: 1em; margin-right: 5px;
+        }
+        .button:hover, button:hover { background-color: #0056b3; }
+        .button-danger { background-color: #dc3545; }
+        .button-danger:hover { background-color: #c82333; }
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; margin-bottom: 5px; }
+        .form-group input[type="text"], .form-group input[type="number"] {
+            width: calc(100% - 22px); padding: 10px; border: 1px solid #ccc; border-radius: 4px;
+        }
+        .error-message { color: red; font-size: 0.9em; }
+    </style>
+    {% block head_extra %}{% endblock %}
+</head>
+<body>
+    <nav>
+        <a href="{% url 'game_board:board_list' %}">My Boards</a>
+        <a href="{% url 'game_board:board_create' %}">Create New Board</a>
+        {% if user.is_authenticated %}
+            <span>Welcome, {{ user.username }}!</span>
+            <a href="{% url 'logout' %}" style="float:right;">Logout</a>
+        {% else %}
+            <a href="{% url 'login' %}" style="float:right;">Login</a>
+        {% endif %}
+    </nav>
+    <div class="container">
+        {% block content %}{% endblock %}
+    </div>
+    {% block scripts_extra %}{% endblock %}
+</body>
+</html>
+
+===== File: ./main/templates/main/login.html =====
+{% extends "main/base.html" %}
+{% load static %}
+
+{% block title %}Login{% endblock title %}
+
+{% block content %}
+    <h2>Login</h2>
+    <form method="post" action="{% url 'login' %}">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Login</button>
+    </form>
+    <p>Don't have an account? <a href="{% url 'register' %}">Register here</a></p>
+{% endblock content %}
+
+===== File: ./main/templates/main/upload_common_image.html =====
+{% extends "main/base.html" %}
+{% load static %}
+
+{% block title %}Upload a Common Path{% endblock title %}
+
+{% block content %}
+    <h2>Upload an Path to the Common Library</h2>
+    <p>This path will be available for other users to use.</p>
+    <form method="POST" enctype="multipart/form-data" action="{% url 'upload_common_image' %}">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Upload Common Image</button>
+    </form>
+    <br>
+    <a href="{% url 'home' %}">Back to Home</a>
+{% endblock content %}
+
+===== File: ./main/templates/main/upload_image.html =====
+{% extends "main/base.html" %}
+{% load static %}
+
+{% block title %}Upload Path{% endblock title %}
+
+{% block content %}
+    <h2>Upload a new path</h2>
+    <form method="POST" enctype="multipart/form-data" action="{% url 'upload_image' %}">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Upload</button>
+    </form>
+{% endblock content %}
+
+===== File: ./main/templates/main/user_panel.html =====
+{% extends "main/base.html" %}
+{% load static %}
+
+{% block title %}User Panel - {{ user.username }}{% endblock title %}
+
+{% block content %}
+    <h2>Login: {{ user.username }}</h2>
+
+    <h3>Your Personal Paths</h3>
+    {% if images %}
+    <ul>
+        {% for image_obj in images %}
+        <li>
+            <p>{{ image_obj.name }}</p>
+            <img src="{{ image_obj.image.url }}" alt="{{ image_obj.name }}" width="100" height="100">
+            <form action="{% url 'user_panel' %}" method="post" style="display: inline-block; margin-right: 10px;">
+                {% csrf_token %}
+                <input type="hidden" name="image_id_for_rename" value="{{ image_obj.id }}">
+                <input type="text" name="name" value="{{ image_obj.name }}" placeholder="New name" required>
+                <button type="submit" name="action" value="rename_image">Rename</button>
+            </form>
+            <a href="{% url 'delete_image' image_obj.id %}" onclick="return confirm('Are you sure you want to delete this image and its points?');" style="display: inline-block;">Delete</a>
+        </li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <p>You have not uploaded any paths yet. <a href="{% url 'upload_image' %}">Upload one now.</a></p>
+    {% endif %}
+
+    <hr>
+    <h3>Upload New Path from Panel</h3>
+    <form method="POST" enctype="multipart/form-data" action="{% url 'user_panel' %}">
+        {% csrf_token %}
+        {{ upload_form.as_p }} {# Assuming you pass 'upload_form' from the view for new uploads #}
+        <button type="submit" name="action" value="upload_new_image">Upload New Path</button>
+    </form>
+    <hr>
+
+    <h3>Change Your Password</h3>
+    <form method="post" action="{% url 'change_password' %}">
+        {% csrf_token %}
+        {{ password_form.as_p }}
+        <button type="submit">Change Password</button>
+    </form>
+{% endblock content %}
+
+===== File: ./main/templates/main/define_grid.html =====
+{% extends "main/base.html" %}
+{% load static %}
+
+{% block title %}Define New Grid Image{% endblock title %}
+
+{% block content %}
+    <h2>Define Your Grid Image</h2>
+    <p>Specify the dimensions for your grid. An image representing this grid will be generated and added to your personal images.</p>
+    <form method="post" action="{% url 'define_grid' %}">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Create Grid Image</button>
+    </form>
+    <br>
+    <a href="{% url 'home' %}">Back to Home</a>
+{% endblock content %}
+
+===== File: ./main/templates/main/base.html =====
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Path Editor{% endblock title %}</title>
+    <link rel="stylesheet" href="{% static 'main/css/style.css' %}"> {# Assuming your main CSS is here #}
+    {% block extra_css %}{% endblock extra_css %}
+    {% block head_extra %}{% endblock head_extra %}
+</head>
+<body>
+    <nav>
+        <a href="{% url 'home' %}">Home</a>
+        {% if user.is_authenticated %}
+            <a href="{% url 'user_panel' %}">My Paths</a>
+            <a href="{% url 'upload_image' %}">Upload Personal Path</a>
+            <a href="{% url 'upload_common_image' %}">Upload Common Path</a>
+            <a href="{% url 'game_board:board_list' %}">My Boards</a>
+            <a href="{% url 'game_board:board_create' %}">Create New Board</a>
+            <a href="{% url 'logout' %}" style="float:right;">Logout </a>
+        {% else %}
+            <a href="{% url 'login' %}">Login</a>
+            {% if not on_register_page %} {# Assuming you have a context variable 'on_register_page' #}
+                <a href="{% url 'register' %}">Register</a>
+            {% endif %}
+        {% endif %}
+    </nav>
+    <hr>
+    <main>
+        {% block content %}
+        {% endblock content %}
+    </main>
+    {% block extra_js %}{% endblock extra_js %}
+</body>
+</html>
+
+===== File: ./main/templates/main/home.html =====
+{% extends "main/base.html" %}
+{% load static %}
+
+{% block title %}Home - Image Path Editor{% endblock title %}
+
+{% block content %}
+    <h2>Welcome, {{ user.username }}!</h2>
+
+    {# --- IMAGE SELECTION SECTION --- #}
+    {% if not selected_image %}
+        <form method="get" action="{% url 'home' %}">
+            <label for="image-select">Personal paths:</label>
+            <select name="selected" id="image-select" onchange="this.form.submit()">
+                <option value="">-- choose an image --</option>
+                {% for img in user_images %}
+                    <option value="{{ img.name }}">
+                        {{ img.name }} (Yours)
+                    </option>
+                {% endfor %}
+            </select>
+        </form>
+        <a href="{% url 'upload_image' %}">Upload a new personal image</a>
+
+        <hr>
+        <h3>Or Use a Common Image:</h3>
+        {% if common_images_list %}
+            <div class="common-images-grid" style="display: flex; flex-wrap: wrap; gap: 10px;">
+                {% for c_img in common_images_list %}
+                    <div class="common-image-item" style="border: 1px solid #ccc; padding: 5px; text-align: center;">
+                        <p>{{ c_img.name }}</p>
+                        {% if c_img.image %}
+                        <img src="{{ c_img.image.url }}" alt="{{ c_img.name }}" width="100" height="100" style="object-fit: cover;">
+                        <br>
+                        <a href="{% url 'use_common_image' c_img.id %}">Use this image</a>
+                        {% else %}
+                        <p>Image not available</p>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p>No common images available at the moment.</p>
+        {% endif %}
+        <hr>
+
+    {% else %} {# An image IS selected, show the editor #}
+        
+        <p><a href="{% url 'home' %}">Select a different image</a></p> 
+        
+        <h3>Selected Path: {{ selected_image.name }}</h3>
+
+        <div id="message-container" style="text-align: center; font-size: 16px; color: blue; display: none;"></div>
+        
+        <div id="editor-layout">
+            <div id="image-option-containter">
+                <button id="add-point-on-image-btn">Add Point on Image</button>
+                <br>
+                <div id="image-container">
+                    <svg id="connection-lines" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none;"></svg>
+                    <img src="{{ selected_image.image.url }}" id="main-image" alt="{{ selected_image.name }}" />
+                    {% for click in selected_image.clicks.all %}
+                    <div class="click-dot"
+                        data-id="{{ click.id }}"
+                        style="left: {{ click.x }}px; top: {{ click.y }}px;">
+                        <span class="dot-number"></span>
+                        <button class="delete-dot-btn" title="Delete this point">✖</button>
+                    </div>
+                    {% endfor %}
+                </div>
+                <br>
+                <a href="{% url 'delete_image' selected_image.id %}" onclick="return confirm('Are you sure you want to delete this image and all its points?');">Delete image</a>
+            </div>
+
+            <div id="coordinates-list-container">
+                <button id="add-point-on-list-btn">Add New Point to List</button>
+                <h4>Coordinates of Points:</h4>
+                <ul id="coordinates-list">
+                    {% for click in selected_image.clicks.all %}
+                        <li data-click-id="{{ click.id }}" class="coordinate-item">
+                            Point <span class="point-display-number">{{ forloop.counter }}</span>:
+                            X<input type="number" class="coord-x-input" value="{{ click.x|floatformat:2 }}" step="1.00" autocomplete="off">
+                            Y<input type="number" class="coord-y-input" value="{{ click.y|floatformat:2 }}" step="1.00" autocomplete="off">
+                            <button class="update-coord-btn">Update</button>
+                            <button class="delete-coord-btn">Delete</button>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+        <br>
+    {% endif %} {# End of 'if selected_image' / 'if not selected_image' logic #}
+
+{% endblock content %}
+
+{% block extra_js %}
+    <script>
+        const csrfToken = '{{ csrf_token }}';
+        const selectedImageId = {{ selected_image.id|default_if_none:"null" }};
+        // console.log("[HTML Init Script] selectedImageId:", selectedImageId); // For debugging
+
+        let draggedDot = null;
+        let addModeOnClick = false;
+    </script>
+    <script src="{% static 'main/js/functions.js' %}"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // console.log("[HTML DOMContentLoaded] Event fired. selectedImageId:", selectedImageId); // For debugging
+
+            function initializeEditorComponents() {
+                // console.log("[HTML initializeEditorComponents] Called."); // For debugging
+                // This function assumes elements like #main-image are present.
+                if (typeof initializePageElements === 'function') {
+                    initializePageElements();
+                } else {
+                    console.error("initializePageElements is not defined. Check functions.js");
+                }
+                if (typeof initializeCoordinateListInteractions === 'function') {
+                    initializeCoordinateListInteractions();
+                } else {
+                    console.error("initializeCoordinateListInteractions is not defined. Check functions.js");
+                }
+            }
+
+            if (selectedImageId) { // If an image is selected, its HTML (including #main-image) should be rendered
+                const mainImageElement = document.getElementById('main-image');
+                if (mainImageElement) {
+                    // console.log("[HTML DOMContentLoaded] main-image found."); // For debugging
+                    if (mainImageElement.complete) {
+                        // console.log("[HTML DOMContentLoaded] main-image already complete. Initializing editor."); // For debugging
+                        initializeEditorComponents();
+                    } else {
+                        // console.log("[HTML DOMContentLoaded] main-image not complete. Adding load listener."); // For debugging
+                        mainImageElement.addEventListener('load', () => {
+                            // console.log("[HTML DOMContentLoaded] main-image LOAD event. Initializing editor."); // For debugging
+                            initializeEditorComponents();
+                        });
+                    }
+                } else {
+                    // This case should ideally not happen if selectedImageId is true,
+                    // as it implies the editor block in HTML wasn't rendered.
+                    console.warn("[HTML DOMContentLoaded] selectedImageId is set, but #main-image not found.");
+                }
+            } else { // No image selected, editor part is not rendered
+                // console.log("[HTML DOMContentLoaded] No selectedImageId. Editor components not initialized."); // For debugging
+                const addPointOnImageBtn = document.getElementById('add-point-on-image-btn');
+                const addPointToListBtn = document.getElementById('add-point-on-list-btn');
+                if(addPointOnImageBtn) addPointOnImageBtn.disabled = true;
+                if(addPointToListBtn) addPointToListBtn.disabled = true;
+            }
+            
+            // Event listeners that should be active regardless of initial image selection,
+            // but their internal logic might depend on editor elements existing.
+            
+            const addPointOnImageBtn = document.getElementById('add-point-on-image-btn');
+            const messageContainer = document.getElementById('message-container');
+            if (addPointOnImageBtn) {
+                addPointOnImageBtn.addEventListener('click', () => {
+                    addModeOnClick = !addModeOnClick;
+                    const mainImgElem = document.getElementById('main-image'); // Needs to exist
+                    if (addModeOnClick) {
+                        addPointOnImageBtn.textContent = "Stop Adding on Image";
+                        if(messageContainer) {
+                            messageContainer.innerText = "Click anywhere on the image to place a new point.";
+                            messageContainer.style.display = "block";
+                        }
+                        if(mainImgElem) mainImgElem.style.cursor = 'crosshair';
+                    } else {
+                        addPointOnImageBtn.textContent = "Add Point on Image";
+                        if(messageContainer) messageContainer.style.display = "none";
+                        if(mainImgElem) mainImgElem.style.cursor = 'default';
+                    }
+                });
+            }
+
+            const mainImageEventTarget = document.getElementById('main-image'); // Get target for click
+            if (mainImageEventTarget) {
+                mainImageEventTarget.addEventListener('click', function (e) {
+                    if (!addModeOnClick || !selectedImageId) return;
+                    const rect = e.target.getBoundingClientRect();
+                    const x = parseFloat((e.clientX - rect.left).toFixed(2));
+                    const y = parseFloat((e.clientY - rect.top).toFixed(2));
+                    fetch('/add-click/', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json', 'X-CSRFToken': csrfToken },
+                        body: JSON.stringify({ image_id: selectedImageId, x: x, y: y })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            if (typeof createDotOnImage === 'function' && 
+                                typeof createCoordinateListItem === 'function' &&
+                                typeof renumberDotsAndListItems === 'function') {
+                                createDotOnImage(data.click_id, x, y);
+                                createCoordinateListItem(data.click_id, x, y, false);
+                                renumberDotsAndListItems();
+                            } else {
+                                console.error("One or more functions (createDotOnImage, createCoordinateListItem, renumberDotsAndListItems) are not defined.");
+                            }
+                        } else {
+                            console.error("Failed to add click via image click", data);
+                        }
+                    });
+                });
+            }
+            
+            document.addEventListener("mousemove", (e) => {
+                if (!draggedDot) return;
+                const mainImageForMove = document.getElementById('main-image');
+                if (!mainImageForMove) return; 
+                
+                const imageRect = mainImageForMove.getBoundingClientRect();
+                let newLeft = e.clientX - imageRect.left;
+                let newTop = e.clientY - imageRect.top;
+
+                const boundaryMaxLeft = mainImageForMove.width;
+                const boundaryMinLeft = 0;
+                const boundaryMaxTop = mainImageForMove.height;
+                const boundaryMinTop = 0;
+                
+                // Keep entire dot within image boundaries
+                newLeft = Math.max(boundaryMinLeft, Math.min(newLeft, boundaryMaxLeft));
+                newTop = Math.max(boundaryMinTop, Math.min(newTop, boundaryMaxTop));   
+
+                draggedDot.style.left = newLeft + "px";
+                draggedDot.style.top = newTop + "px";
+
+                if (typeof redrawLines === 'function') {
+                    redrawLines();
+                } else {
+                    console.error("redrawLines is not defined.");
+                }
+
+                const clickId = draggedDot.dataset.id;
+                const listItem = document.querySelector(`#coordinates-list .coordinate-item[data-click-id="${clickId}"]`);
+                if (listItem) {
+                    listItem.querySelector('.coord-x-input').value = parseFloat(newLeft).toFixed(2);
+                    listItem.querySelector('.coord-y-input').value = parseFloat(newTop).toFixed(2);
+                }
+            });
+
+        }); // End of DOMContentLoaded
+    </script>
+{% endblock extra_js %}
+
+===== File: ./main/templates/main/register.html =====
+{% extends "main/base.html" %}
+{% load static %}
+
+{% block title %}Register{% endblock title %}
+
+{% block content %}
+    <h2>Register</h2>
+    <form method="post" action="{% url 'register' %}">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Register</button>
+    </form>
+    <p>Already have an account? <a href="{% url 'login' %}">Login here</a></p>
+{% endblock content %}
+
+===== File: ./main/tests.py =====
+import os
+import uuid
+from io import BytesIO
+from PIL import Image as PILImage
+from django.test import TestCase
+from django.urls import reverse
+from django.contrib.auth.models import User
+from django.core.files.uploadedfile import SimpleUploadedFile
+from django.conf import settings
+from rest_framework.test import APIClient
+from rest_framework import status
+from rest_framework.authtoken.models import Token
+from .models import UserImage, ImageClick
+
+def create_test_image_file(name="test_image.png", ext="png", size=(50, 50), color="red"):
+    file_obj = BytesIO()
+    image = PILImage.new("RGB", size=size, color=color)
+    image.save(file_obj, format=ext.upper())
+    file_obj.seek(0)
+    return SimpleUploadedFile(name, file_obj.read(), content_type=f"image/{ext}")
+
+class BaseSetupTestCase(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        cls.user1_data = {'username': 'user1', 'password': 'password123'}
+        cls.user1 = User.objects.create_user(**cls.user1_data)
+        cls.user2_data = {'username': 'user2', 'password': 'password456'}
+        cls.user2 = User.objects.create_user(**cls.user2_data)
+        cls.image_u1 = UserImage.objects.create(
+            user=cls.user1,
+            name="image_user1",
+            image=create_test_image_file("img_u1.png")
+        )
+        cls.image_u2 = UserImage.objects.create(
+            user=cls.user2,
+            name="image_user2",
+            image=create_test_image_file("img_u2.png")
+        )
+        cls.click_u1_img_u1 = ImageClick.objects.create(
+            image=cls.image_u1,
+            user=cls.user1,
+            x=10.0,
+            y=20.0
+        )
+
+    def setUp(self):
+        self.client = APIClient()
+
+    @classmethod
+    def tearDownClass(cls):
+        for img_obj in UserImage.objects.all():
+            if img_obj.image and hasattr(img_obj.image, 'path'):
+                if os.path.exists(img_obj.image.path):
+                    try:
+                        os.remove(img_obj.image.path)
+                        img_dir = os.path.dirname(img_obj.image.path)
+                        if not os.listdir(img_dir):
+                            os.rmdir(img_dir)
+                            month_dir = os.path.dirname(img_dir)
+                            if not os.listdir(month_dir):
+                                os.rmdir(month_dir)
+                                year_dir = os.path.dirname(month_dir)
+                                if not os.listdir(year_dir):
+                                    os.rmdir(year_dir)
+                    except OSError:
+                        pass
+        super().tearDownClass()
+
+class ModelTests(BaseSetupTestCase):
+
+    def test_userimage_creation(self):
+        self.assertEqual(self.image_u1.user, self.user1)
+        self.assertEqual(self.image_u1.name, "image_user1")
+        self.assertTrue(self.image_u1.image.name.startswith('uploads/'))
+        self.assertEqual(str(self.image_u1), "image_user1")
+
+    def test_imageclick_creation(self):
+        self.assertEqual(self.click_u1_img_u1.image, self.image_u1)
+        self.assertEqual(self.click_u1_img_u1.user, self.user1)
+        self.assertEqual(self.click_u1_img_u1.x, 10.0)
+        self.assertEqual(str(self.click_u1_img_u1), f"Click on {self.image_u1.name} by {self.user1.username} at (10.0, 20.0)")
+
+    def test_user_image_relation(self):
+        self.assertIn(self.image_u1, self.user1.images.all())
+
+    def test_image_click_relation(self):
+        self.assertIn(self.click_u1_img_u1, self.image_u1.clicks.all())
+
+class WebAuthTests(BaseSetupTestCase):
+
+    def test_home_page_requires_login(self):
+        response = self.client.get(reverse('home'))
+        self.assertEqual(response.status_code, status.HTTP_302_FOUND)
+        self.assertIn(reverse('login'), response.url)
+
+    def test_user_login_and_logout(self):
+        login_response = self.client.post(reverse('login'), self.user1_data)
+        self.assertEqual(login_response.status_code, status.HTTP_302_FOUND)
+        self.assertEqual(login_response.url, '/')
+            
+        home_response = self.client.get(reverse('home'))
+        self.assertEqual(home_response.status_code, status.HTTP_200_OK)
+        self.assertContains(home_response, self.user1.username)
+        logout_response = self.client.get(reverse('logout'))
+        self.assertEqual(logout_response.status_code, status.HTTP_302_FOUND)
+        self.assertIn(reverse(settings.LOGOUT_REDIRECT_URL.strip('/')), logout_response.url)
+        home_response_after_logout = self.client.get(reverse('home'))
+        self.assertEqual(home_response_after_logout.status_code, status.HTTP_302_FOUND)
+
+    def test_user_sees_only_own_images_on_home(self):
+        self.client.login(username=self.user1_data['username'], password=self.user1_data['password'])
+        response = self.client.get(reverse('home'))
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertContains(response, self.image_u1.name)
+        self.assertNotContains(response, self.image_u2.name)
+
+    def test_user_cannot_delete_others_image_via_web(self):
+        self.client.login(username=self.user1_data['username'], password=self.user1_data['password'])
+        delete_url = reverse('delete_image', args=[self.image_u2.id])
+        response = self.client.post(delete_url)
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+        self.assertTrue(UserImage.objects.filter(id=self.image_u2.id).exists())
+
+class WebCRUDTests(BaseSetupTestCase):
+
+    def setUp(self):
+        super().setUp()
+        self.client.login(username=self.user1_data['username'], password=self.user1_data['password'])
+
+    def test_upload_new_image(self):
+        initial_image_count = UserImage.objects.filter(user=self.user1).count()
+        base_file_name = "web_upload"
+        image_file = create_test_image_file(f"{base_file_name}.jpg", ext="jpeg")
+        data = {
+            'name': 'My Web Uploaded Image',
+            'image': image_file
+        }
+        response = self.client.post(reverse('upload_image'), data, format='multipart')
+        self.assertEqual(response.status_code, status.HTTP_302_FOUND)
+        self.assertEqual(response.url, reverse('home'))
+        self.assertEqual(UserImage.objects.filter(user=self.user1).count(), initial_image_count + 1)
+        new_image = UserImage.objects.get(user=self.user1, name='My Web Uploaded Image')
+        self.assertIn(base_file_name, new_image.image.name)
+        self.assertTrue(new_image.image.name.lower().endswith(".jpg"))
+    
+
+    def test_add_click_via_ajax(self):
+        initial_click_count = ImageClick.objects.filter(image=self.image_u1, user=self.user1).count()
+        click_data = {
+            'image_id': self.image_u1.id,
+            'x': 30.5,
+            'y': 40.5
+        }
+        response = self.client.post(reverse('add_click'), click_data, format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        response_data = response.json()
+        self.assertTrue(response_data['success'])
+        self.assertIn('click_id', response_data)
+        self.assertEqual(ImageClick.objects.filter(image=self.image_u1, user=self.user1).count(), initial_click_count + 1)
+        new_click = ImageClick.objects.get(id=response_data['click_id'])
+        self.assertEqual(new_click.x, 30.5)
+
+    def test_delete_click_via_ajax(self):
+        self.assertTrue(ImageClick.objects.filter(id=self.click_u1_img_u1.id).exists())
+        click_id_to_delete = self.click_u1_img_u1.id
+        
+        delete_data = {'id': click_id_to_delete}
+        response = self.client.post(reverse('delete_click'), delete_data, format='json')
+        
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.json()['status'], 'deleted')
+        self.assertFalse(ImageClick.objects.filter(id=click_id_to_delete).exists())
+
+    def test_user_cannot_delete_others_click_via_ajax(self):
+        click_u2 = ImageClick.objects.create(image=self.image_u2, user=self.user2, x=5, y=5)
+        self.client.login(username=self.user1_data['username'], password=self.user1_data['password'])
+        delete_data = {'id': click_u2.id}
+        response = self.client.post(reverse('delete_click'), delete_data, format='json')
+        
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+        self.assertTrue(ImageClick.objects.filter(id=click_u2.id).exists())
+
+class APITests(BaseSetupTestCase):
+
+    def setUp(self):
+        super().setUp()
+        self.user1_token = Token.objects.get(user=self.user1)
+        self.user2_token = Token.objects.get(user=self.user2)
+        self.client.credentials(HTTP_AUTHORIZATION=f'Token {self.user1_token.key}')
+
+    def test_api_list_images_requires_authentication(self):
+        self.client.credentials()
+        response = self.client.get(reverse('userimage-list'))
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
+
+    def test_api_list_images_returns_only_own_images(self):
+        response = self.client.get(reverse('userimage-list'))
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(len(response.data), UserImage.objects.filter(user=self.user1).count())
+        self.assertEqual(response.data[0]['name'], self.image_u1.name)
+        for item in response.data:
+            self.assertNotEqual(item['name'], self.image_u2.name)
+
+    def test_api_create_image(self):
+        initial_count = UserImage.objects.filter(user=self.user1).count()
+        image_file = create_test_image_file("api_upload.gif", ext="gif")
+        unique_name = f"API Test Image {self.user1.username} {uuid.uuid4().hex}"
+        data = {'name': unique_name, 'image': image_file}
+        
+        response = self.client.post(reverse('userimage-list'), data, format='multipart')
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(UserImage.objects.filter(user=self.user1).count(), initial_count + 1)
+        self.assertEqual(response.data['name'], unique_name)
+        self.assertEqual(response.data['user'], self.user1.id)
+
+    def test_api_retrieve_own_image_detail(self):
+        response = self.client.get(reverse('userimage-detail', args=[self.image_u1.id]))
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data['name'], self.image_u1.name)
+
+    def test_api_cannot_retrieve_others_image_detail(self):
+        response = self.client.get(reverse('userimage-detail', args=[self.image_u2.id]))
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+
+    def test_api_delete_own_image(self):
+        image_to_delete = UserImage.objects.create(user=self.user1, name="to_delete_api", image=create_test_image_file())
+        response = self.client.delete(reverse('userimage-detail', args=[image_to_delete.id]))
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+        self.assertFalse(UserImage.objects.filter(id=image_to_delete.id).exists())
+
+    def test_api_cannot_delete_others_image(self):
+        response = self.client.delete(reverse('userimage-detail', args=[self.image_u2.id]))
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+        self.assertTrue(UserImage.objects.filter(id=self.image_u2.id).exists())
+
+    def test_api_create_image_invalid_data(self):
+        data = {'name': ''}
+        response = self.client.post(reverse('userimage-list'), data, format='json')
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertIn('image', response.data)
+        self.assertIn('name', response.data)
+
+    def test_api_list_clicks_returns_only_own_clicks(self):
+        ImageClick.objects.create(image=self.image_u2, user=self.user2, x=1, y=1)
+        response = self.client.get(reverse('imageclick-list'))
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(len(response.data), ImageClick.objects.filter(user=self.user1).count())
+        self.assertEqual(response.data[0]['id'], self.click_u1_img_u1.id)
+
+    def test_api_create_click_on_own_image(self):
+        initial_count = ImageClick.objects.filter(user=self.user1).count()
+        data = {
+            'image': self.image_u1.id,
+            'x': 55.0,
+            'y': 65.0
+        }
+        response = self.client.post(reverse('imageclick-list'), data, format='json')
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(ImageClick.objects.filter(user=self.user1).count(), initial_count + 1)
+        self.assertEqual(response.data['x'], 55.0)
+        self.assertEqual(response.data['user'], self.user1.id)
+
+    def test_api_delete_own_click(self):
+        click_to_delete = ImageClick.objects.create(image=self.image_u1, user=self.user1, x=1, y=1)
+        response = self.client.delete(reverse('imageclick-detail', args=[click_to_delete.id]))
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+        self.assertFalse(ImageClick.objects.filter(id=click_to_delete.id).exists())
+
+    def test_api_cannot_delete_others_click(self):
+        click_u2 = ImageClick.objects.create(image=self.image_u2, user=self.user2, x=1, y=1)
+        response = self.client.delete(reverse('imageclick-detail', args=[click_u2.id]))
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+        self.assertTrue(ImageClick.objects.filter(id=click_u2.id).exists())
+
+===== File: ./main/urls.py =====
+# main/urls.py
+from django.urls import path, include
+# from django.conf import settings # Not needed here if MEDIA_URL is handled at project level
+# from django.conf.urls.static import static # Not needed here
+# from django.contrib.auth import views as auth_views # Auth views usually at project level
+from rest_framework.routers import DefaultRouter
+from . import views
+
+router = DefaultRouter()
+router.register(r'images', views.UserImageViewSet)
+router.register(r'clicks', views.ImageClickViewSet)
+
+# Keep app_name if you use it for these non-board URLs, or remove if not needed.
+# app_name = 'main' # Example, if you namespace these
+
+urlpatterns = [
+    path('', views.home, name='home'),
+    path('register/', views.register, name='register'),
+    path('add-click/', views.add_click, name='add_click'),
+    path('user-panel/', views.user_panel, name='user_panel'),
+    path('delete-click/', views.delete_click, name='delete_click'),
+    path('record-click/', views.record_click, name='record_click'),
+    path('update-click/', views.update_click, name='update_click'),
+    path('upload-image/', views.upload_image, name='upload_image'),
+    path('change-password/', views.change_password, name='change_password'),
+    path('delete/<int:image_id>/', views.delete_image, name='delete_image'),
+    path('use-common-image/<int:common_image_id>/', views.use_common_image, name='use_common_image'),
+    path('upload-common-image/', views.upload_common_image, name='upload_common_image'),
+    path('stream/', views.sse_notifications_view, name='sse_stream'),
+    path('', include(router.urls)), # For your DRF viewsets
+    # REMOVE THE FOLLOWING BOARD URLS FROM HERE:
+    # path('define-grid/', views.define_grid, name='define_grid'), # Ensure this view exists if uncommented
+    # path('create/', views.board_editor_view, name='board_create'),
+    # path('<int:board_id>/edit/', views.board_editor_view, name='board_edit'),
+    # path('<int:board_id>/delete/', views.board_delete_view, name='board_delete'),
+    # path('api/save_board/', views.save_board_api_view, name='save_board_api'),
+    # path('api/board/<int:board_id>/', views.get_board_data_api_view, name='get_board_data_api'),
+]
+
+# urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) # Usually handled at project level
+
+===== File: ./main/urls_board.py =====
+# main/urls_board.py
+from django.urls import path
+from . import views # Assuming your board views are in main/views.py
+
+app_name = 'game_board' # You can keep this namespace if you like, or change it
+
+urlpatterns = [
+    path('', views.board_list_view, name='board_list'), # Assuming this view exists in main.views
+    path('create/', views.board_editor_view, name='board_create'),
+    path('events/', views.sse_notifications_view, name='sse_board_events'),
+    path('<int:board_id>/edit/', views.board_editor_view, name='board_edit'),
+    path('<int:board_id>/delete/', views.board_delete_view, name='board_delete'),
+    # API endpoint
+    path('api/save_board/', views.save_board_api_view, name='save_board_api'),
+    path('api/board/<int:board_id>/', views.get_board_data_api_view, name='get_board_data_api'),
+]
+
+===== File: ./main/event_queue.py =====
+# main/event_queue.py
+import queue
+import threading
+import json # Upewnij się, że ten import jest na górze
+
+client_queues_lock = threading.Lock()
+client_queues = [] # Lista indywidualnych kolejek dla każdego połączonego klienta
+
+def add_client_queue(q: queue.Queue):
+    with client_queues_lock:
+        client_queues.append(q)
+    print(f"SSE: Client queue added. Total queues: {len(client_queues)}")
+
+
+def remove_client_queue(q: queue.Queue):
+    with client_queues_lock:
+        if q in client_queues:
+            client_queues.remove(q)
+    print(f"SSE: Client queue removed. Total queues: {len(client_queues)}")
+
+
+def broadcast_event(event_type: str, data: dict):
+    """
+    Dodaje zdarzenie do kolejek wszystkich aktywnych klientów.
+    """
+    # Formatowanie wiadomości SSE. Upewnij się, że kończy się dwoma znakami nowej linii.
+    sse_formatted_message = f"event: {event_type}\ndata: {json.dumps(data)}\n\n"
+    print(f"SSE: Broadcasting event - Type: {event_type}, Data: {json.dumps(data)}") # Logowanie
+    
+    with client_queues_lock:
+        # Iteruj po kopii listy, aby uniknąć problemów, jeśli remove_client_queue jest wywoływane współbieżnie
+        # Chociaż z Lock powinno być OK, to jest bezpieczniejsza praktyka.
+        queues_to_broadcast_to = list(client_queues) 
+    
+    for q in queues_to_broadcast_to:
+        try:
+            q.put_nowait(sse_formatted_message)
+        except queue.Full:
+            print(f"SSE Warning: Client queue full for event: {event_type}. Queue: {q}")
+            # W bardziej zaawansowanym systemie można by tu obsłużyć rozłączenie klienta
+            # lub usunąć kolejkę, jeśli jest stale pełna.
+            # Dla laboratorium po prostu ignorujemy i idziemy dalej.
+            pass
+        except Exception as e:
+            print(f"SSE Error: Failed to put message in queue {q}: {e}")
+
+===== File: ./main/serializers.py =====
+from rest_framework import serializers
+from .models import UserImage, ImageClick
+
+class ImageClickSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ImageClick
+        fields = ['id', 'user', 'x', 'y', 'image']
+
+class UserImageSerializer(serializers.ModelSerializer):
+    clicks = ImageClickSerializer(many=True, read_only=True)
+    user = serializers.PrimaryKeyRelatedField(read_only=True)
+    def get_queryset(self):
+        # 🔐 Zwracaj tylko obrazy danego użytkownika
+        return UserImage.objects.filter(user=self.request.user)
+
+    def perform_create(self, serializer):
+        # 🔐 Ustaw właściciela obrazu automatycznie
+        serializer.save(user=self.request.user)
+    class Meta:
+        model = UserImage
+        fields = ['id', 'user', 'name', 'image', 'clicks']
+
+
+===== File: ./main/views.py =====
+# main/views.py
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import UserCreationForm, PasswordChangeForm
+from django.contrib.auth import login, logout, update_session_auth_hash
+from django.shortcuts import render, redirect, get_object_or_404
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+from django.core.files.base import ContentFile
+from django.db import transaction 
+from django.conf import settings
+from rest_framework import viewsets, serializers
+from rest_framework.permissions import IsAuthenticated
+from .serializers import UserImageSerializer, ImageClickSerializer
+from .forms import UserImageForm, CommonImageUploadForm 
+from .models import ImageClick, UserImage, CommonImage # Make sure UserImage is imported
+from .permissions import IsOwner
+import json
+import io
+from django.views.decorators.http import require_POST
+from .models import GameBoard
+from PIL import Image as PILImage, ImageDraw, ImageFont # Dodaj ImageFont, jeśli chcesz numery
+from django.core.exceptions import ValidationError
+from .forms import DefineGridForm
+from django.core.files.base import ContentFile
+from django.http import StreamingHttpResponse
+import base64
+import re
+import time
+import json # Już prawdopodobnie masz
+import queue # Dla queue.Empty i queue.Queue
+# from django.contrib.auth.decorators import login_required # Jeśli potrzebne
+
+# Importuj funkcje kolejki z event_queue.py w tej samej aplikacji
+from .event_queue import add_client_queue, remove_client_queue, client_queues # Dodaj client_queues do debugowania
+
+# @login_required # Odkomentuj, jeśli chcesz autoryzacji
+def sse_notifications_view(request):
+    client_specific_queue = queue.Queue(maxsize=100) # Max 100 zdarzeń w kolejce na klienta
+    add_client_queue(client_specific_queue)
+    # print(f"SSE: Client connected. Queue added. Current queues: {len(client_queues)}") # Użyj client_queues z importu
+
+    def event_stream_generator():
+        # print("SSE: Generator started for a client.") # Debug
+        try:
+            yield ": Connected to SSE stream. Waiting for events...\n\n"
+            last_keep_alive_time = time.time()
+
+            while True: # Pętla utrzymująca połączenie
+                if time.time() - last_keep_alive_time > 15: # Co 15 sekund
+                    yield ": keep-alive\n\n"
+                    last_keep_alive_time = time.time()
+
+                try:
+                    message = client_specific_queue.get(timeout=1) 
+                    yield message # Wiadomość jest już sformatowana (event: type\ndata: json\n\n)
+                    client_specific_queue.task_done() # Oznacz wiadomość jako przetworzoną
+                except queue.Empty:
+                    pass
+                except Exception as e_inner:
+                    print(f"SSE Stream Error (inner loop - queue get): {e_inner}")
+                    break # Przerwij pętlę dla tego klienta
+
+        except GeneratorExit:
+            print("SSE: Client disconnected (GeneratorExit).")
+        except Exception as e_outer:
+            print(f"SSE Stream Error (outer loop): {e_outer}")
+        finally:
+            remove_client_queue(client_specific_queue)
+
+    response = StreamingHttpResponse(event_stream_generator(), content_type='text/event-stream')
+    response['Cache-Control'] = 'no-cache'
+    response['X-Accel-Buffering'] = 'no' # Dla Nginx
+    return response
+
+@login_required
+@require_POST # Ensure this view only accepts POST requests
+def save_grid_as_image_view(request):
+    try:
+        data = json.loads(request.body.decode('utf-8'))
+    except json.JSONDecodeError:
+        return JsonResponse({'status': 'error', 'message': 'Invalid JSON.'}, status=400)
+
+    image_data_url = data.get('image_data_url')
+    image_name = data.get('name', 'Generated Grid Image')
+    filename = data.get('filename', 'grid_image.png')
+
+    if not image_data_url:
+        return JsonResponse({'status': 'error', 'message': 'Missing image data URL.'}, status=400)
+
+    try:
+        # Decode the base64 data URL
+        # format: data:[<mime_type>][;base64],<data>
+        header, encoded_data = image_data_url.split(',', 1)
+        # mime_type = header.split(';')[0].split(':')[1] # e.g. image/png
+
+        # Basic validation for filename (you might want more robust sanitization)
+        safe_filename = re.sub(r'[^\w\.\-]', '_', filename)
+
+        image_data_binary = base64.b64decode(encoded_data)
+        image_content_file = ContentFile(image_data_binary, name=safe_filename)
+
+        # Create a UserImage instance (or your equivalent model for path editing backgrounds)
+        # Ensure unique name if your UserImage.name must be unique
+        unique_image_name = image_name
+        counter = 1
+        while UserImage.objects.filter(user=request.user, name=unique_image_name).exists():
+            unique_image_name = f"{image_name}_{counter}"
+            counter += 1
+        
+        user_image = UserImage(user=request.user, name=unique_image_name)
+        user_image.image.save(safe_filename, image_content_file, save=True) # save=True will commit to DB
+
+        return JsonResponse({
+            'status': 'success',
+            'message': 'Grid image saved successfully.',
+            'image_id': user_image.id,
+            'image_name': user_image.name,
+            'image_url': user_image.image.url
+        })
+
+    except (TypeError, ValueError) as e: # Catch base64 decoding errors
+        return JsonResponse({'status': 'error', 'message': f'Invalid image data format: {str(e)}'}, status=400)
+    except Exception as e:
+        # Log the exception e
+        return JsonResponse({'status': 'error', 'message': f'An unexpected error occurred: {str(e)}'}, status=500)
+
+@login_required
+def board_list_view(request):
+    boards = GameBoard.objects.filter(user=request.user).order_by('-id')
+    return render(request, 'game_board/board_list.html', {'boards': boards})
+
+@login_required
+def board_editor_view(request, board_id=None):
+    board_instance = None
+    initial_board_data_json = "null" # Default for new board
+
+    if board_id:
+        board_instance = get_object_or_404(GameBoard, pk=board_id, user=request.user)
+        initial_board_data = {
+            "id": board_instance.id,
+            "name": board_instance.name,
+            "rows": board_instance.rows,
+            "cols": board_instance.cols,
+            "dots_config": board_instance.dots_config
+        }
+        initial_board_data_json = json.dumps(initial_board_data)
+
+
+    # This view primarily serves the HTML structure.
+    # The actual board creation/editing logic happens via API calls from TypeScript.
+    # However, you might pre-populate some form fields if editing.
+    context = {
+        'board_instance': board_instance,
+        'initial_board_data_json': initial_board_data_json,
+    }
+    return render(request, 'game_board/board_editor.html', context)
+
+
+@login_required
+@require_POST # Ensures this view only accepts POST requests
+def save_board_api_view(request):
+    try:
+        data = json.loads(request.body.decode('utf-8'))
+    except json.JSONDecodeError:
+        return JsonResponse({'status': 'error', 'message': 'Invalid JSON'}, status=400)
+
+    board_id = data.get('id')
+    name = data.get('name', 'Untitled Board')
+    rows = data.get('rows')
+    cols = data.get('cols')
+    dots_config = data.get('dots_config', [])
+
+    if not all([name, isinstance(rows, int), isinstance(cols, int), isinstance(dots_config, list)]):
+        return JsonResponse({'status': 'error', 'message': 'Missing or invalid data fields.'}, status=400)
+
+    try:
+        if board_id:
+            # Update existing board
+            board = get_object_or_404(GameBoard, pk=board_id, user=request.user)
+            board.name = name
+            board.rows = rows
+            board.cols = cols
+            board.dots_config = dots_config
+            board.save() # This will call full_clean()
+            return JsonResponse({'status': 'success', 'message': 'Board updated successfully.', 'board_id': board.id})
+        else:
+            # Create new board
+            board = GameBoard(user=request.user, name=name, rows=rows, cols=cols, dots_config=dots_config)
+            board.save() # This will call full_clean()
+            return JsonResponse({'status': 'success', 'message': 'Board created successfully.', 'board_id': board.id}, status=201)
+    except ValidationError as e:
+        return JsonResponse({'status': 'error', 'message': 'Validation Error', 'errors': e.message_dict}, status=400)
+    except Exception as e:
+        # Log the exception e
+        return JsonResponse({'status': 'error', 'message': f'An unexpected error occurred: {str(e)}'}, status=500)
+
+
+@login_required
+def get_board_data_api_view(request, board_id):
+    board = get_object_or_404(GameBoard, pk=board_id, user=request.user)
+    data = {
+        "id": board.id,
+        "name": board.name,
+        "rows": board.rows,
+        "cols": board.cols,
+        "dots_config": board.dots_config
+    }
+    return JsonResponse(data)
+
+
+@login_required
+@require_POST # Use POST for destructive actions
+def board_delete_view(request, board_id):
+    board = get_object_or_404(GameBoard, pk=board_id, user=request.user)
+    board.delete()
+    # If called via AJAX, return JSON. If via form, redirect.
+    if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+        return JsonResponse({'status': 'success', 'message': 'Board deleted successfully.'})
+    return redirect('game_board:board_list')
+
+class UserImageViewSet(viewsets.ModelViewSet):
+    queryset = UserImage.objects.all()  # Add this back
+    serializer_class = UserImageSerializer
+    permission_classes = [IsAuthenticated, IsOwner]
+
+    def get_queryset(self):
+        user = self.request.user
+        if user.is_authenticated:
+            return UserImage.objects.filter(user=user)
+        return UserImage.objects.none() 
+    
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+
+class ImageClickViewSet(viewsets.ModelViewSet):
+    queryset = ImageClick.objects.all()  # Add this back
+    serializer_class = ImageClickSerializer
+    permission_classes = [IsAuthenticated, IsOwner]
+
+    def get_queryset(self):
+        user = self.request.user
+        if user.is_authenticated:
+            return ImageClick.objects.filter(user=user)
+        return ImageClick.objects.none() # Or handle unauthenticated access
+
+    def perform_create(self, serializer):
+        image_instance = serializer.validated_data.get('image')
+        if image_instance.user != self.request.user:
+            raise serializers.ValidationError("You can only add clicks to your own images.")
+        serializer.save(user=self.request.user, image=image_instance)
+
+    def perform_update(self, serializer):
+        if 'image' in serializer.validated_data:
+            image_instance = serializer.validated_data.get('image')
+            if image_instance.user != self.request.user:
+                raise serializers.ValidationError("You can only associate clicks with your own images.")
+        serializer.save()
+
+
+@csrf_exempt
+@login_required
+def add_click(request):
+    if request.method == "POST":
+        data = json.loads(request.body)
+        image_id = data['image_id']
+        x = float(data['x'])
+        y = float(data['y'])
+
+        image = get_object_or_404(UserImage, id=image_id, user=request.user)
+        click = ImageClick.objects.create(image=image, user=request.user, x=x, y=y)
+
+        return JsonResponse({
+            'success': True,
+            'click_id': click.id
+        })
+    return JsonResponse({'success': False})
+
+@csrf_exempt
+@login_required
+def delete_click(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        try:
+            click = ImageClick.objects.get(id=data['id'], user=request.user)
+            click.delete()
+            return JsonResponse({'status': 'deleted'})
+        except ImageClick.DoesNotExist:
+            return JsonResponse({'status': 'not found'}, status=404)
+
+@csrf_exempt
+@login_required
+def update_click(request):
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            click = ImageClick.objects.get(id=data['id'], user=request.user) # Check ownership
+            
+            click.x = data['x']
+            click.y = data['y']
+            click.save()
+            return JsonResponse({'status': 'success'})
+        except ImageClick.DoesNotExist:
+            return JsonResponse({'status': 'not found or forbidden'}, status=404)
+        except Exception as e:
+            return JsonResponse({'status': 'error', 'message': str(e)})
+    return JsonResponse({'status': 'invalid request'}, status=400)
+
+@login_required
+def record_click(request):
+    if request.method == "POST":
+        image_id = request.POST.get('image_id')
+        x = request.POST.get('x')
+        y = request.POST.get('y')
+
+        image = get_object_or_404(UserImage, id=image_id, user=request.user)
+        click = ImageClick.objects.create(image=image, user=request.user, x=x, y=y) # Assign current user
+        return JsonResponse({'status': 'ok'})
+
+    return JsonResponse({'status': 'error'}, status=400)
+
+@login_required
+@transaction.atomic # Ensures that if any part fails, the whole operation is rolled back
+def use_common_image(request, common_image_id):
+    common_image = get_object_or_404(CommonImage, id=common_image_id)
+    
+    new_image_name_base = common_image.name
+    new_image_name = new_image_name_base
+    counter = 1
+    while UserImage.objects.filter(user=request.user, name=new_image_name).exists():
+        new_image_name = f"{new_image_name_base}_{counter}"
+        counter += 1
+
+    user_image = UserImage(
+        user=request.user,
+        name=new_image_name
+    )
+
+    try:
+        with open(common_image.image.path, 'rb') as f:
+            image_content = ContentFile(f.read(), name=common_image.image.name.split('/')[-1]) # Get original filename
+            user_image.image.save(image_content.name, image_content, save=True) # Save the file to UserImage
+        
+        return redirect(f"{settings.LOGIN_REDIRECT_URL}?selected={user_image.name}")
+    except IOError as e:
+        print(f"Error copying common image file: {e}") # Log this properly
+        return redirect('home') # Or wherever appropriate
+
+@login_required
+def home(request):
+    user_images_list = UserImage.objects.filter(user=request.user) # Ensure this is the variable name
+    common_images_list = CommonImage.objects.all()
+    selected = request.GET.get('selected')
+    selected_image = user_images_list.filter(name=selected).first() if selected else None
+    return render(request, 'main/home.html', {
+        'user_images': user_images_list,
+        'common_images_list': common_images_list,   
+        'selected_image': selected_image,
+    })
+
+def register(request):
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)
+            return redirect('/')
+    else:
+        form = UserCreationForm()
+    return render(request, 'main/register.html', {'form': form})
+
+@login_required
+def upload_image(request):
+    if request.method == 'POST':
+        form = UserImageForm(request.POST, request.FILES)
+        if form.is_valid():
+            user_image = form.save(commit=False)
+            user_image.user = request.user
+            user_image.save()
+            return redirect('home')
+    else:
+        form = UserImageForm()
+    return render(request, 'main/upload_image.html', {'form': form})
+
+@login_required
+def upload_common_image(request):
+    if request.method == 'POST':
+        form = CommonImageUploadForm(request.POST, request.FILES)
+        if form.is_valid():
+            common_image = form.save(commit=False)
+            common_image.save()
+            return redirect('home') # Or to a page showing common images
+    else:
+        form = CommonImageUploadForm()
+    return render(request, 'main/upload_common_image.html', {'form': form})
+
+@login_required
+def user_panel(request):
+    images = UserImage.objects.filter(user=request.user)
+    if request.method == 'POST':
+        image_id_to_update = request.POST.get('image_id_for_rename') # Assuming a distinct field name for clarity
+        if image_id_to_update:
+            image_instance = get_object_or_404(UserImage, id=image_id_to_update, user=request.user)
+            form = UserImageForm(request.POST, request.FILES, instance=image_instance)
+        else:
+            form = UserImageForm(request.POST, request.FILES)
+        
+        if form.is_valid():
+            image = form.save(commit=False)
+            image.user = request.user
+            image.save()
+            return redirect('user_panel')
+    else:
+        form = UserImageForm() # Form for uploading a new image / or empty form for rename if not POST
+
+    password_form = PasswordChangeForm(user=request.user)
+    
+    return render(request, 'main/user_panel.html', {
+        'images': images,
+        'upload_form': form, # Renamed for clarity in template if needed
+        'password_form': password_form,
+    })
+
+@login_required
+def change_password(request):
+    if request.method == 'POST':
+        password_form = PasswordChangeForm(user=request.user, data=request.POST)
+        if password_form.is_valid():
+            password_form.save()
+            update_session_auth_hash(request, password_form.user)
+            return redirect('user_panel')
+    else:
+        password_form = PasswordChangeForm(user=request.user)
+    
+    images = UserImage.objects.filter(user=request.user)
+    upload_form = UserImageForm() # Or maintain state if it was a multi-purpose page
+    return render(request, 'main/user_panel.html', {
+        'images': images,
+        'upload_form': upload_form,
+        'password_form': password_form, # This will have errors
+    })
+
+@login_required
+def delete_image(request, image_id):
+    image = get_object_or_404(UserImage, id=image_id, user=request.user)
+    image.image.delete()
+    image.delete()
+    return redirect('user_panel')
+
+===== File: ./main/__init__.py =====
+
+
+===== File: ./main/apps.py =====
+from django.apps import AppConfig
+
+class MainConfig(AppConfig):
+    default_auto_field = 'django.db.models.BigAutoField'
+    name = 'main'
+
+    def ready(self):
+        import main.models # Or 'import main.signals' if you put the signal handler there
+        import main.signals # Zaimportuj sygnały
+
+class GameBoardConfig(AppConfig):
+    default_auto_field = 'django.db.models.BigAutoField'
+    name = 'game_board'
+
+
+===== File: ./manage.py =====
+#!/usr/bin/env python
+import os
+import sys
+
+if __name__ == "__main__":
+    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "login_required_project.settings")
+    try:
+        from django.core.management import execute_from_command_line
+    except ImportError as exc:
+        raise ImportError("Couldn't import Django.") from exc
+    execute_from_command_line(sys.argv)

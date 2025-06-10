@@ -7,6 +7,7 @@ app_name = 'game_board' # You can keep this namespace if you like, or change it
 urlpatterns = [
     path('', views.board_list_view, name='board_list'), # Assuming this view exists in main.views
     path('create/', views.board_editor_view, name='board_create'),
+    path('events/', views.sse_notifications_view, name='sse_board_events'),
     path('<int:board_id>/edit/', views.board_editor_view, name='board_edit'),
     path('<int:board_id>/delete/', views.board_delete_view, name='board_delete'),
     # API endpoint

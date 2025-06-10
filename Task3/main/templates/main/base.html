@@ -10,6 +10,7 @@
     {% block head_extra %}{% endblock head_extra %}
 </head>
 <body>
+    <div id="toast-container"></div>
     <nav>
         <a href="{% url 'home' %}">Home</a>
         {% if user.is_authenticated %}
@@ -31,6 +32,10 @@
         {% block content %}
         {% endblock content %}
     </main>
-    {% block extra_js %}{% endblock extra_js %}
+    {% block extra_js %}
+    {% endblock extra_js %}
+    {% if user.is_authenticated %} {# Inicjuj SSE tylko dla zalogowanych użytkowników #}
+        <script src="{% static 'main/ts/dist/sseNotifications.js' %}"></script> 
+    {% endif %}
 </body>
 </html>

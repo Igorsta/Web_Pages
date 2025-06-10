@@ -221,11 +221,48 @@ function attachEventListenersToListItem(listItem, isNewInitially = false) {
                 const currentClickId = parseInt(currentClickIdStr, 10);
                 const dot = document.querySelector(`.click-dot[data-id="${currentClickId}"]`);
                 if (dot) {
-                    const newXFromInput = parseFloat(inputX.value);
-                    const newYFromInput = parseFloat(inputY.value);
+                    let newXFromInput = parseFloat(inputX.value);
+                    let newYFromInput = parseFloat(inputY.value);
                     if (!isNaN(newXFromInput) && !isNaN(newYFromInput)) {
-                        dot.style.left = newXFromInput + 'px';
-                        dot.style.top = newYFromInput + 'px';
+                        // --- BEGIN MODIFICATION: Clamp coordinates for live input update ---
+                        const mainImageElement = document.getElementById('main-image');
+                        let clampedX = newXFromInput;
+                        let clampedY = newYFromInput;
+                        if (mainImageElement) {
+                            const dotWidth = 10; // As per CSS .click-dot width
+                            const dotHeight = 10; // As per CSS .click-dot height
+                            // Clamp X
+                            if (mainImageElement.width < dotWidth) {
+                                clampedX = mainImageElement.width / 2;
+                            }
+                            else {
+                                const minXAllowed = dotWidth / 2;
+                                const maxXAllowed = mainImageElement.width - (dotWidth / 2);
+                                clampedX = Math.max(minXAllowed, Math.min(newXFromInput, maxXAllowed));
+                            }
+                            // Clamp Y
+                            if (mainImageElement.height < dotHeight) {
+                                clampedY = mainImageElement.height / 2;
+                            }
+                            else {
+                                const minYAllowed = dotHeight / 2;
+                                const maxYAllowed = mainImageElement.height - (dotHeight / 2);
+                                clampedY = Math.max(minYAllowed, Math.min(newYFromInput, maxYAllowed));
+                            }
+                            // Update input field if value was clamped, to give feedback
+                            if (clampedX.toFixed(2) !== newXFromInput.toFixed(2) && inputField === inputX) {
+                                inputX.value = clampedX.toFixed(2);
+                            }
+                            if (clampedY.toFixed(2) !== newYFromInput.toFixed(2) && inputField === inputY) {
+                                inputY.value = clampedY.toFixed(2);
+                            }
+                        }
+                        else {
+                            console.warn("Main image element not found, cannot apply boundary constraints for live input.");
+                        }
+                        // --- END MODIFICATION ---
+                        dot.style.left = clampedX + 'px';
+                        dot.style.top = clampedY + 'px';
                         redrawLines();
                     }
                 }

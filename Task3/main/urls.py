@@ -26,9 +26,10 @@ urlpatterns = [
     path('delete/<int:image_id>/', views.delete_image, name='delete_image'),
     path('use-common-image/<int:common_image_id>/', views.use_common_image, name='use_common_image'),
     path('upload-common-image/', views.upload_common_image, name='upload_common_image'),
-    # path('define-grid/', views.define_grid, name='define_grid'), # Ensure this view exists if uncommented
+    path('stream/', views.sse_notifications_view, name='sse_stream'),
     path('', include(router.urls)), # For your DRF viewsets
     # REMOVE THE FOLLOWING BOARD URLS FROM HERE:
+    # path('define-grid/', views.define_grid, name='define_grid'), # Ensure this view exists if uncommented
     # path('create/', views.board_editor_view, name='board_create'),
     # path('<int:board_id>/edit/', views.board_editor_view, name='board_edit'),
     # path('<int:board_id>/delete/', views.board_delete_view, name='board_delete'),

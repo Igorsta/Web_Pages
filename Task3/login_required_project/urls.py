@@ -16,6 +16,7 @@ urlpatterns = [
     path('api-token-auth/', authtoken_views.obtain_auth_token, name='api_token_auth'),
     path('board/', include('main.urls_board')),
     path('api/save_grid_as_image/', main_views.save_grid_as_image_view, name='save_grid_as_image_api'), # NEW
+    path('sse/notifications/', main_views.sse_notifications_view, name='sse_global_notifications'), # ADD THIS LINE
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

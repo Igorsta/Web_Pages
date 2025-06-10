@@ -22,8 +22,59 @@ from PIL import Image as PILImage, ImageDraw, ImageFont # Dodaj ImageFont, jeśl
 from django.core.exceptions import ValidationError
 from .forms import DefineGridForm
 from django.core.files.base import ContentFile
+from django.http import StreamingHttpResponse
 import base64
 import re
+import time
+import queue # For queue.Queue and queue.Empty
+from django.http import StreamingHttpResponse
+# from django.contrib.auth.decorators import login_required # If you want to protect the SSE endpoint
+
+# Import from event_queue.py in the same 'main' app
+from .event_queue import add_client_queue, remove_client_queue
+
+
+# @login_required # Odkomentuj, jeśli chcesz autoryzacji
+def sse_notifications_view(request):
+    client_id, client_q = add_client_queue()
+    print(f"SSE VIEW: Client connected (ID: {client_id}) from {request.META.get('REMOTE_ADDR')}")
+
+    def event_stream_generator(client_id_for_generator, queue_for_generator):
+        print(f"SSE VIEW [Generator]: Started for client ID: {client_id_for_generator}")
+        try:
+            yield ":sse-connection-established client_id={}\n\n".format(client_id_for_generator)
+            last_keep_alive = time.time()
+
+            while True:
+                current_time = time.time()
+                if current_time - last_keep_alive > 15:
+                    yield ":keep-alive\n\n"
+                    last_keep_alive = current_time
+
+                try:
+                    message = queue_for_generator.get(timeout=1) 
+                    yield message
+                    queue_for_generator.task_done()
+                except queue.Empty:
+                    continue
+                except Exception as e_inner_q:
+                    print(f"SSE VIEW [Generator] ERROR (queue get) for client ID {client_id_for_generator}: {e_inner_q}")
+                    break 
+
+        except GeneratorExit:
+            print(f"SSE VIEW [Generator]: Client ID {client_id_for_generator} disconnected (GeneratorExit).")
+        except Exception as e_outer_gen:
+            print(f"SSE VIEW [Generator] ERROR (outer) for client ID {client_id_for_generator}: {e_outer_gen}")
+        finally:
+            print(f"SSE VIEW [Generator]: Cleaning up for client ID: {client_id_for_generator}.")
+            remove_client_queue(client_id_for_generator)
+
+    response = StreamingHttpResponse(event_stream_generator(client_id, client_q), content_type='text/event-stream')
+    response['Cache-Control'] = 'no-cache, no-store, must-revalidate'
+    response['Pragma'] = 'no-cache'
+    response['Expires'] = '0'
+    response['X-Accel-Buffering'] = 'no'
+    return response
 
 @login_required
 @require_POST # Ensure this view only accepts POST requests
