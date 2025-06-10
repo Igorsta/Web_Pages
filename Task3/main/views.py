@@ -13,7 +13,6 @@ from django.core.exceptions import ValidationError
 from django.views.decorators.http import require_POST
 from rest_framework import viewsets, serializers
 from rest_framework.permissions import IsAuthenticated
-from PIL import Image as PILImage, ImageDraw
 
 from .models import ImageClick, UserImage, CommonImage, GameBoard # Reaction removed
 from .serializers import UserImageSerializer, ImageClickSerializer
