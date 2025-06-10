@@ -72,6 +72,7 @@ STATIC_URL = 'static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'), # For project-wide static files like your main/ts/dist
 ]
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  
 # STATIC_ROOT = BASE_DIR / "staticfiles_prod" # For collectstatic in production
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
